@@ -1,13 +1,13 @@
-﻿using QccHubApi.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using QccHub.Data.Interfaces;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
-    public class Answers : Entities
+    public class Answers : BaseEntity , ICreationAuditable
     {
         public string Text { get; set; }
         [ForeignKey("Question")]
@@ -16,5 +16,7 @@ namespace QccHubApi.Models
         public string UserID { get; set; }
         public virtual Question Question { get; set; }
         public virtual User User { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get ; set; }
     }
 }

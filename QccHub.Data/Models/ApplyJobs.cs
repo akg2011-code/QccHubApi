@@ -1,13 +1,13 @@
-﻿using QccHubApi.Shared;
+﻿using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
-    public class ApplyJobs : Entities
+    public class ApplyJobs : BaseEntity , ICreationAuditable
     {
         [ForeignKey("User")]
         public string UserID { get; set; }
@@ -20,5 +20,7 @@ namespace QccHubApi.Models
         public bool IsApproved { get; set; }
         public User User { get; set; }
         public Job Job { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

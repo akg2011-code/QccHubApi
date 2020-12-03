@@ -12,8 +12,7 @@ using QccHub.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using QccHubApi.Models;
-using QccHubApi;
+using QccHub.Logic.Helpers;
 
 namespace QccHub
 {
@@ -44,8 +43,8 @@ namespace QccHub
                         .AllowAnyHeader());
             });
             services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<CurrentSession>();
             services.AddControllersWithViews();
-            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,24 +62,17 @@ namespace QccHub
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseDefaultFiles(new DefaultFilesOptions
-            {
-                DefaultFileNames = new
-                 List<string> { "index.html" }
-            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
-            ApplicationDbInitializer.SeedingData(userManager,roleManager,context);
+            ApplicationDbInitializer.SeedingData(userManager, roleManager, context);
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); // Map attribute-routed API controllers
-                endpoints.MapDefaultControllerRoute(); // Map conventional MVC controllers using the default route
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

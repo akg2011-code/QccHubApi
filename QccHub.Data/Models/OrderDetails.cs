@@ -1,13 +1,13 @@
-﻿using QccHubApi.Shared;
+﻿using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
-    public class OrderDetails : Entities
+    public class OrderDetails : BaseEntity, ICreationAuditable
     {
         [ForeignKey("Order")]
         public int OrderID { get; set; }
@@ -16,5 +16,7 @@ namespace QccHubApi.Models
         public int ItemID { get; set; }
         public Order Order { get; set; }
         public Item Item { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

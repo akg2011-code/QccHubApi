@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using QccHub.Data;
-using QccHubApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace QccHubApi
+namespace QccHub.Data
 {
     public class CountryDTO
     {
@@ -97,7 +96,7 @@ namespace QccHubApi
         {
             SeedRoles(roleManager);
             SeedUsers(userManager);
-            
+
             SeedingData data = new SeedingData(context);
             data.SeedGender();
             data.SeedPaymentStatus();

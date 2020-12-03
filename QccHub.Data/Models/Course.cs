@@ -1,13 +1,13 @@
-﻿using QccHubApi.Shared;
+﻿using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
-    public class Course : Entities
+    public class Course : BaseEntity, ICreationAuditable
     {
         public string Name { get; set; }
         [ForeignKey("User")]
@@ -15,7 +15,7 @@ namespace QccHubApi.Models
         public string Inistitute { get; set; }
         public string CertifiedFilePath { get; set; }
         public virtual User User { get; set; }
-
-
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

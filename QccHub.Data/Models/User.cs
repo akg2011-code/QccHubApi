@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
     public class User : IdentityUser
     {
@@ -24,7 +21,7 @@ namespace QccHubApi.Models
         public string CVFilePath { get; set; }
         public string ProfileImagePath { get; set; }
 
-        public virtual Gender Gender{ get; set; }
+        public virtual Gender Gender { get; set; }
         public virtual Country Country { get; set; }
 
     }

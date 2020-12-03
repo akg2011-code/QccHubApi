@@ -1,13 +1,13 @@
-﻿using QccHubApi.Shared;
+﻿using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
-    public class Item : Entities
+    public class Item : BaseEntity, ICreationAuditable
     {
         public string Name { get; set; }
         public double Price { get; set; }
@@ -26,5 +26,7 @@ namespace QccHubApi.Models
 
         public User Supplier { get; set; }
         public Category Category { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

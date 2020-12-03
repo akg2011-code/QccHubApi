@@ -1,13 +1,13 @@
-﻿using QccHubApi.Shared;
+﻿using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHubApi.Models
+namespace QccHub.Data
 {
-    public class NewsComments : Entities
+    public class NewsComments : BaseEntity, ICreationAuditable
     {
         [ForeignKey("News")]
         public int NewsID { get; set; }
@@ -18,5 +18,7 @@ namespace QccHubApi.Models
 
         public virtual News News { get; set; }
         public virtual User User { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }
