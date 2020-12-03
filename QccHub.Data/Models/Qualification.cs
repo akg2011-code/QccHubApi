@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QccHub.Data
 {
-    public class Qualification : BaseEntity, ICreationAuditable
+    public class Qualification : BaseEntity, ICreationAuditable, ISoftDeletable
     {
         public string Title { get; set; }
         public string Details { get; set; }
@@ -16,5 +16,6 @@ namespace QccHub.Data
         public virtual User User { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

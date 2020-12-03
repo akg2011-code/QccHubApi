@@ -7,7 +7,7 @@ using QccHub.Data.Interfaces;
 
 namespace QccHub.Data
 {
-    public class Answers : BaseEntity , ICreationAuditable
+    public class Answers : BaseEntity , ICreationAuditable, ISoftDeletable
     {
         public string Text { get; set; }
         [ForeignKey("Question")]
@@ -18,5 +18,6 @@ namespace QccHub.Data
         public virtual User User { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get ; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QccHub.Data
 {
-    public class Item : BaseEntity, ICreationAuditable
+    public class Item : BaseEntity, ICreationAuditable, ISoftDeletable
     {
         public string Name { get; set; }
         public double Price { get; set; }
@@ -28,5 +28,6 @@ namespace QccHub.Data
         public Category Category { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace QccHub.Data
 {
-    public class Category : BaseEntity , ICreationAuditable
+    public class Category : BaseEntity , ICreationAuditable, ISoftDeletable
     {
         public string Name { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
