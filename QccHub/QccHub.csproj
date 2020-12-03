@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Views\" />
+    <Folder Include="wwwroot\JobsAppliedCV\" />
   </ItemGroup>
 
 </Project>
