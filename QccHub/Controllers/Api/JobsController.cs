@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QccHub.Data;
+using QccHub.Data.Interfaces;
 using QccHub.DTOS;
 
 namespace QccHub.Controllers.Api
@@ -16,87 +17,89 @@ namespace QccHub.Controllers.Api
     [ApiController]
     public class JobsController : ControllerBase
     {
-        ApplicationDbContext Context;
-        private readonly IWebHostEnvironment webHostEnvironment;
-        public JobsController(ApplicationDbContext _context, IWebHostEnvironment _webHostEnvironment)
+        private readonly IJobRepository _jobRepo;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public JobsController(IJobRepository jobRepo, IWebHostEnvironment webHostEnvironment, IUnitOfWork unitOfWork)
         {
-            Context = _context;
-            webHostEnvironment = _webHostEnvironment;
+            _jobRepo = jobRepo;
+            _webHostEnvironment = webHostEnvironment;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
-        public IActionResult AddJob(Job job)
+        public async Task<IActionResult> AddJob(Job job)    // note: should not recieve or return domain model , use DTO instead
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)                        // make a condition for the non-happy scenarios first to avoid code branching, this is called a guard
             {
-                job.IsDeleted = false;
-                job.CreatedDate = DateTime.Now;
-                job.CreatedBy = job.CompanyID;
-                Context.Job.Add(job);
-                Context.SaveChanges();
-                return Ok("job added");
+                return BadRequest("can't add , some info is wrong");
             }
-            else
-                return BadRequest("can't add , some info is wronge");
+            _jobRepo.Add(job);                              // you should use repository pattern to decouple the database connection and logic from api
+            await _unitOfWork.SaveChangesAsync();           // you should use async when dealing with file system, databases or third-party services
+            return Created("job added", job);               // return a DTO of the created object
         }
 
         [HttpDelete("{jobID}")]
-        public IActionResult DeleteJob(int jobID)
+        public async Task<IActionResult> DeleteJob(int jobID)
         {
-            Job job = Context.Job.Find(jobID);
+            Job job = await _jobRepo.GetByIdAsync(jobID);
             if (job == null)
-                return NotFound("no job for this ID");
-            else
             {
-                job.IsDeleted = true;
-                Context.SaveChanges();
-                return Ok("deleted job");
+                return NotFound("no job for this ID");
             }
+            // no need for an else block
+            _jobRepo.Delete(job); // delete will set IsDeleted to True when SaveChangesAsync is Called using shadow properties
+            await _unitOfWork.SaveChangesAsync();
+            return Ok("deleted job");
+            
         }
 
-        [HttpGet("{companyID}")]
-        public IActionResult GetAllCompanyJobs(string companyID)
-        {
-            var company = Context.Users.Find(companyID);
-            if (company == null)
-                return NotFound("No company for this ID");
-            else
-            {
-                IEnumerable<Job> companyJobs = Context.Job.Where(j => j.CompanyID == companyID).Include(j => j.Company);
-                return Ok(companyJobs);
-            }
-        }
+        //[HttpGet("{companyID}")]
+        //public IActionResult GetAllCompanyJobs(string companyID)
+        //{
+        //    var company = Context.Users.Find(companyID);
+        //    if (company == null)
+        //        return NotFound("No company for this ID");
+        //    else
+        //    {
+        //        IEnumerable<Job> companyJobs = Context.Job.Where(j => j.CompanyID == companyID).Include(j => j.Company);
+        //        return Ok(companyJobs);
+        //    }
+        //}
 
         [HttpGet("{jobID}")]
-        public IActionResult GetJob(int jobID)
+        public async Task<IActionResult> GetJob(int jobID)
         {
-            Job job = Context.Job.Find(jobID);
-            if (job != null)
-                return Ok(job);
-            else
+            Job job = await _jobRepo.GetByIdAsync(jobID);
+            if (job == null)
+            {
                 return NotFound("No Job for this ID");
+            }
+            return Ok(job);
         }
 
         [HttpGet]
-        public IActionResult GetAllJobs()
+        public async Task<IActionResult> GetAllJobs()
         {
-            return Ok(Context.Job.OrderByDescending(j => j.CreatedDate).Include(j => j.Company));
+            var result = await _jobRepo.GetAllAsync();
+            return Ok(result);
         }
 
         [HttpGet("{JobName}")]
-        public IActionResult SearchJobs(string JobName)
+        public async Task<IActionResult> SearchJobs(string JobName)
         {
-            IEnumerable<Job> jobs = Context.Job.Where(j => j.Title.Contains(JobName) && j.IsDeleted == false).Include(j=>j.Company);
+            var jobs = await _jobRepo.SearchJobs(JobName);
             return Ok(jobs);
         }
         // --------------------------- apply to job ------------------------------
         [HttpPost]
-        public IActionResult ApplyToJob([FromForm]JobApplications JobApplication)
+        public async Task<IActionResult> ApplyToJob([FromForm]JobApplication JobApplication)
         {
             if (JobApplication.cvFile != null && JobApplication.cvFile.Length > 0)
             {
                 string cvFileName = Guid.NewGuid().ToString() + JobApplication.cvFile.FileName;
-                string cvFilePath = Path.Combine(webHostEnvironment.WebRootPath + "\\JobsAppliedCV", cvFileName);
+                string cvFilePath = Path.Combine(_webHostEnvironment.WebRootPath + "\\JobsAppliedCV", cvFileName);
                 using (var stream = new FileStream(cvFilePath, FileMode.Create))
                 {
                     JobApplication.cvFile.CopyTo(stream);
@@ -115,8 +118,8 @@ namespace QccHub.Controllers.Api
                     CVFilePath = cvFileName
                 };
                 
-                Context.ApplyJobs.Add(applyJobs);
-                Context.SaveChanges();
+                //Context.ApplyJobs.Add(applyJobs);   add a method in the IJobRepository interface and implement it
+                await _unitOfWork.SaveChangesAsync();
                 return Ok($"user applyed to job");
             }
             else
@@ -124,27 +127,24 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpGet("{jobID}")]
-        public IActionResult GetAllJobApplications(int jobID)
+        public async Task<IActionResult> GetAllJobApplications(int jobID)
         {
-            Job job = Context.Job.Find(jobID);
-            if (job == null)
-                return NotFound("No job found for this ID");
-            IEnumerable<ApplyJobs> jobApplications = Context.ApplyJobs.Where(j=>j.JobID == jobID).Include(j=>j.User).Include(j=>j.Job);
+            var jobApplications = await _jobRepo.GetJobApplicationsByJob(jobID);
             return Ok(jobApplications);
         }
 
         [HttpPost()]
-        public IActionResult ApproveJobApplication(JobApprove jobApprove)
+        public async Task<IActionResult> ApproveJobApplication(JobApprove jobApprove)
         {
-            ApplyJobs applyJobs = Context.ApplyJobs.FirstOrDefault(j=>j.JobID == jobApprove.JobID && j.UserID == jobApprove.UserID);
-            if (applyJobs != null)
+            var jobApplication = await _jobRepo.GetJobApplicationsByUserAndJob(jobApprove.UserID, jobApprove.JobID);
+            if (jobApplication == null)
             {
-                applyJobs.IsApproved = true;
-                Context.SaveChanges();
-                return Ok($"user : {Context.Users.Find(applyJobs.UserID).UserName} is approved to job : {Context.Job.Find(applyJobs.JobID).Title}");
-            }
-            else
                 return NotFound();
+            }
+
+            jobApplication.IsApproved = true;
+            await _unitOfWork.SaveChangesAsync();
+            return Ok("approved"); // will change this after user repository creation
         }
 
     }

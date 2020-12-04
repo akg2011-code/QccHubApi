@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QccHub.DTOS
 {
-    public class JobApplications
+    public class JobApplication
     {
         public string UserID { get; set; }
         public int JobID { get; set; }

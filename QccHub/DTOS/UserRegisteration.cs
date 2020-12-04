@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace QccHub.Data.DTOS
+namespace QccHub.DTOS
 {
     public class UserRegisteration
     {
