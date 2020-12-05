@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,46 @@ namespace QccHub.Data.Repository
         {
             _context = context;
         }
+
+        public async Task<Answers> AddAnswer(Answers answer)
+        {
+            _context.Answers.Add(answer);
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(answer);
+        }
+
+        public async Task<string> DeleteAnswer(int answerID)
+        {
+            var record = _context.Answers.Find(answerID);
+            record.IsDeleted = false;
+            await _context.SaveChangesAsync();
+            return await Task.FromResult("is Deleted");
+        }
+
+        public async Task<Answers> EditAnswer(int answerID, Answers answers)
+        {
+            var record = _context.Answers.Find(answerID);
+            record.QuestionID = answers.QuestionID;
+            record.Text = answers.Text;
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(record);
+        }
+
         public override Task<List<Question>> GetAllAsync()
         {
             return _context.Question.OrderByDescending(q => q.CreatedDate).Include(q => q.User).ToListAsync();
+        }
+
+        public Answers GetAnswerByID(int answerID)
+        {
+            Answers answer = _context.Answers.Find(answerID);
+            return answer;
+        }
+
+        public async Task<IEnumerable<Answers>> GetQuestionAnswers(int questionID)
+        {
+            IEnumerable<Answers> answers = _context.Answers.Where(a => a.QuestionID == questionID).Include(a => a.Question).Include(a=>a.User);
+            return await Task.FromResult(answers);
         }
     }
 }

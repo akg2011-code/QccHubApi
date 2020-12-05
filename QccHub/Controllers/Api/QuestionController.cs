@@ -77,5 +77,53 @@ namespace QccHub.Controllers.Api
             await _unitOfWork.SaveChangesAsync();
             return Ok("question edited");
         }
+
+        // ------------------------------ Question Answers --------------------------------
+        [HttpPost]
+        public async Task<IActionResult> AddAnswer(Answers answers)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            await _questionRepository.AddAnswer(answers);
+            return Created("answer added", answers);
+        }
+
+        [HttpGet("{questionID}")]
+        public async Task<IActionResult> GetQuestionAnswers(int questionID)
+        {
+            if (_questionRepository.GetByIdAsync(questionID) == null)
+            {
+                return NotFound("no question for this ID");
+            }
+            var result = await _questionRepository.GetQuestionAnswers(questionID);
+            return Ok(result);
+        }
+
+        [HttpPut("{answerID}")]
+        public IActionResult EditAnswer(int answerID,Answers editedAnswer)
+        {
+            var answer = _questionRepository.GetAnswerByID(answerID);
+            if (answer == null)
+            {
+                return NotFound("No answer for this ID");
+            }
+            answer.Text = editedAnswer.Text;
+            answer.CreatedDate = DateTime.Now;
+            return Ok(answer);
+        }
+
+        [HttpDelete("{answerID}")]
+        public async Task<IActionResult> DeleteAnswer(int answerID)
+        {
+            Answers answer = _questionRepository.GetAnswerByID(answerID);
+            if (answer == null)
+            {
+                return NotFound("no answer for this ID");
+            }
+            await _questionRepository.DeleteAnswer(answerID);
+            return Ok("answer deleted");
+        }
     }
 }
