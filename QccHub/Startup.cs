@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QccHub.Logic.Helpers;
+using QccHub.Data.Interfaces;
+using QccHub.Data.Repository;
 
 namespace QccHub
 {
@@ -43,6 +45,10 @@ namespace QccHub
                         .AllowAnyHeader());
             });
             services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<IJobRepository>();
+            services.AddScoped<IQuestionRepository>();
+            services.AddScoped<QuestionRepository>();
+            services.AddScoped<JobRepository>();
             services.AddScoped<CurrentSession>();
             services.AddControllersWithViews();
         }

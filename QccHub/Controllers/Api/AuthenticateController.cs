@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QccHub.Data;
-using QccHub.Data.DTOS;
+using QccHub.DTOS;
 
 namespace QccHub.Controllers.Api
 {
