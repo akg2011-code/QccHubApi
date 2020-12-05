@@ -44,13 +44,13 @@ namespace QccHub
                         .SetIsOriginAllowed((host) => true)
                         .AllowAnyHeader());
             });
-            services.AddScoped<ApplicationDbContext>();
-            services.AddScoped<IJobRepository>();
-            services.AddScoped<IQuestionRepository>();
-            services.AddScoped<QuestionRepository>();
-            services.AddScoped<JobRepository>();
+            //services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<IJobRepository,JobRepository>();
+            services.AddScoped<IQuestionRepository,QuestionRepository>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<CurrentSession>();
             services.AddControllersWithViews();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +61,11 @@ namespace QccHub
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "QccHub V1");
+                });
             }
             else
             {

@@ -48,7 +48,8 @@ namespace QccHub.Controllers.Api
         public async Task<IActionResult> GetAllQuestions()
         {
             var result = await _questionRepository.GetAllAsync();
-            return Ok(result.AsQueryable<Question>().OrderByDescending(q=>q.CreatedDate).Include(q=>q.User));
+            //return Ok(result.AsQueryable<Question>().OrderByDescending(q=>q.CreatedDate).Include(q=>q.User)); // this throws an exception - override GetAllAsync() of the Generic repository
+            return Ok(result); 
         }
 
         [HttpGet("{questionID}")]
@@ -76,6 +77,5 @@ namespace QccHub.Controllers.Api
             await _unitOfWork.SaveChangesAsync();
             return Ok("question edited");
         }
-
     }
 }

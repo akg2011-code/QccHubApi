@@ -16,7 +16,7 @@ namespace QccHub.Data.Repository
         {
             this.context = context;
         }
-        public Task<List<T>> GetAllAsync()
+        public virtual Task<List<T>> GetAllAsync()
         {
             return context.Set<T>().ToListAsync();
         }

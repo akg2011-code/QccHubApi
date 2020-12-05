@@ -17,7 +17,7 @@ namespace QccHub.Data.Extensions
             {
                 if (entry.Entity is ICreationAuditable)
                 {
-                    if (entry.State == EntityState.Added && entry.Property("CreatedById").CurrentValue.ToString() == "0")
+                    if (entry.State == EntityState.Added && entry.Property("CreatedBy").CurrentValue.ToString() == "0")
                     {
                         entry.Property("CreatedDate").CurrentValue = DateTime.UtcNow;
                         entry.Property("CreatedBy").CurrentValue = userSession.UserID;
