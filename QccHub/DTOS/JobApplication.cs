@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using QccHub.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,18 @@ namespace QccHub.DTOS
         public int CurrentSalary { get; set; }
         public int ExpectedSalary { get; set; }
         public IFormFile cvFile { get; set; }
+
+        public ApplyJobs ToModel(string fileName)
+        {
+            return new ApplyJobs()
+            {
+                ExpectedSalary = this.ExpectedSalary,
+                CurrentSalary = this.CurrentSalary,
+                UserID = this.UserID,
+                JobID = this.JobID,
+                Message = this.Message,
+                CVFilePath = fileName
+            };
+        }
     }
 }

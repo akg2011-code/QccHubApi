@@ -37,7 +37,7 @@ namespace QccHub.Controllers.Api
         {
             if (ModelState.IsValid)
             {
-                var result = await Context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == user.PhoneNumber || u.Email == user.Email);
+                var result = await _userManager.FindByNameAsync(user.UserName);
                 if (result != null)
                     return BadRequest("there is a user with this information");
                 else

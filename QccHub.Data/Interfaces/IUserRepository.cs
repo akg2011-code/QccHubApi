@@ -7,7 +7,7 @@ namespace QccHub.Data.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByUserName(string userName);
-        Task<User> GetUserById(string userId);
+        Task<User> GetUserByUserNameAsync(string userName);
+        Task<User> GetUserByIdAsync(string userId);
     }
 }

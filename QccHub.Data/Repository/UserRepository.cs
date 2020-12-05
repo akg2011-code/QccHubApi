@@ -1,6 +1,8 @@
-﻿using QccHub.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using QccHub.Data.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,14 +16,14 @@ namespace QccHub.Data.Repository
         {
             _context = context;
         }
-        public Task<User> GetUserById(string userId)
+        public Task<User> GetUserByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public Task<User> GetUserByUserName(string userName)
+        public Task<User> GetUserByUserNameAsync(string userName)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
         }
     }
 }

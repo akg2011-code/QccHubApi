@@ -12,7 +12,7 @@ using QccHub.Logic.Helpers;
 
 namespace QccHub.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         private readonly CurrentSession currentSession;
 

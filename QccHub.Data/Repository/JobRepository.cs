@@ -20,14 +20,9 @@ namespace QccHub.Data.Repository
             return _context.Job.Where(j => j.Title.Contains(jobName)).ToListAsync();
         }
 
-        public Task<List<ApplyJobs>> GetJobApplicationsByJob(int jobID)
+        public Task<List<Job>> GetJobsByCompany(string companyId)
         {
-            return _context.ApplyJobs.Where(j => j.JobID == jobID).Include(j => j.User).Include(j => j.Job).ToListAsync();
-        }
-
-        public Task<ApplyJobs> GetJobApplicationsByUserAndJob(string userId, int jobId)
-        {
-            return _context.ApplyJobs.FirstOrDefaultAsync(j => j.JobID == jobId && j.UserID == userId);
+            return _context.Job.Where(j => j.CompanyID == companyId).Include(j => j.Company).ToListAsync();
         }
     }
 }
