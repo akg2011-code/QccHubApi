@@ -19,6 +19,7 @@ namespace QccHub.Data.Repository
 
         public async Task<Answers> AddAnswer(Answers answer)
         {
+            answer.CreatedBy = answer.UserID;
             _context.Answers.Add(answer);
             await _context.SaveChangesAsync();
             return await Task.FromResult(answer);

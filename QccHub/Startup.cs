@@ -44,7 +44,7 @@ namespace QccHub
                         .SetIsOriginAllowed((host) => true)
                         .AllowAnyHeader());
             });
-            //services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IJobRepository,JobRepository>();
             services.AddScoped<IQuestionRepository,QuestionRepository>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
