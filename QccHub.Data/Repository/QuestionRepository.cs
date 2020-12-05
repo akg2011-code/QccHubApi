@@ -28,7 +28,11 @@ namespace QccHub.Data.Repository
         public async Task<string> DeleteAnswer(int answerID)
         {
             var record = _context.Answers.Find(answerID);
-            record.IsDeleted = false;
+            if (record.IsDeleted == true)
+            {
+                return await Task.FromResult("Answer for this ID not found");
+            }
+            record.IsDeleted = true;
             await _context.SaveChangesAsync();
             return await Task.FromResult("is Deleted");
         }
@@ -44,7 +48,7 @@ namespace QccHub.Data.Repository
 
         public override Task<List<Question>> GetAllAsync()
         {
-            return _context.Question.OrderByDescending(q => q.CreatedDate).Include(q => q.User).ToListAsync();
+            return _context.Question.Where(a=>a.IsDeleted== false).OrderByDescending(q => q.CreatedDate).Include(q => q.User).ToListAsync();
         }
 
         public Answers GetAnswerByID(int answerID)

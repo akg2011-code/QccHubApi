@@ -86,8 +86,8 @@ namespace QccHub.Controllers.Api
             {
                 return BadRequest();
             }
-            await _questionRepository.AddAnswer(answers);
-            return Created("answer added", answers);
+            var result = await _questionRepository.AddAnswer(answers);
+            return Created("answer added", result);
         }
 
         [HttpGet("{questionID}")]
@@ -122,8 +122,8 @@ namespace QccHub.Controllers.Api
             {
                 return NotFound("no answer for this ID");
             }
-            await _questionRepository.DeleteAnswer(answerID);
-            return Ok("answer deleted");
+            var result = await _questionRepository.DeleteAnswer(answerID);
+            return Ok(result);
         }
     }
 }
