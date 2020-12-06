@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QccHub.Data.Interfaces;
-using System;
+using QccHub.Data.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QccHub.Data.Repository

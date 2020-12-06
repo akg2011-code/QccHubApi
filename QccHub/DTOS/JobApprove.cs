@@ -7,7 +7,7 @@ namespace QccHub.DTOS
 {
     public class JobApprove
     {
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public int JobID { get; set; }
     }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QccHub.Data;
 using QccHub.Data.Interfaces;
+using QccHub.Data.Models;
 using QccHub.DTOS;
+using QccHub.Logic.Helpers;
 
 namespace QccHub.Controllers.Api
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class JobsController : ControllerBase
+    public class JobsController : BaseController
     {
         private readonly IJobRepository _jobRepo;
         private readonly IJobApplicationRepository _jobAppRepo;
@@ -19,8 +21,13 @@ namespace QccHub.Controllers.Api
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUnitOfWork _unitOfWork;
 
-        public JobsController(IJobRepository jobRepo, IJobApplicationRepository jobAppRepo, IUserRepository userRepo,
-                                IWebHostEnvironment webHostEnvironment, IUnitOfWork unitOfWork)
+        public JobsController(IJobRepository jobRepo,
+                                IJobApplicationRepository jobAppRepo,
+                                IUserRepository userRepo,
+                                CurrentSession currentSession,
+                                IHttpContextAccessor httpContextAccessor,
+                                IWebHostEnvironment webHostEnvironment,
+                                IUnitOfWork unitOfWork) : base(currentSession,httpContextAccessor)
         {
             _jobRepo = jobRepo;
             _jobAppRepo = jobAppRepo;
@@ -56,7 +63,7 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpGet("{companyID}")]
-        public async Task<IActionResult> GetAllCompanyJobs(string companyID)
+        public async Task<IActionResult> GetAllCompanyJobs(int companyID)
         {
             var company = await _userRepo.GetUserByIdAsync(companyID);
             if (company == null)

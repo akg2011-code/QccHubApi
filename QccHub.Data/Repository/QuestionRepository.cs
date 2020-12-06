@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QccHub.Data.Interfaces;
+using QccHub.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace QccHub.Data.Repository
 
         public override Task<List<Question>> GetAllAsync()
         {
-            return _context.Question.Where(a=>a.IsDeleted== false).OrderByDescending(q => q.CreatedDate).Include(q => q.User).ToListAsync();
+            return _context.Question.Where(a => a.IsDeleted == false).OrderByDescending(q => q.CreatedDate).Include(q => q.User).ToListAsync();
         }
 
         public Answers GetAnswerByID(int answerID)

@@ -8,6 +8,6 @@ namespace QccHub.DTOS
     public class QuestionDTO
     {
         public string Title { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
     }
 }

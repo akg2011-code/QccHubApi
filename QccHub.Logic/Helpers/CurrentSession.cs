@@ -6,6 +6,7 @@ namespace QccHub.Logic.Helpers
 {
     public class CurrentSession
     {
-        public string UserID { get; set; }
+        public int UserID { get; set; }
+        public string UserName { get; set; }
     }
 }

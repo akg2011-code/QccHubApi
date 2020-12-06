@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QccHub.Data;
+using QccHub.Data.Models;
 using QccHub.DTOS;
 
 namespace QccHub.Controllers.Api
@@ -17,13 +18,13 @@ namespace QccHub.Controllers.Api
     {
         private readonly UserManager<IdentityUser> _userManager;
         private ApplicationDbContext Context;
-        UserManager<User> UserManager;
+        UserManager<ApplicationUser> UserManager;
         RoleManager<IdentityRole> RoleManager;
-        SignInManager<User> SignInManager;
+        SignInManager<ApplicationUser> SignInManager;
         public AuthenticateController(ApplicationDbContext _Context
-            , UserManager<User> _userManager
+            , UserManager<ApplicationUser> _userManager
             , RoleManager<IdentityRole> _roleManager,
-            SignInManager<User> _SignInManager
+            SignInManager<ApplicationUser> _SignInManager
             )
         {
             Context = _Context;
@@ -42,7 +43,7 @@ namespace QccHub.Controllers.Api
                     return BadRequest("there is a user with this information");
                 else
                 {
-                    User newUser = new User
+                    ApplicationUser newUser = new ApplicationUser
                     {
                         UserName = user.UserName,
                         NormalizedUserName = user.UserName.ToUpper(),
@@ -82,7 +83,7 @@ namespace QccHub.Controllers.Api
                     return BadRequest("there is a user with this information");
                 else
                 {
-                    User newUser = new User
+                    ApplicationUser newUser = new ApplicationUser
                     {
                         UserName = user.UserName,
                         NormalizedUserName = user.UserName.ToUpper(),

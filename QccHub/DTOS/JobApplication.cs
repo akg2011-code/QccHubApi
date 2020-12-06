@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using QccHub.Data;
+using QccHub.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace QccHub.DTOS
 {
     public class JobApplication
     {
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public int JobID { get; set; }
         public string Message { get; set; }
         public int CurrentSalary { get; set; }

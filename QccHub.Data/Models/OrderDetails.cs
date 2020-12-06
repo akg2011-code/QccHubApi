@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHub.Data
+namespace QccHub.Data.Models
 {
     public class OrderDetails : BaseEntity, ICreationAuditable, ISoftDeletable
     {
@@ -16,7 +16,7 @@ namespace QccHub.Data
         public int ItemID { get; set; }
         public Order Order { get; set; }
         public Item Item { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
     }

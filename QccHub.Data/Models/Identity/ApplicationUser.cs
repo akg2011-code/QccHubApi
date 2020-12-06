@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace QccHub.Data
+namespace QccHub.Data.Models
 {
-    public class User : IdentityUser
+    public class ApplicationUser : IdentityUser<int>
     {
         public bool IsTrusted { get; set; }
         public string LigitDocument { get; set; }
@@ -24,5 +25,6 @@ namespace QccHub.Data
         public virtual Gender Gender { get; set; }
         public virtual Country Country { get; set; }
 
+        public virtual ICollection<ApplicationUserRole> UserRoles { get; } = new List<ApplicationUserRole>();
     }
 }

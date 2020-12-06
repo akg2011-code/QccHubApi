@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHub.Data
+namespace QccHub.Data.Models
 {
     public class News : BaseEntity, ICreationAuditable, ISoftDeletable
     {
@@ -13,9 +13,9 @@ namespace QccHub.Data
         public string Details { get; set; }
         public DateTime Time { get; set; }
         [ForeignKey("Company")]
-        public string CompanyID { get; set; }
-        public virtual User Company { get; set; }
-        public string CreatedBy { get; set; }
+        public int CompanyID { get; set; }
+        public virtual ApplicationUser Company { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
     }

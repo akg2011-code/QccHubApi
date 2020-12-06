@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace QccHub.Data
+namespace QccHub.Data.Models
 {
     public class BaseEntity
     {

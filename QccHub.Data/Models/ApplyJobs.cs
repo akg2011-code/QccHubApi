@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHub.Data
+namespace QccHub.Data.Models
 {
     public class ApplyJobs : BaseEntity , ICreationAuditable,ISoftDeletable
     {
         [ForeignKey("User")]
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         [ForeignKey("Job")]
         public int JobID { get; set; }
         public string Message { get; set; }
@@ -18,9 +18,9 @@ namespace QccHub.Data
         public int ExpectedSalary { get; set; }
         public string CVFilePath { get; set; }
         public bool IsApproved { get; set; }
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
         public Job Job { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get ; set; }
 

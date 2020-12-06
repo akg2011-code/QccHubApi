@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QccHub.Data.Interfaces;
+using QccHub.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,14 @@ namespace QccHub.Data.Repository
         {
             _context = context;
         }
-        public Task<User> GetUserByIdAsync(string userId)
+        public Task<ApplicationUser> GetUserByIdAsync(int userId)
         {
-            return _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return _context.Users.Include(u => u.UserRoles).FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public Task<User> GetUserByUserNameAsync(string userName)
+        public Task<ApplicationUser> GetUserByUserNameAsync(string userName)
         {
-            return _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            return _context.Users.Include(u => u.UserRoles).FirstOrDefaultAsync(u => u.UserName == userName);
         }
     }
 }

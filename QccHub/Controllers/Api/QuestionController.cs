@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QccHub.Data;
 using QccHub.Data.Interfaces;
+using QccHub.Data.Models;
 using QccHub.DTOS;
+using QccHub.Logic.Helpers;
 
 namespace QccHub.Controllers.Api
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class QuestionController : ControllerBase
+    public class QuestionController : BaseController
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public QuestionController(IQuestionRepository questionRepository ,
-            IUnitOfWork unitOfWork)
+        public QuestionController(IQuestionRepository questionRepository,
+                                    CurrentSession currentSession,
+                                    IHttpContextAccessor contextAccessor,
+                                    IUnitOfWork unitOfWork) : base(currentSession,contextAccessor)
         {
             _questionRepository = questionRepository;
             _unitOfWork = unitOfWork;
@@ -48,7 +52,6 @@ namespace QccHub.Controllers.Api
         public async Task<IActionResult> GetAllQuestions()
         {
             var result = await _questionRepository.GetAllAsync();
-            //return Ok(result.AsQueryable<Question>().OrderByDescending(q=>q.CreatedDate).Include(q=>q.User)); // this throws an exception - override GetAllAsync() of the Generic repository
             return Ok(result); 
         }
 

@@ -19,10 +19,49 @@ namespace QccHub.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Answers", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GetUtcDate()");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuestionID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("QuestionID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Answers");
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -46,7 +85,7 @@ namespace QccHub.Data.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,9 +98,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -70,21 +108,28 @@ namespace QccHub.Data.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CVFilePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -93,11 +138,29 @@ namespace QccHub.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GenderID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsTrusted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JobPossition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LigitDocument")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("NationalityID")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -116,8 +179,14 @@ namespace QccHub.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfileImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ToDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -126,7 +195,14 @@ namespace QccHub.Data.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<int?>("YearsOfExperience")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GenderID");
+
+                    b.HasIndex("NationalityID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -137,11 +213,9 @@ namespace QccHub.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,9 +228,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -165,7 +238,7 @@ namespace QccHub.Data.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -176,9 +249,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -187,25 +259,35 @@ namespace QccHub.Data.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserRole", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoleId1")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserToken", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -221,44 +303,7 @@ namespace QccHub.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Answers", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GetUtcDate()");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("QuestionID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("QccHub.Data.ApplyJobs", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplyJobs", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -268,8 +313,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("CVFilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -295,27 +340,28 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("JobID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("ApplyJobs");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Category", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Category", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -334,15 +380,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Country", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Country", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -361,7 +407,7 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Country");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Course", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Course", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -371,8 +417,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("CertifiedFilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -389,8 +435,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -399,15 +445,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Course");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Gender", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Gender", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -426,7 +472,7 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Gender");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Item", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Item", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -439,8 +485,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -478,8 +524,8 @@ namespace QccHub.Data.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<string>("SupplierID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("SupplierID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -490,18 +536,18 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Item");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Job", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Job", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CompanyID")
+                        .HasColumnType("int");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -525,18 +571,18 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Job");
                 });
 
-            modelBuilder.Entity("QccHub.Data.News", b =>
+            modelBuilder.Entity("QccHub.Data.Models.News", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CompanyID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CompanyID")
+                        .HasColumnType("int");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -563,7 +609,7 @@ namespace QccHub.Data.Migrations
                     b.ToTable("News");
                 });
 
-            modelBuilder.Entity("QccHub.Data.NewsComments", b =>
+            modelBuilder.Entity("QccHub.Data.Models.NewsComments", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -573,8 +619,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -591,8 +637,8 @@ namespace QccHub.Data.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -603,15 +649,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("NewsComments");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Order", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Order", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -641,15 +687,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("QccHub.Data.OrderDetails", b =>
+            modelBuilder.Entity("QccHub.Data.Models.OrderDetails", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -678,15 +724,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("QccHub.Data.PaymentStatus", b =>
+            modelBuilder.Entity("QccHub.Data.Models.PaymentStatus", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -705,15 +751,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("PaymentStatus");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Qualification", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Qualification", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -730,8 +776,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -740,15 +786,15 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Qualification");
                 });
 
-            modelBuilder.Entity("QccHub.Data.Question", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Question", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(256)")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("CreatedDate")
@@ -762,8 +808,8 @@ namespace QccHub.Data.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -772,224 +818,203 @@ namespace QccHub.Data.Migrations
                     b.ToTable("Question");
                 });
 
-            modelBuilder.Entity("QccHub.Data.User", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Answers", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CVFilePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FromDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("GenderID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsTrusted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("JobPossition")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LigitDocument")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("NationalityID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProfileImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ToDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("YearsOfExperience")
-                        .HasColumnType("int");
-
-                    b.HasIndex("GenderID");
-
-                    b.HasIndex("NationalityID");
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("QccHub.Data.Answers", b =>
-                {
-                    b.HasOne("QccHub.Data.Question", "Question")
+                    b.HasOne("QccHub.Data.Models.Question", "Question")
                         .WithMany()
                         .HasForeignKey("QuestionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QccHub.Data.User", "User")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.ApplyJobs", b =>
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationRoleClaim", b =>
                 {
-                    b.HasOne("QccHub.Data.Job", "Job")
+                    b.HasOne("QccHub.Data.Models.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("QccHub.Data.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderID");
+
+                    b.HasOne("QccHub.Data.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("NationalityID");
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserClaim", b =>
+                {
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserLogin", b =>
+                {
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserRole", b =>
+                {
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("QccHub.Data.Models.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QccHub.Data.Models.ApplicationRole", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplicationUserToken", b =>
+                {
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QccHub.Data.Models.ApplyJobs", b =>
+                {
+                    b.HasOne("QccHub.Data.Models.Job", "Job")
                         .WithMany()
                         .HasForeignKey("JobID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QccHub.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("QccHub.Data.Models.ApplyJobs", "UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.Course", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Course", b =>
                 {
-                    b.HasOne("QccHub.Data.User", "User")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.Item", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Item", b =>
                 {
-                    b.HasOne("QccHub.Data.Category", "Category")
+                    b.HasOne("QccHub.Data.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QccHub.Data.User", "Supplier")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierID");
+                        .HasForeignKey("SupplierID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.Job", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Job", b =>
                 {
-                    b.HasOne("QccHub.Data.User", "Company")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyID");
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.News", b =>
+            modelBuilder.Entity("QccHub.Data.Models.News", b =>
                 {
-                    b.HasOne("QccHub.Data.User", "Company")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyID");
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.NewsComments", b =>
+            modelBuilder.Entity("QccHub.Data.Models.NewsComments", b =>
                 {
-                    b.HasOne("QccHub.Data.News", "News")
+                    b.HasOne("QccHub.Data.Models.News", "News")
                         .WithMany()
                         .HasForeignKey("NewsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QccHub.Data.User", "User")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.Order", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Order", b =>
                 {
-                    b.HasOne("QccHub.Data.PaymentStatus", "PaymentStatus")
+                    b.HasOne("QccHub.Data.Models.PaymentStatus", "PaymentStatus")
                         .WithMany()
                         .HasForeignKey("PaymentStatusID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.OrderDetails", b =>
+            modelBuilder.Entity("QccHub.Data.Models.OrderDetails", b =>
                 {
-                    b.HasOne("QccHub.Data.Item", "Item")
+                    b.HasOne("QccHub.Data.Models.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QccHub.Data.Order", "Order")
+                    b.HasOne("QccHub.Data.Models.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.Qualification", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Qualification", b =>
                 {
-                    b.HasOne("QccHub.Data.User", "User")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("QccHub.Data.Question", b =>
+            modelBuilder.Entity("QccHub.Data.Models.Question", b =>
                 {
-                    b.HasOne("QccHub.Data.User", "User")
+                    b.HasOne("QccHub.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
-                });
-
-            modelBuilder.Entity("QccHub.Data.User", b =>
-                {
-                    b.HasOne("QccHub.Data.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderID");
-
-                    b.HasOne("QccHub.Data.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("NationalityID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

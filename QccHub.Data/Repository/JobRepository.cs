@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QccHub.Data.Interfaces;
+using QccHub.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace QccHub.Data.Repository
             return _context.Job.Where(j => j.Title.Contains(jobName)).ToListAsync();
         }
 
-        public Task<List<Job>> GetJobsByCompany(string companyId)
+        public Task<List<Job>> GetJobsByCompany(int companyId)
         {
             return _context.Job.Where(j => j.CompanyID == companyId).Include(j => j.Company).ToListAsync();
         }

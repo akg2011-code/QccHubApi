@@ -6,7 +6,7 @@ namespace QccHub.Data.Interfaces
 {
     public interface ICreationAuditable
     {
-        string CreatedBy { get; set; }
+        int CreatedBy { get; set; }
         DateTime CreatedDate { get; set; }
     }
 }

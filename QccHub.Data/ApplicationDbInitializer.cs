@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using QccHub.Data;
+using QccHub.Data.Models;
+using QccHub.Logic.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,7 +94,7 @@ namespace QccHub.Data
 
     public class ApplicationDbInitializer
     {
-        public static void SeedingData(UserManager<User> userManager , RoleManager<IdentityRole> roleManager , ApplicationDbContext context)
+        public static void SeedingData(UserManager<ApplicationUser> userManager , RoleManager<ApplicationRole> roleManager , ApplicationDbContext context)
         {
             SeedRoles(roleManager);
             SeedUsers(userManager);
@@ -103,36 +105,36 @@ namespace QccHub.Data
             data.SeedAllCountry();
         }
 
-        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        public static void SeedRoles(RoleManager<ApplicationRole> roleManager)
         {
             // create admin role :
-            if (!roleManager.RoleExistsAsync("Admin").Result)
+            if (!roleManager.RoleExistsAsync(RolesEnum.Admin.ToString()).Result)
             {
-                IdentityRole role = new IdentityRole { Name = "Admin" };
-                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
-            }
-
-            // create User role :
-            if (!roleManager.RoleExistsAsync("User").Result)
-            {
-                IdentityRole role = new IdentityRole { Name = "User" };
+                ApplicationRole role = new ApplicationRole { Name = RolesEnum.Admin.ToString() };
                 IdentityResult roleResult = roleManager.CreateAsync(role).Result;
             }
 
             // create Vendor role :
-            if (!roleManager.RoleExistsAsync("Company").Result)
+            if (!roleManager.RoleExistsAsync(RolesEnum.Company.ToString()).Result)
             {
-                IdentityRole role = new IdentityRole { Name = "Company" };
+                ApplicationRole role = new ApplicationRole { Name = RolesEnum.Company.ToString() };
+                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+            }
+
+            // create User role :
+            if (!roleManager.RoleExistsAsync(RolesEnum.User.ToString()).Result)
+            {
+                ApplicationRole role = new ApplicationRole { Name = RolesEnum.User.ToString() };
                 IdentityResult roleResult = roleManager.CreateAsync(role).Result;
             }
 
         }
 
-        public static void SeedUsers(UserManager<User> userManager)
+        public static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
             if (userManager.FindByEmailAsync("qcchub@admin.com").Result == null)
             {
-                User admin = new User
+                ApplicationUser admin = new ApplicationUser
                 {
                     UserName = "admin",
                     Email = "qcchub@admin.com",
@@ -143,13 +145,13 @@ namespace QccHub.Data
                     PhoneNumber = "01032873503",
                     PhoneNumberConfirmed = true,
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    IsTrusted = true,
+                    IsTrusted = true
                 };
 
                 IdentityResult result = userManager.CreateAsync(admin, "Admin@2020").Result;
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(admin, "Admin").Wait();
+                    userManager.AddToRoleAsync(admin, RolesEnum.Admin.ToString()).Wait();
                 }
 
             }

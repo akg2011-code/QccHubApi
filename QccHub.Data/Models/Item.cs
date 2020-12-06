@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QccHub.Data
+namespace QccHub.Data.Models
 {
     public class Item : BaseEntity, ICreationAuditable, ISoftDeletable
     {
@@ -16,7 +16,7 @@ namespace QccHub.Data
         [ForeignKey("Category")]
         public int CategoryID { get; set; }
         [ForeignKey("Supplier")]
-        public string SupplierID { get; set; }
+        public int SupplierID { get; set; }
         public int Stock { get; set; } // المخزون
         public string Code { get; set; }
         public string PromotionCode { get; set; }
@@ -24,9 +24,9 @@ namespace QccHub.Data
         public int FixedStock { get; set; } // مقدار مخزون مينفعش يقل عنه
         public DateTime PromotoionExpireDate { get; set; } // معاد انتهاء العرض
 
-        public User Supplier { get; set; }
+        public ApplicationUser Supplier { get; set; }
         public Category Category { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
     }
