@@ -107,9 +107,9 @@ namespace QccHub.Controllers.Api
 
         [HttpPost]
         [Route("api/Account/Register")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register(UserRegisteration model)
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Register([FromBody]UserRegisteration model)
         {
             if (!ModelState.IsValid)
             {
