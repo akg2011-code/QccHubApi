@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,7 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,company")]
         public async Task<IActionResult> AddJob(Job job)    // note: should not recieve or return domain model , use DTO instead
         {
             if (!ModelState.IsValid)                        // make a condition for the non-happy scenarios first to avoid code branching, this is called a guard

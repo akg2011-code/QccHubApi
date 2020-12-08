@@ -24,8 +24,11 @@ namespace QccHub.Data
     {
         private readonly CurrentSession currentSession;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, CurrentSession currentSession)
-            : base(options)
+        private ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
+        {
+        }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, CurrentSession currentSession) : this(options)
         {
             this.currentSession = currentSession;
         }
@@ -55,8 +58,10 @@ namespace QccHub.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             #region ApplicationUserConfiguration
-            
+
             builder.Entity<ApplicationUser>().HasMany(x => x.UserRoles).WithOne().HasForeignKey(x => x.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             
             #endregion
@@ -71,10 +76,8 @@ namespace QccHub.Data
 
             builder.Entity<ApplyJobs>().HasOne(x => x.User).WithOne().IsRequired().OnDelete(DeleteBehavior.NoAction);
 
-
             builder.ConfigureShadowProperties();
             builder.SetGlobalQueryFilters();
-            base.OnModelCreating(builder);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

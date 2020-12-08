@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -27,21 +26,21 @@ namespace QccHub.Controllers.Api
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IUserRepository _userRepo;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
                                   RoleManager<ApplicationRole> roleManager,
                                   IUserRepository userRepo,
-                                  IUnitOfWork unitOfWork,
-                                  IEmailSender emailSender)
+                                  IUnitOfWork unitOfWork)
+                                  //IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _userRepo = userRepo;
             _unitOfWork = unitOfWork;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
 
         [HttpPost]
@@ -107,7 +106,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,CompanyAdmin")]
         [Route("api/Account/Register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -139,7 +137,6 @@ namespace QccHub.Controllers.Api
 
         [HttpGet]
         [Route("api/Account/{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -172,7 +169,6 @@ namespace QccHub.Controllers.Api
             return Ok();
         }
 
-        [Authorize]
         [HttpPost]
         [Route("api/Account/ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordVM model)
@@ -214,7 +210,7 @@ namespace QccHub.Controllers.Api
             string websiteUrl = ConfigValueProvider.Get("AppSettings:WebsiteUrl");
             var callback = $"{websiteUrl}Account/ResetPassword?token={token}&email={user.Email}";
             string mailBody = $"<h4>Somebody recently asked to reset your password.<a href='{callback}'> Click here to change your password.</a></h4>";
-            await _emailSender.SendEmailAsync(user.Email, "Reset password", mailBody);
+            //await _emailSender.SendEmailAsync(user.Email, "Reset password", mailBody);
 
             return Ok();
         }

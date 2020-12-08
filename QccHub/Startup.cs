@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace QccHub
 {
@@ -63,8 +64,6 @@ namespace QccHub
                         })
                         .EnableSensitiveDataLogging(_hostingEnvironment.IsDevelopment());
             });
-            //  services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
-            //.AddEntityFrameworkStores<ApplicationDbContext>();
             
             services.AddCors(options =>
             {
@@ -92,7 +91,8 @@ namespace QccHub
             services.AddScoped<IQuestionRepository,QuestionRepository>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<CurrentSession>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddAuthentication(x =>
             {
