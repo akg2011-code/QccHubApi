@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,12 +42,13 @@ namespace QccHub.Data
         public DbSet<ApplicationUserToken> AppUserTokens { get; set; }
         public DbSet<Answers> Answers { get; set; }
         public DbSet<ApplyJobs> ApplyJobs { get; set; }
-        public DbSet<Category> Category { get; set; }
+        public DbSet<ItemsCategory> ItemsCategory { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Gender> Gender { get; set; }
         public DbSet<Item> Item { get; set; }
         public DbSet<Job> Job { get; set; }
+        public DbSet<JobCategory> JobCategory { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<NewsComments> NewsComments { get; set; }
         public DbSet<Order> Order { get; set; }
@@ -55,6 +56,7 @@ namespace QccHub.Data
         public DbSet<PaymentStatus> PaymentStatus { get; set; }
         public DbSet<Qualification> Qualification { get; set; }
         public DbSet<Question> Question { get; set; }
+        public DbSet<UserJobPositions> UserJobPositions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

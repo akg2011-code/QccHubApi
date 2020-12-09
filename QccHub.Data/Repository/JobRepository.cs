@@ -18,12 +18,12 @@ namespace QccHub.Data.Repository
 
         public Task<List<Job>> SearchJobs(string jobName)
         {
-            return _context.Job.Where(j => j.Title.Contains(jobName)).ToListAsync();
+            return _context.Job.Where(j => j.Title.Contains(jobName)).Include(j=>j.JobCategory).Include(j=>j.Company).ToListAsync();
         }
 
         public Task<List<Job>> GetJobsByCompany(int companyId)
         {
-            return _context.Job.Where(j => j.CompanyID == companyId).Include(j => j.Company).ToListAsync();
+            return _context.Job.Where(j => j.CompanyID == companyId).Include(j => j.JobCategory).Include(j => j.Company).ToListAsync();
         }
     }
 }

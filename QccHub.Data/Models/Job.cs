@@ -17,5 +17,10 @@ namespace QccHub.Data.Models
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
+
+        [ForeignKey("JobCategory")]
+        public int JobCategoryID { get; set; }
+
+        public virtual JobCategory JobCategory { get; set; }
     }
 }

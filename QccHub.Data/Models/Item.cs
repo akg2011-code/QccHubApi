@@ -25,7 +25,7 @@ namespace QccHub.Data.Models
         public DateTime PromotoionExpireDate { get; set; } // معاد انتهاء العرض
 
         public ApplicationUser Supplier { get; set; }
-        public Category Category { get; set; }
+        public ItemsCategory Category { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }

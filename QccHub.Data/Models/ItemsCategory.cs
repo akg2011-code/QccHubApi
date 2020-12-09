@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QccHub.Data.Models
 {
-    public class Category : BaseEntity , ICreationAuditable, ISoftDeletable
+    public class ItemsCategory : BaseEntity , ICreationAuditable, ISoftDeletable
     {
         public string Name { get; set; }
         public int CreatedBy { get; set; }
