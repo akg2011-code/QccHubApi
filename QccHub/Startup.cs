@@ -25,6 +25,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using QccHub.Helpers;
 
 namespace QccHub
 {
@@ -85,6 +86,7 @@ namespace QccHub
                       opt.TokenLifespan = TimeSpan.FromHours(5));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IJobRepository,JobRepository>();
             services.AddScoped<IJobApplicationRepository,JobApplicationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

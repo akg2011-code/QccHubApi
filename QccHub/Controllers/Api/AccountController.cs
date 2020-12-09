@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using QccHub.Data.Models;
 using QccHub.Data.Interfaces;
 using QccHub.DTOS;
-using QccHub.Logic.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,38 +15,37 @@ using System.IdentityModel.Tokens.Jwt;
 using QccHub.Helpers;
 using QccHub.Data.Extensions;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QccHub.Controllers.Api
 {
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IUserRepository _userRepo;
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
-                                  RoleManager<ApplicationRole> roleManager,
                                   IUserRepository userRepo,
-                                  IUnitOfWork unitOfWork)
-                                  //IEmailSender emailSender)
+                                  IUnitOfWork unitOfWork,
+                                  IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _userRepo = userRepo;
             _unitOfWork = unitOfWork;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
         [Route("api/Account/Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login(LoginVM model)
+        public async Task<IActionResult> Login([FromBody] LoginVM model)
         {
             if (!ModelState.IsValid)
             {
@@ -95,6 +93,7 @@ namespace QccHub.Controllers.Api
             }
         }
 
+        [Authorize]
         [HttpPost]
         [Route("api/Account/Logout")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -107,9 +106,10 @@ namespace QccHub.Controllers.Api
 
         [HttpPost]
         [Route("api/Account/Register")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register(UserRegisteration model)
+        [ProducesResponseType(typeof(UserRegisteration),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserRegisteration),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Register([FromBody] UserRegisteration model)
         {
             if (!ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace QccHub.Controllers.Api
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                string error = AddErrors(result);
+                string error = result.GetErrors();
                 return BadRequest(error);
             }
 
@@ -145,7 +145,6 @@ namespace QccHub.Controllers.Api
             {
                 return NotFound("User Not Found");
             }
-
             return Ok(user);
         }
 
@@ -169,9 +168,10 @@ namespace QccHub.Controllers.Api
             return Ok();
         }
 
+        [Authorize]
         [HttpPost]
         [Route("api/Account/ChangePassword")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordVM model)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordVM model)
         {
             var canGetUserId = int.TryParse(User.GetUserId(),out int userId);
             if (!canGetUserId)
@@ -196,7 +196,7 @@ namespace QccHub.Controllers.Api
 
         [HttpPost]
         [Route("api/Account/ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
@@ -210,14 +210,14 @@ namespace QccHub.Controllers.Api
             string websiteUrl = ConfigValueProvider.Get("AppSettings:WebsiteUrl");
             var callback = $"{websiteUrl}Account/ResetPassword?token={token}&email={user.Email}";
             string mailBody = $"<h4>Somebody recently asked to reset your password.<a href='{callback}'> Click here to change your password.</a></h4>";
-            //await _emailSender.SendEmailAsync(user.Email, "Reset password", mailBody);
+            await _emailSender.SendEmailAsync(user.Email, "Reset password", mailBody);
 
             return Ok();
         }
 
         [HttpPost]
         [Route("api/Account/ResetPassword")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordVM model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(model);
@@ -229,29 +229,11 @@ namespace QccHub.Controllers.Api
             var resetPassResult = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if (!resetPassResult.Succeeded)
             {
-                string error = AddErrors(resetPassResult);
+                string error = resetPassResult.GetErrors();
                 return BadRequest(error);
             }
 
             return Ok();
         }
-
-        #region Helpers
-
-        private string AddErrors(IdentityResult result)
-        {
-            string errorString = "";
-            foreach (var error in result.Errors)
-            {
-                if (error.Code == "InvalidToken")
-                {
-                    errorString = errorString.AddError("Token", error.Description);
-                }
-                else if (error.Code != "DuplicateUserName")
-                    errorString = errorString.AddError(error.Code.Replace("Duplicate", ""), error.Description);
-            }
-            return errorString;
-        }
-        #endregion
     }
 }
