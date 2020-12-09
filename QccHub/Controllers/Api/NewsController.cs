@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QccHub.Data.Interfaces;
 using QccHub.Data.Models;
+using QccHub.DTOS;
 using QccHub.Logic.Helpers;
 
 namespace QccHub.Controllers.Api
@@ -16,14 +17,17 @@ namespace QccHub.Controllers.Api
     {
         private readonly INewsRepository _newsRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
 
         public NewsController(INewsRepository newsRepository,
             IUnitOfWork unitOfWork,
             CurrentSession currentSession,
-            IHttpContextAccessor contextAccessor) : base(currentSession, contextAccessor)
+            IHttpContextAccessor contextAccessor,
+            IUserRepository userRepository) : base(currentSession, contextAccessor)
         {
             _newsRepository = newsRepository;
             _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
         }
 
         [HttpPost]
@@ -33,6 +37,9 @@ namespace QccHub.Controllers.Api
             {
                 return BadRequest();
             }
+            //news.CreatedBy = news.CompanyID;
+            //news.IsDeleted = false;
+            //news.CreatedDate = DateTime.Now;
             _newsRepository.Add(news);
             await _unitOfWork.SaveChangesAsync();
             return Created("news added", news);
@@ -64,6 +71,106 @@ namespace QccHub.Controllers.Api
             news.IsDeleted = true;
             await _unitOfWork.SaveChangesAsync();
             return Ok("news is deleted");
+        }
+
+        [HttpGet("{userID}")]
+        public IActionResult GetUserNews(int userID)
+        {
+            var user = _userRepository.GetUserByIdAsync(userID);
+            if (user.Result == null)
+            {
+                return NotFound("No user found for this ID");
+            }
+            var news = _newsRepository.GetAllAsync().Result
+                .Where(n => n.CompanyID == userID && n.IsDeleted == false)
+                .OrderByDescending(n => n.Time);
+            return Ok(news);
+        }
+
+        [HttpGet("{newsID}")]
+        public async Task<IActionResult> GetNewsByID(int newsID)
+        {
+            var news =await _newsRepository.GetByIdAsync(newsID);
+            if (news == null || news.IsDeleted == true)
+            {
+                return NotFound("no news for this ID");
+            }
+            return Ok(news);
+        }
+
+        // ----------------------------- news users and comments -------------------------------
+        [HttpGet("{newsID}")]
+        public async Task<IActionResult> GetNewsComments(int newsID)
+        {
+            News news = await _newsRepository.GetByIdAsync(newsID);
+            if (news == null || news.IsDeleted == true)
+            {
+                return NotFound("No news for this ID");
+            }
+            return Ok(_newsRepository.GetNewsComments(newsID));
+        }
+
+        [HttpGet("{commentID}")]
+        public IActionResult GetCommentByID(int commentID)
+        {
+            var comment = _newsRepository.GetCommentByID(commentID);
+            if (comment == null || comment.IsDeleted == true)
+            {
+                return NotFound("No comment for this ID");
+            }
+            return Ok(comment);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(NewsDTO DTO)
+        {
+            //var news = _newsRepository.GetByIdAsync(DTO.NewsID);
+            //var user = _userRepository.GetUserByIdAsync(DTO.UserID);
+            //if (news.Result == null || user.Result == null || news.Result.IsDeleted == true)
+            //{
+            //    return NotFound();
+            //}
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            NewsComments comment = new NewsComments
+            {
+                NewsID = DTO.NewsID,
+                UserID = DTO.UserID,
+                Comment = DTO.Comment,
+                CreatedBy = DTO.UserID,
+                CreatedDate = DateTime.Now,
+                IsDeleted = false,
+                Time = DateTime.Now
+            };
+            await _newsRepository.AddComment(comment);
+            await _unitOfWork.SaveChangesAsync();
+            return Created("comment is added",comment);
+        }
+
+        [HttpDelete("{commentID}")]
+        public async Task<IActionResult> DeleteComment(int commentID)
+        {
+            NewsComments comment = _newsRepository.GetCommentByID(commentID);
+            if (comment == null)
+            {
+                return NotFound("No comment for this ID");
+            }
+            var result = await _newsRepository.DeleteComment(commentID);
+            return Ok(result);
+        }
+
+        [HttpPut("{commentID}")]
+        public async Task<IActionResult> EditComment(int commentID , NewsComments comment)
+        {
+            var _comment = _newsRepository.GetCommentByID(commentID);
+            if (_comment == null || _comment.IsDeleted == true)
+            {
+                return NotFound("No comment for this ID");
+            }
+            var result = await _newsRepository.EditComment(commentID, comment);
+            return Ok(result);
         }
     }
 }

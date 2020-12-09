@@ -91,6 +91,7 @@ namespace QccHub
             services.AddScoped<IJobApplicationRepository,JobApplicationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IQuestionRepository,QuestionRepository>();
+            services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<CurrentSession>();
             services.AddControllersWithViews()
