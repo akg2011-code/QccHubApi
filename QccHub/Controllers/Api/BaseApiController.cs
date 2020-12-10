@@ -12,10 +12,10 @@ namespace QccHub.Controllers.Api
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class BaseController : ControllerBase
+    public class BaseApiController : ControllerBase
     {
         public readonly CurrentSession _currentSession;
-        public BaseController(CurrentSession currentSession, IHttpContextAccessor contextAccessor)
+        public BaseApiController(CurrentSession currentSession, IHttpContextAccessor contextAccessor)
         {
             _currentSession = currentSession;
 

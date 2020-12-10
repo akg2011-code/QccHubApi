@@ -13,7 +13,7 @@ namespace QccHub.Controllers.Api
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class NewsController : BaseController
+    public class NewsController : BaseApiController
     {
         private readonly INewsRepository _newsRepository;
         private readonly IUnitOfWork _unitOfWork;

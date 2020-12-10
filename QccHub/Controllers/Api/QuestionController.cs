@@ -15,7 +15,7 @@ namespace QccHub.Controllers.Api
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class QuestionController : BaseController
+    public class QuestionController : BaseApiController
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IUnitOfWork _unitOfWork;

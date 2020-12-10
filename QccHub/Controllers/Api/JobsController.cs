@@ -14,7 +14,7 @@ using QccHub.Logic.Helpers;
 
 namespace QccHub.Controllers.Api
 {
-    public class JobsController : BaseController
+    public class JobsController : BaseApiController
     {
         private readonly IJobRepository _jobRepo;
         private readonly IJobApplicationRepository _jobAppRepo;
