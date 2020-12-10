@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace QccHub.Data
 {
@@ -32,15 +33,13 @@ namespace QccHub.Data
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var responseTask = client.GetAsync("all?fields=name");
-                responseTask.Wait();
+                var result = Task.Run(() => client.GetAsync("all?fields=name")).GetAwaiter().GetResult();
 
-                var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
+                    var readTaskResult = Task.Run(() => result.Content.ReadAsStringAsync()).GetAwaiter().GetResult();
 
-                    var readTask =  result.Content.ReadAsStringAsync().Result;
-                    var JsonReuslt = JsonConvert.DeserializeObject<List<CountryDTO>>(readTask);
+                    var JsonReuslt = JsonConvert.DeserializeObject<List<CountryDTO>>(readTaskResult);
 
                     foreach (var country in JsonReuslt)
                     {
@@ -107,32 +106,33 @@ namespace QccHub.Data
 
         public static void SeedRoles(RoleManager<ApplicationRole> roleManager)
         {
+            
+
             // create admin role :
-            if (!roleManager.RoleExistsAsync(RolesEnum.Admin.ToString()).Result)
+            if (!Task.Run(() => roleManager.RoleExistsAsync(RolesEnum.Admin.ToString())).GetAwaiter().GetResult())
             {
                 ApplicationRole role = new ApplicationRole { Name = RolesEnum.Admin.ToString() };
-                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+                Task.Run(() => roleManager.CreateAsync(role)).GetAwaiter().GetResult();
             }
 
             // create Vendor role :
-            if (!roleManager.RoleExistsAsync(RolesEnum.Company.ToString()).Result)
+            if (!Task.Run(() => roleManager.RoleExistsAsync(RolesEnum.Company.ToString())).GetAwaiter().GetResult())
             {
                 ApplicationRole role = new ApplicationRole { Name = RolesEnum.Company.ToString() };
-                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+                Task.Run(() => roleManager.CreateAsync(role)).GetAwaiter().GetResult();
             }
 
             // create User role :
-            if (!roleManager.RoleExistsAsync(RolesEnum.User.ToString()).Result)
+            if (!Task.Run(() => roleManager.RoleExistsAsync(RolesEnum.User.ToString())).GetAwaiter().GetResult())
             {
                 ApplicationRole role = new ApplicationRole { Name = RolesEnum.User.ToString() };
-                IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+                Task.Run(() => roleManager.CreateAsync(role)).GetAwaiter().GetResult();
             }
-
         }
 
         public static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
-            if (userManager.FindByEmailAsync("qcchub@admin.com").Result == null)
+            if (Task.Run(() => userManager.FindByEmailAsync("qcchub@admin.com")).GetAwaiter().GetResult() == null)
             {
                 ApplicationUser admin = new ApplicationUser
                 {
@@ -151,7 +151,7 @@ namespace QccHub.Data
                 IdentityResult result = userManager.CreateAsync(admin, "Admin@2020").Result;
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(admin, RolesEnum.Admin.ToString()).Wait();
+                    Task.Run(() => userManager.AddToRoleAsync(admin, RolesEnum.Admin.ToString())).GetAwaiter().GetResult();
                 }
 
             }

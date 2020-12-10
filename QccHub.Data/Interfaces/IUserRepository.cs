@@ -10,5 +10,10 @@ namespace QccHub.Data.Interfaces
     {
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
         Task<ApplicationUser> GetUserByIdAsync(int userId);
+        Task<List<ApplicationUser>> GetAllUsers();
+        Task<List<ApplicationUser>> GetCompanyUsers();
+        Task<List<ApplicationUser>> GetEmployeeUsers();
+        Task<int> GetUserRole(int userId);
+
     }
 }

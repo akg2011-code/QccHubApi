@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QccHub", "QccHub\QccHub.csproj", "{8924FD59-1CB0-4CAD-A713-7616B2173E4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QccHub.Data", "QccHub.Data\QccHub.Data.csproj", "{618FB0F5-5D0A-44F5-ADF4-63DAA75D2037}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QccHub.Data", "QccHub.Data\QccHub.Data.csproj", "{618FB0F5-5D0A-44F5-ADF4-63DAA75D2037}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QccHub.Logic", "QccHub.Logic\QccHub.Logic.csproj", "{734B8DFD-3A88-42FC-8A83-C200789F84EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QccHub.Logic", "QccHub.Logic\QccHub.Logic.csproj", "{734B8DFD-3A88-42FC-8A83-C200789F84EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -52,7 +52,7 @@ namespace QccHub.Controllers.Api
                 return BadRequest("Error Data");
             }
 
-            var user = await _userRepo.GetUserByUserNameAsync(model.UserName);
+            var user = await _userRepo.GetUserByUserNameAsync(model.Email);
             if (user == null)
                 return BadRequest("Incorrect ID or Password");
 
@@ -132,6 +132,8 @@ namespace QccHub.Controllers.Api
 
             await _userManager.AddToRoleAsync(user, ((RolesEnum)model.RoleId).ToString());
             await _unitOfWork.SaveChangesAsync();
+
+            await _signInManager.SignInAsync(user, isPersistent: true);
             return Ok(user);
         }
 

@@ -26,6 +26,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using QccHub.Helpers;
+using System.Net.Http.Headers;
 
 namespace QccHub
 {
@@ -85,6 +86,11 @@ namespace QccHub
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                       opt.TokenLifespan = TimeSpan.FromHours(5));
 
+            services.AddHttpClient("API", opt => {
+                opt.BaseAddress = new Uri(Configuration.GetValue<string>("AppSettings:APIUrl"));
+                opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IJobRepository,JobRepository>();
@@ -123,7 +129,7 @@ namespace QccHub
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "QccHub", Version = "v1" });
-
+                
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -184,11 +190,11 @@ namespace QccHub
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseDefaultFiles(new DefaultFilesOptions
-            {
-                DefaultFileNames = new
-                 List<string> { "index.html" }
-            });
+            //app.UseDefaultFiles(new DefaultFilesOptions
+            //{
+            //    DefaultFileNames = new
+            //     List<string> { "index.html" }
+            //});
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
