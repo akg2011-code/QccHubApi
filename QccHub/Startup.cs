@@ -27,6 +27,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using QccHub.Helpers;
 using System.Net.Http.Headers;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace QccHub
 {
@@ -190,11 +192,7 @@ namespace QccHub
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.UseDefaultFiles(new DefaultFilesOptions
-            //{
-            //    DefaultFileNames = new
-            //     List<string> { "index.html" }
-            //});
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

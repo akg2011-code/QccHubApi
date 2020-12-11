@@ -14,7 +14,7 @@ namespace QccHub.Data.Models
         public int? GenderID { get; set; }
         [ForeignKey("Country")]
         public int? NationalityID { get; set; }
-        
+        public string Bio { get; set; }
         public string Address { get; set; }
         public string CVFilePath { get; set; }
         public string ProfileImagePath { get; set; }

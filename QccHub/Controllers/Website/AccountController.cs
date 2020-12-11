@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace QccHub.Website.Controllers
+namespace QccHub.Controllers.Website
 {
     [Route("[controller]/[action]")]
     public class AccountController : BaseController

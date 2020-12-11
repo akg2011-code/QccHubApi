@@ -14,6 +14,7 @@ namespace QccHub.Data.Models
         public DateTime Time { get; set; }
         [ForeignKey("Company")]
         public int CompanyID { get; set; }
+        public string Source { get; set; }
         public virtual ApplicationUser Company { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

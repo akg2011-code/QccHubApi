@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 
-namespace QccHub.Website.Controllers
+namespace QccHub.Controllers.Website
 {
     public class BaseController : Controller
     {
