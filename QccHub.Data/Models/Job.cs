@@ -18,7 +18,7 @@ namespace QccHub.Data.Models
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public decimal Salary { get; set; }
-        public string Type { get; set; } // enum
+        public int Type { get; set; }
 
         [ForeignKey("JobCategory")]
         public int JobCategoryID { get; set; }
