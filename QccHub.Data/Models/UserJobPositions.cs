@@ -18,7 +18,7 @@ namespace QccHub.Data.Models
         public DateTime? ToDate { get; set; }
         [ForeignKey("User")]
         public int UserID { get; set; }
-
+        public bool IsCurrentPosition { get; set; }
         public virtual ApplicationUser User { get; set; }
     }
 }
