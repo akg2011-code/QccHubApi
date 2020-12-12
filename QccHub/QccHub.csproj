@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\user\" />
     <Folder Include="wwwroot\JobsAppliedCV\" />
   </ItemGroup>
 
