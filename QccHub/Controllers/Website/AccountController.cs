@@ -7,6 +7,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net;
+using QccHub.Data.Models;
 
 namespace QccHub.Controllers.Website
 {
@@ -73,7 +74,7 @@ namespace QccHub.Controllers.Website
                 return View(model);
             }
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Profile", "Account");
         }
 
         [HttpGet]
@@ -97,6 +98,21 @@ namespace QccHub.Controllers.Website
                 return View(model);
             }
             return Content("an email sent to you with a link to reset your password");
+        }
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Profile(int id)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var response = await httpClient.GetAsync($"Account/{id}");
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                AddModelError(result);
+                return RedirectToAction("Index","Home");
+            }
+            var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
+            return View(user);
         }
 
     }
