@@ -2219,9 +2219,6 @@ section {
   background-color: #f4f5f7;
   padding-top: 20px;
 }
-.userProfileContent .all{
-  /* margin: 10px; */
-}
 .userProfileContent .all> div ,.comProfileContent .all> div{
   margin-bottom: 10px;
   background-color: #fff;
@@ -2245,7 +2242,7 @@ section {
   padding: 20px;
 }
 .aboutMe .btnEdit{
-  text-align: right;
+  text-align: right;  
 }
 .aboutMe button{
   background: linear-gradient(to right, #e72629, #faae40);
@@ -2409,4 +2406,42 @@ section {
 }
 #tabs .uniDeails{
   margin-bottom: 10px;
+}
+/************** news ****************/
+.JobContent{
+
+  background-color: #f4f5f7;
+  padding-top: 20px;
+}
+.JobContent .all> div {
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.JobContent .left .nameUser {
+  text-align: center;
+}
+.JobContent .btnEdit{
+  text-align: right;  
+}
+.JobContent .btnEdit .btn{
+  background: linear-gradient(to right, #e72629, #faae40);
+  border: none;
+}
+.label-danger{
+  color:  #e72629;
+  font-weight: 800;
+}
+.JobContent .uniDeails{
+  margin-bottom: 60px;
+}
+.JobContent .yourJobs{
+  padding: 10px;
+}
+.JobContent .yourJobs .uniDeails{
+  margin-bottom: 20px;
 }
