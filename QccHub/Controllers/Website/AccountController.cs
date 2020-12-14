@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net;
 using QccHub.Data.Models;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace QccHub.Controllers.Website
 {
@@ -115,5 +117,64 @@ namespace QccHub.Controllers.Website
             return View(user);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> UpdateInfo(int id)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var response = await httpClient.GetAsync($"Account/{id}");
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                AddModelError(result);
+                return RedirectToAction("Index", "Home");
+            }
+            var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateInfo(int Id, UpdateInfoVM model)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            byte[] CVBytes;
+            byte[] PPBytes;
+            var multipartContent = new MultipartFormDataContent();
+
+            if (model.CV != null && model.CV.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    model.CV.CopyTo(ms);
+                    CVBytes = ms.ToArray();
+                    var byteArrayContent = new ByteArrayContent(CVBytes);
+                    multipartContent.Add(byteArrayContent, "CV", model.CV.FileName);
+                }
+
+            }
+            if (model.ProfileImage != null && model.ProfileImage.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    model.ProfileImage.CopyTo(ms);
+                    PPBytes = ms.ToArray();
+                    var byteArrayContent = new ByteArrayContent(PPBytes);
+                    multipartContent.Add(byteArrayContent, "ProfileImage", model.ProfileImage.FileName);
+                }
+            }
+
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
+            var response = await httpClient.PostAsync($"Account/UpdateInfo", multipartContent);
+
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                AddModelError(result);
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Profile","Account");
+        }
     }
 }

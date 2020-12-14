@@ -22,7 +22,7 @@
                                 <h3>@(!string.IsNullOrWhiteSpace($"{Model.FirstName} + {Model.LastName}") ? $"{Model.FirstName} + {Model.LastName}" : Model.UserName)</h3>
                             </div>
                             <div>
-                                <p>@Model.JobPositions.FirstOrDefault()</p> @*may add a property for current position*@
+                                <p>@Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition).JobPosition.Name</p>
                             </div>
                             <hr>
                             <div class="row">
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-md">
                                     <ul class="list-unstyled">
-                                        <li> @Model.JobPositions.FirstOrDefault()</li>
+                                        <li> @Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition).JobPosition.Name</li>
                                         <li> @Model.Gender.Name</li>
                                         <li> @Model.Email</li>
                                         <li> @Model.PhoneNumber</li>

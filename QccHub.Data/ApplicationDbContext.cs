@@ -56,7 +56,8 @@ namespace QccHub.Data
         public DbSet<PaymentStatus> PaymentStatus { get; set; }
         public DbSet<Qualification> Qualification { get; set; }
         public DbSet<Question> Question { get; set; }
-        public DbSet<UserJobPositions> UserJobPositions { get; set; }
+        public DbSet<JobPosition> JobPositions { get; set; }
+        public DbSet<UserJobPosition> UserJobPositions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -77,6 +78,11 @@ namespace QccHub.Data
             #endregion
 
             builder.Entity<ApplyJobs>().HasOne(x => x.User).WithOne().IsRequired().OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<UserJobPosition>().HasKey(x => new { x.CompanyId, x.EmployeeId, x.JobPositionId , x.FromDate , x.ToDate });
+            builder.Entity<UserJobPosition>().HasOne(x => x.Employee).WithMany(x => x.EmployeeJobs).HasForeignKey(x => x.EmployeeId).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<UserJobPosition>().HasOne(x => x.Company).WithMany(x => x.CompanyJobs).HasForeignKey(x => x.CompanyId).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<UserJobPosition>().HasOne(x => x.JobPosition).WithMany(x => x.EmployeeJobs).HasForeignKey(x => x.JobPositionId).OnDelete(DeleteBehavior.NoAction);
 
             builder.ConfigureShadowProperties();
             builder.SetGlobalQueryFilters();

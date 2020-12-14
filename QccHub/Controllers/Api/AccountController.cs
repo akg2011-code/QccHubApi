@@ -237,5 +237,21 @@ namespace QccHub.Controllers.Api
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("api/Account/UpdateInfo")]
+        public async Task<IActionResult> UpdateInfo([FromForm] UpdateInfoVM model)
+        {
+            var user = await _userRepo.GetUserByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.PhoneNumber = model.PhoneNumber;
+            // update profile picture and CV
+            return Ok();
+        }
     }
 }

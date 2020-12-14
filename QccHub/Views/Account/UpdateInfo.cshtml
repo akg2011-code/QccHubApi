@@ -1,0 +1,319 @@
+﻿@model ApplicationUser
+<main id="main">
+    <div class="editUserProfileContent">
+        <section class="container">
+            <div class="row">
+                <!-- left side -->
+                <div class="col-md-4">
+                    <div class="left all">
+                        <div class="nameUser">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <img src="assets/img/Ellipse 9.png" style="height: 130px;">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-warning" style="background-color: #00c9a7;">
+                                            <i class="far fa-images " style="color: #fff;"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-warning" style="background-color: #e72629;">
+                                            <i class="far fa-trash-alt" style="color: #fff;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mainInfo">
+                            <h5>About</h5>
+                            <span>Tell about yourself in two sentences</span>
+                            <hr>
+                            <small>Bio</small>
+                            <div class="input-group">
+                                <textarea class="form-control" rows="4" placeholder="Write your thoughts......"
+                                          aria-label="With textarea"></textarea>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <button class="btn btn-info col-md-6">Save</button>
+                            </div>
+                        </div>
+                        <div class="postJob">
+                            <div class="socialProfiles">
+                                <h4>
+                                    Social profiles
+                                </h4>
+                                <span>Add links to your profile</span>
+                                <hr>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-outline-secondary col-md-9 text-left">
+                                        <i class="fab fa-instagram" style="color: #e72629;margin-right: 10px;"></i> Add Instagram
+                                        link
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary col-md-9 text-left">
+                                        <i class="fab fa-facebook-square" style="color: #007bfd;margin-right: 10px;"></i> Add facebook
+                                        link
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary col-md-9 text-left">
+                                        <i class="fab fa-twitter-square" style="color: #4ae4f8;margin-right: 10px;"></i> Add Twitter
+                                        link
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary col-md-9 text-left">
+                                        <i class="fab fa-skype"
+                                           style="color: #0179fe;margin-right: 10px;"></i> Add Skype link
+                                    </button>
+                                    <hr>
+                                    <button class="btn btn-info col-md-9 text-center">UPDATE SOCIAL PROFILES</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right side -->
+                <div class="col-md-8">
+                    <div class="center all">
+                        <div class="aboutMe">
+                            <h4>Edit Basic Info</h4>
+                            <small>Edit all your important information</small>
+                            <hr>
+                            <form>
+                                <div class="form-group">
+                                    <label for="inputName">Full Name *</label>
+                                    <input type="text" class="form-control" id="inputName" placeholder="Ahmed Korany">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Email *</label>
+                                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPhone">Phone Number *</label>
+                                        <input type="text" class="form-control" id="inputPhone" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputDate">Birthdate *</label>
+                                        <input type="date" class="form-control" id="inputDate" placeholder="">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputState">Gender</label>
+                                        <select id="inputState" class="form-control">
+                                            <option selected>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputNationality">Nationality *</label>
+                                        <input type="text" class="form-control" id="inputNationality">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPosition">Position *</label>
+                                        <input type="text" class="form-control" id="inputPosition">
+                                    </div>
+                                </div>
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Update info</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Qualification-sction -->
+                        <div class="aboutMe">
+                            <h4>Qualification</h4>
+                            <small>Edit all your important information</small>
+                            <hr>
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputQuali">Qualification</label>
+                                        <input type="email" class="form-control" id="inputQuali" placeholder="">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPhone">.</label>
+                                        <input type="text" class="form-control" id="inputPhone" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                    <label for="inputPass" class="col-md-3 col-form-label">Passing Year</label>
+                                    <div class="col-md-5">
+                                        <input type="date" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Add New</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Expireenc-section -->
+                        <div class="aboutMe">
+                            <h4>Expireenc</h4>
+                            <small>Edit all your important information</small>
+                            <hr>
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputExpi">Expireenc</label>
+                                        <input type="email" class="form-control" id="inputExpi" placeholder="">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPhone">.</label>
+                                        <input type="text" class="form-control" id="inputPhone" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="inputName">Full Name *</label> -->
+                                    <input type="text" class="form-control" id="inputName" placeholder="Ahmed Korany">
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputPass" class="col-md-2 col-form-label">From</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                    <label for="inputPass" class="col-md-2 col-form-label">To</label>
+                                    <div class="col-md-4">
+                                        <input type="date" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Add New</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Certificates-section -->
+                        <div class="aboutMe">
+                            <h4>Certificates</h4>
+                            <small>Edit all your important information</small>
+                            <hr>
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputExpi">Certificate1</label>
+                                        <input type="email" class="form-control" id="inputExpi" placeholder="">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPhone">.</label>
+                                        <input type="text" class="form-control" id="inputPhone" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                    <div class="custom-file col-md-4">
+                                        <input type="file" class="custom-file-input" style="background: #00c9a7;" id="customFile">
+                                        <label class="custom-file-label border-0" for="customFile">Choose file</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputPass" class="col-md-2 col-form-label">From</label>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                    <label for="inputPass" class="col-md-2 col-form-label">To</label>
+                                    <div class="col-md-4">
+                                        <input type="date" class="form-control" id="inputPass" placeholder="1/1/2021">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Add New</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Cover Letter-section -->
+                        <div class="aboutMe">
+                            <h4>Cover Letter</h4>
+                            <small>Edit all your important information</small>
+                            <hr>
+                            <div class="input-group">
+                                <textarea class="form-control" rows="4" placeholder="Write your thoughts......"
+                                          aria-label="With textarea"></textarea>
+                            </div>
+                        </div>
+
+
+                        <!-- Gallary -->
+                        <div class="aboutMe">
+                            <h4>Gallary</h4>
+                            <small>Edit all your important information</small>
+                            <hr>
+                            <div class="form-group row">
+                                <div class="custom-file col-md-5">
+                                    <input type="file" class="custom-file-input" style="background: #00c9a7;" id="customFile">
+                                    <label class="custom-file-label border-0" for="customFile">Upload Image</label>
+                                </div>
+
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Add New</button>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="custom-file col-md-5">
+                                    <input type="file" class="custom-file-input" style="background: #00c9a7;" id="customFile">
+                                    <label class="custom-file-label border-0" for="customFile">Upload Video</label>
+                                </div>
+
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Add New</button>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="custom-file col-md-5">
+                                    <input type="file" class="custom-file-input" style="background: #00c9a7;" id="customFile">
+                                    <label class="custom-file-label border-0" for="customFile">Upload Attachment</label>
+                                </div>
+
+                                <div class="btnEdit">
+                                    <button class="btn btn-primary border-0">Add New</button>
+                                </div>
+
+                            </div>
+
+
+                            <!-- Password-section -->
+                            <div class="aboutMe">
+                                <h4>Update Password</h4>
+                                <small>Edit all your important information</small>
+                                <hr>
+                                <form>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <input type="password" class="form-control" id="inputpassword" placeholder="password">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="password" class="form-control" id="inputConfirmPass"
+                                                   placeholder="Confirm password">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </form>
+                            </div>
+                        </div>
+                        <section class="text-right" style="margin-bottom: 30px;">
+                            <button class="btn btn-info border-0 col-md-2 mr-3">Cancel</button>
+                            <button class="btn btn-primary border-0 col-md-2" style="background: #00c9a7;">Update now</button>
+                        </section>
+                    </div>
+                </div>
+        </section>
+    </div>
+
+</main>
+<!-- End #main -->

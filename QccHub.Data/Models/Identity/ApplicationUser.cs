@@ -22,8 +22,8 @@ namespace QccHub.Data.Models
         public string LastName { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual Country Country { get; set; }
-
-        public virtual ICollection<UserJobPositions> JobPositions { get; } = new List<UserJobPositions>();
+        public virtual ICollection<UserJobPosition> EmployeeJobs { get; } = new List<UserJobPosition>();
+        public virtual ICollection<UserJobPosition> CompanyJobs { get; } = new List<UserJobPosition>();
         public virtual ICollection<ApplicationUserRole> UserRoles { get; } = new List<ApplicationUserRole>();
     }
 }
