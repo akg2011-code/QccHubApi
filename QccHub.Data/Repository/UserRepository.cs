@@ -37,7 +37,11 @@ namespace QccHub.Data.Repository
 
         public Task<ApplicationUser> GetUserByIdAsync(int userId)
         {
-            return _context.Users.Include(u => u.UserRoles).FirstOrDefaultAsync(u => u.Id == userId);
+            return _context.Users.Include(u => u.UserRoles)
+                                    .Include(x => x.Country)
+                                    .Include(x => x.Gender)
+                                    .Include(x => x.EmployeeJobs)
+                                    .FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public Task<ApplicationUser> GetUserByUserNameAsync(string userName)

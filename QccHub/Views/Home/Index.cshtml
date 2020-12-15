@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="leftSide">
-                            <h2>Discover the social networking platform Qatar Construction Comunity Hub</h2>
+                            <h2>Discover the social networking platform Qatar Construction Community Hub</h2>
                             <p>
                                 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
                                 Latin literature from 45 BC, making it over 2000 years old.
@@ -106,10 +106,10 @@
 
                                         <div class="row">
                                             <div class="col-md">
-                                                <input type="text" id="CompanyName" class="form-control mb-4" placeholder="First Name">
+                                                <input type="text" id="FirstName" class="form-control mb-4" placeholder="First Name">
                                             </div>
                                             <div class="col-md">
-                                                <input type="text" id="CompanyName" class="form-control mb-4" placeholder="Last Name">
+                                                <input type="text" id="LastName" class="form-control mb-4" placeholder="Last Name">
                                             </div>
                                         </div>
 
@@ -154,7 +154,7 @@
                                         </div>
                                         <div>
                                             <hr style="background-color: #fff;">
-                                            Forgot password? <a href="">Click Here</a>
+                                            Forgot password? <a href="@Url.Content("~/Account/ForgotPassword")">Click Here</a>
                                         </div>
                                     </form>
 
@@ -163,11 +163,12 @@
                                 <!-- Panel 3 -->
                                 <div class="tab-pane fade" id="panel777" role="tabpanel">
 
-                                    <form class=" p-5">
+                                    <form action="@Url.Content("~/Account/login")" method="post" role="form" class=" p-5">
+                                        @Html.AntiForgeryToken()
 
-                                        <input type="email" id="Email" class="form-control mb-4" placeholder="E-mail Address">
+                                        <input type="email" id="Email" name="email" class="form-control mb-4" placeholder="E-mail Address">
 
-                                        <input type="password" id="Password" class="form-control mb-4" placeholder="Password">
+                                        <input type="password" id="Password" name="password" class="form-control mb-4" placeholder="Password">
 
                                         <div class="text-center">
                                             <div class="row">

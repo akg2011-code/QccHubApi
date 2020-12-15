@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace QccHub.Controllers.Website
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("[controller]/[action]/{id?}")]
     public class HomeController : BaseController
     {

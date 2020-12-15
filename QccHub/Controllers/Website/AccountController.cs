@@ -10,9 +10,12 @@ using System.Net;
 using QccHub.Data.Models;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Linq;
+using QccHub.Logic.Enums;
 
 namespace QccHub.Controllers.Website
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("[controller]/[action]")]
     public class AccountController : BaseController
     {
@@ -52,7 +55,7 @@ namespace QccHub.Controllers.Website
             if (Url.IsLocalUrl(decodedUrl))
                 return Redirect(decodedUrl);
             else
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Profile), new { id = loginResult.UserId });
         }
 
         [HttpGet]
@@ -114,22 +117,32 @@ namespace QccHub.Controllers.Website
                 return RedirectToAction("Index","Home");
             }
             var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
-            return View(user);
+            if (user.UserRoles.FirstOrDefault().RoleId == (int)RolesEnum.Company)
+            {
+                return View("CompanyProfile",user);
+            }
+            else if (user.UserRoles.FirstOrDefault().RoleId == (int)RolesEnum.User)
+            {
+                return View(user);
+            }
+
+            return Content("Error");
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> UpdateInfo(int id)
         {
             var httpClient = _clientFactory.CreateClient("API");
-            var response = await httpClient.GetAsync($"Account/{id}");
+            var response = await httpClient.GetAsync($"Account/{id}?update=true");
             var result = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
                 AddModelError(result);
                 return RedirectToAction("Index", "Home");
             }
-            var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
-            return View(user);
+            var userUpdateVM = JsonConvert.DeserializeObject<UpdateInfoVM>(result);
+
+            return View(userUpdateVM);
         }
 
         [HttpPost]

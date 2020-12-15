@@ -22,7 +22,7 @@
                                 <h3>@(!string.IsNullOrWhiteSpace($"{Model.FirstName} + {Model.LastName}") ? $"{Model.FirstName} + {Model.LastName}" : Model.UserName)</h3>
                             </div>
                             <div>
-                                <p>@Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition).JobPosition.Name</p>
+                                <p>@Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition)?.JobPosition?.Name</p>
                             </div>
                             <hr>
                             <div class="row">
@@ -56,12 +56,12 @@
                                 </div>
                                 <div class="col-md">
                                     <ul class="list-unstyled">
-                                        <li> @Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition).JobPosition.Name</li>
-                                        <li> @Model.Gender.Name</li>
+                                        <li> @(Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition)?.JobPosition?.Name ?? "Not Specified")</li>
+                                        <li> @(Model.Gender?.Name ?? "Not Specified")</li>
                                         <li> @Model.Email</li>
                                         <li> @Model.PhoneNumber</li>
-                                        <li> @Model.Country.Name</li>
-                                        <li> @Model.DateOfBirth.ToString("dd-MM-yyyy")</li>
+                                        <li> @(Model.Country?.Name ?? "Not Specified")</li>
+                                        <li> @(Model.DateOfBirth != DateTime.MinValue ? Model.DateOfBirth.ToString("dd-MM-yyyy") : "Not Specified")</li>
                                     </ul>
                                 </div>
                             </div>

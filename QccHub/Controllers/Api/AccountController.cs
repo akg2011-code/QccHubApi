@@ -81,7 +81,8 @@ namespace QccHub.Controllers.Api
                 {
                     AccessToken = userToken,
                     UserName = user.UserName,
-                    RoleName = userRole
+                    RoleName = userRole,
+                    UserId = user.Id
                 };
 
                 return Ok(result);
@@ -120,7 +121,10 @@ namespace QccHub.Controllers.Api
             {
                 UserName = model.Email,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                CompanyName = model.CompanyName
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -140,15 +144,41 @@ namespace QccHub.Controllers.Api
         [HttpGet]
         [Route("api/Account/{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApplicationUser), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userRepo.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound("User Not Found");
             }
             return Ok(user);
         }
+
+        [HttpGet]
+        [Route("api/Account/GetUserUpdateViewModel/{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(UpdateInfoVM), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserUpdateViewModel(int id)
+        {
+            var user = await _userRepo.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("User Not Found");
+            }
+            var model = new UpdateInfoVM
+            {
+                Id = user.Id,
+                Bio = user.Bio,
+                DateOfBirth = user.DateOfBirth,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                GenderID = user.GenderID ?? 0
+            };
+            return Ok(model);
+        }
+
 
         [HttpGet]
         [Route("api/Account/ConfirmEmail")]

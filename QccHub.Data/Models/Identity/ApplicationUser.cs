@@ -20,6 +20,7 @@ namespace QccHub.Data.Models
         public string ProfileImagePath { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string CompanyName { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual Country Country { get; set; }
         public virtual ICollection<UserJobPosition> EmployeeJobs { get; } = new List<UserJobPosition>();
