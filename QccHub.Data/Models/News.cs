@@ -12,10 +12,7 @@ namespace QccHub.Data.Models
         public string Title { get; set; }
         public string Details { get; set; }
         public DateTime Time { get; set; }
-        [ForeignKey("Company")]
-        public int CompanyID { get; set; }
         public string Source { get; set; }
-        public virtual ApplicationUser Company { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
