@@ -19,7 +19,7 @@ namespace QccHub.Controllers.Website
     [Route("[controller]/[action]")]
     public class AccountController : BaseController
     {
-        public AccountController(IConfiguration iConfig, IHttpClientFactory clientFactory) : base(iConfig,clientFactory)
+        public AccountController(IConfiguration iConfig, IHttpClientFactory clientFactory) : base(iConfig, clientFactory)
         {
         }
 
@@ -36,7 +36,7 @@ namespace QccHub.Controllers.Website
         {
             ViewData["ReturnUrl"] = returnUrl;
             var httpClient = _clientFactory.CreateClient("API");
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(model),Encoding.UTF8,"application/json");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync("Account/Login", jsonContent);
 
             var result = await response.Content.ReadAsStringAsync();
@@ -50,7 +50,7 @@ namespace QccHub.Controllers.Website
             HttpContext.Session.SetString("UserName", loginResult.UserName);
             HttpContext.Session.SetString("AccessToken", loginResult.AccessToken);
             HttpContext.Session.SetString("RoleName", loginResult.RoleName);
-            
+
             var decodedUrl = WebUtility.HtmlDecode(returnUrl);
             if (Url.IsLocalUrl(decodedUrl))
                 return Redirect(decodedUrl);
@@ -104,7 +104,7 @@ namespace QccHub.Controllers.Website
             }
             return Content("an email sent to you with a link to reset your password");
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Profile(int id)
         {
@@ -114,12 +114,12 @@ namespace QccHub.Controllers.Website
             if (!response.IsSuccessStatusCode)
             {
                 AddModelError(result);
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
             if (user.UserRoles.FirstOrDefault().RoleId == (int)RolesEnum.Company)
             {
-                return View("CompanyProfile",user);
+                return View("CompanyProfile", user);
             }
             else if (user.UserRoles.FirstOrDefault().RoleId == (int)RolesEnum.User)
             {
@@ -187,7 +187,40 @@ namespace QccHub.Controllers.Website
                 return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction("Profile","Account");
+            return RedirectToAction("Profile", "Account");
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> ChangeProfilePicture(int id, IFormFile file)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            byte[] PPBytes;
+            var multipartContent = new MultipartFormDataContent();
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("file seems to be empty");
+            }
+            
+            using (var ms = new MemoryStream())
+            {
+                await file.CopyToAsync(ms);
+                PPBytes = ms.ToArray();
+                var byteArrayContent = new ByteArrayContent(PPBytes);
+                multipartContent.Add(byteArrayContent, "file", file.FileName);
+            }
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
+            var response = await httpClient.PostAsync($"Account/ChangeProfilePicture/{id}", multipartContent);
+            var result = await response.Content.ReadAsStringAsync();
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+            
+            return Ok(result);
+        }
+
     }
 }

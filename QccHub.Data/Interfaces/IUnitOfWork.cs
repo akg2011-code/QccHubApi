@@ -7,6 +7,6 @@ namespace QccHub.Data.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        Task SaveChangesAsync();
+        Task<int> SaveChangesAsync();
     }
 }

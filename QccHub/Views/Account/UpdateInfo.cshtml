@@ -10,12 +10,13 @@
                             <div>
                                 <div class="row">
                                     <div class="col-md-7">
-                                        <img src="assets/img/Ellipse 9.png" style="height: 130px;">
+                                        <img id="pp" src="~/img/Ellipse 9.png" style="height: 130px;">
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-warning" style="background-color: #00c9a7;">
+                                        <label for="profile-picture-uploader" class="btn btn-warning" style="background-color: #00c9a7;">
                                             <i class="far fa-images " style="color: #fff;"></i>
-                                        </button>
+                                        </label>
+                                        <input id="profile-picture-uploader" type="file" />
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" class="btn btn-warning" style="background-color: #e72629;">
@@ -317,3 +318,33 @@
 
 </main>
 <!-- End #main -->
+
+@section Scripts
+{
+    <script>
+        $("#profile-picture-uploader").change(function () {
+            debugger;
+            if ($(this).prop('files').length > 0) {
+                formdata = new FormData();
+                file = $(this).prop('files')[0];
+                formdata.append("file", file);
+                $.ajax({
+                    method: "POST",
+                    data: formdata,
+                    url: '@Url.Content($"~/account/changeprofilepicture/{Model.Id}")',
+                    processData: false,
+                    contentType: false,
+                    success: function (picturePath) {
+                        $('#pp').prop('src', `/Profile Pictures/${picturePath.replaceAll('"','')}`);
+                    },
+                    error: function (xhr, ajaxSettings, statusCode) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
+

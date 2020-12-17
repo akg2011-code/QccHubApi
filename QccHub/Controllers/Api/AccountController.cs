@@ -16,6 +16,9 @@ using QccHub.Helpers;
 using QccHub.Data.Extensions;
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
+using QccHub.Logic.Helpers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace QccHub.Controllers.Api
 {
@@ -27,18 +30,21 @@ namespace QccHub.Controllers.Api
         private readonly IUserRepository _userRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
                                   IUserRepository userRepo,
                                   IUnitOfWork unitOfWork,
-                                  IEmailSender emailSender)
+                                  IEmailSender emailSender,
+                                  IWebHostEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userRepo = userRepo;
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost]
@@ -174,7 +180,7 @@ namespace QccHub.Controllers.Api
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
-                GenderID = user.GenderID ?? 0
+                GenderID = user.GenderID
             };
             return Ok(model);
         }
@@ -283,5 +289,38 @@ namespace QccHub.Controllers.Api
             // update profile picture and CV
             return Ok();
         }
+
+        [HttpPost]
+        [Route("api/Account/ChangeProfilePicture/{id}")]
+        public async Task<IActionResult> ChangeProfilePicture([FromRoute] int id,[FromForm] IFormFile file)
+        {
+            var user = await _userRepo.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var validExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            if (!validExtensions.Contains(Path.GetExtension(file.FileName)))
+            {
+                return BadRequest("File extension is not supported");
+            }
+
+            var directoryPath = Path.Combine(_hostingEnvironment.WebRootPath, "Profile Pictures");
+            var result = await FileUploader.Upload(directoryPath, file);
+            if (string.IsNullOrEmpty(result))
+            {
+                return BadRequest("Uploading failed");
+            }
+
+            user.ProfileImagePath = result;
+            if (!(await _unitOfWork.SaveChangesAsync() > 0))
+            {
+                return BadRequest("Uploading failed");
+            }
+
+            return Ok(user.ProfileImagePath);
+        }
+
     }
 }
