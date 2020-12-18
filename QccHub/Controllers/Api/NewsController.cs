@@ -73,16 +73,10 @@ namespace QccHub.Controllers.Api
             return Ok("news is deleted");
         }
 
-        [HttpGet("{userID}")]
-        public IActionResult GetUserNews(int userID)
+        [HttpGet]
+        public IActionResult GetAllNews()
         {
-            var user = _userRepository.GetUserByIdAsync(userID);
-            if (user.Result == null)
-            {
-                return NotFound("No user found for this ID");
-            }
             var news = _newsRepository.GetAllAsync().Result
-                .Where(n => n.CompanyID == userID && n.IsDeleted == false)
                 .OrderByDescending(n => n.Time);
             return Ok(news);
         }
