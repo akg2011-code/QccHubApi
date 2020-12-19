@@ -82,7 +82,8 @@ namespace QccHub.Controllers.Website
                 return View(model);
             }
 
-            return RedirectToAction("Profile", "Account");
+            var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
+            return RedirectToAction("Profile", "Account", new { id = user.Id} );
         }
 
         [HttpGet]

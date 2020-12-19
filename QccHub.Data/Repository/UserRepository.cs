@@ -20,9 +20,19 @@ namespace QccHub.Data.Repository
             _context = context;
         }
 
+        public void AddNewCompany(ApplicationUser company)
+        {
+            _context.ApplicationUser.Add(company);
+        }
+
         public Task<List<ApplicationUser>> GetAllUsers()
         {
             return _context.Users.ToListAsync();
+        }
+
+        public Task<ApplicationUser> GetCompanyByName(string name)
+        {
+            return _context.Users.IncludeFilter(u => u.UserRoles.Where(ur => ur.RoleId == (int)RolesEnum.Company)).FirstOrDefaultAsync(u => u.CompanyName == name);
         }
 
         public Task<List<ApplicationUser>> GetCompanyUsers()
@@ -46,9 +56,8 @@ namespace QccHub.Data.Repository
         public Task<ApplicationUser> GetUserByIdAsync(int userId)
         {
             return _context.Users.Include(u => u.UserRoles)
-                                    .Include(x => x.Country)
-                                    .Include(x => x.Gender)
-                                    .Include(x => x.EmployeeJobs)
+                                    .Include(u => u.Country)
+                                    .Include(u => u.EmployeeJobs).ThenInclude(ej => ej.JobPosition)
                                     .FirstOrDefaultAsync(u => u.Id == userId);
         }
 

@@ -126,14 +126,69 @@ namespace QccHub.Controllers.Api
                 return BadRequest(model);
             }
 
-            var user = new ApplicationUser
+            if ((model.RoleId == (int)RolesEnum.User) && (string.IsNullOrEmpty(model.CompanyName) || string.IsNullOrEmpty(model.Position)))
             {
-                UserName = model.Email,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                FullName = model.FullName,
-                CompanyName = model.CompanyName
-            };
+                return BadRequest("Company and position are required");
+            }
+
+            var user = new ApplicationUser();
+
+            if (model.RoleId == (int)RolesEnum.User)
+            {
+                var duplicateCompany = await _userRepo.GetCompanyByName(model.CompanyName);
+                var duplicatedJob = await _jobPosRepo.GetJobPositionByName(model.Position);
+
+                if (duplicateCompany == null)
+                {
+                    var newCompany = new ApplicationUser { CompanyName = model.CompanyName };
+                    newCompany.AddToRole((int)RolesEnum.Company);
+                    _userRepo.AddNewCompany(newCompany);
+                    await _unitOfWork.SaveChangesAsync();
+                    user.SetCommonData(model.Email, model.PhoneNumber);
+
+                    if (duplicatedJob == null)
+                    {
+                        user.AddNewJobByName(model.Position, newCompany.Id);
+                    }
+                    else
+                    {
+                        user.EmployeeJobs.Add(new UserJobPosition
+                        {
+                            CompanyId = newCompany.Id,
+                            JobPositionId = duplicatedJob.ID,
+                            FromDate = DateTime.UtcNow,
+                            IsCurrentPosition = true
+                        }
+                        );
+                    }
+                }
+                else
+                {
+                    user.SetCommonData(model.Email, model.PhoneNumber);
+
+                    if (duplicatedJob == null)
+                    {
+                        user.AddNewJobByName(model.Position, duplicateCompany.Id);
+                    }
+                    else
+                    {
+                        user.EmployeeJobs.Add(new UserJobPosition
+                        {
+                            CompanyId = duplicateCompany.Id,
+                            JobPositionId = duplicatedJob.ID,
+                            FromDate = DateTime.UtcNow,
+                            IsCurrentPosition = true
+                        }
+                        );
+                    }
+                }
+            }
+            else if (model.RoleId == (int)RolesEnum.Company)
+            {
+                user.SetCommonData(model.Email, model.PhoneNumber);
+                user.CompanyName = model.CompanyName;
+                user.IsTrusted = true;
+            }
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)

@@ -34,6 +34,13 @@ namespace QccHub.Data.Models
             }
         }
 
+        public void SetCommonData(string email, string phoneNumber) 
+        {
+            UserName = email;
+            Email = email;
+            PhoneNumber = phoneNumber;
+        }
+
         public void AddNewJobByName(string name, int companyId)
         {
             var newJobPosition = new UserJobPosition
@@ -46,6 +53,12 @@ namespace QccHub.Data.Models
                 { Name = name }
             };
             EmployeeJobs.Add(newJobPosition);
+        }
+
+        public void AddToRole(int roleId) 
+        {
+            var userRole = new ApplicationUserRole { RoleId = roleId };
+            UserRoles.Add(userRole);
         }
     }
 }
