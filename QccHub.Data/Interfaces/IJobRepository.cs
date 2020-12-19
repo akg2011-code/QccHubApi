@@ -10,5 +10,7 @@ namespace QccHub.Data.Interfaces
     {
         Task<List<Job>> SearchJobs(string jobName);
         Task<List<Job>> GetJobsByCompany(int CompanyId);
+        Task<List<Job>> GetAllB2bJobs();
+        Task<List<Job>> GetAllNonB2bJobs();
     }
 }

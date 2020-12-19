@@ -19,7 +19,7 @@ namespace QccHub.Data.Repository
             return context.Set<T>().ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public virtual Task<T> GetByIdAsync(int id)
         {
             return context.Set<T>().FirstOrDefaultAsync(x => x.ID == id);
         }

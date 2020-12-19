@@ -199,8 +199,6 @@ namespace QccHub.Controllers.Api
 
             await _userManager.AddToRoleAsync(user, ((RolesEnum)model.RoleId).ToString());
             await _unitOfWork.SaveChangesAsync();
-
-            await _signInManager.SignInAsync(user, isPersistent: true);
             return Ok(user);
         }
 

@@ -13,9 +13,9 @@ namespace QccHub.Data.Models
         public int UserID { get; set; }
         [ForeignKey("Job")]
         public int JobID { get; set; }
-        public string Message { get; set; }
-        public int CurrentSalary { get; set; }
-        public int ExpectedSalary { get; set; }
+        public string CoverLetter { get; set; }
+        public decimal CurrentSalary { get; set; }
+        public decimal ExpectedSalary { get; set; }
         public string CVFilePath { get; set; }
         public bool IsApproved { get; set; }
         public ApplicationUser User { get; set; }

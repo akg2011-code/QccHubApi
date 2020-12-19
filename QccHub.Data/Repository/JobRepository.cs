@@ -25,5 +25,24 @@ namespace QccHub.Data.Repository
         {
             return _context.Job.Where(j => j.CompanyID == companyId).Include(j => j.JobCategory).Include(j => j.Company).ToListAsync();
         }
+
+        public override Task<List<Job>> GetAllAsync()
+        {
+            return _context.Job.Include(j => j.Company).Include(j => j.JobCategory).ToListAsync();
+        }
+
+        public override Task<Job> GetByIdAsync(int id)
+        {
+            return _context.Job.Include(j => j.Company).Include(j => j.JobCategory).FirstOrDefaultAsync(j => j.ID == id);
+        }
+        public Task<List<Job>> GetAllB2bJobs()
+        {
+            return _context.Job.Where(j => j.IsB2B).Include(j => j.Company).Include(j => j.JobCategory).ToListAsync();
+        }
+
+        public Task<List<Job>> GetAllNonB2bJobs()
+        {
+            return _context.Job.Where(j => !j.IsB2B).Include(j => j.Company).Include(j => j.JobCategory).ToListAsync();
+        }
     }
 }

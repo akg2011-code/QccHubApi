@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -76,15 +77,27 @@ namespace QccHub.Controllers.Api
             
         }
 
-        [HttpGet("{jobID}")]
-        public async Task<IActionResult> GetJob(int jobID)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetJob(int id)
         {
-            Job job = await _jobRepo.GetByIdAsync(jobID);
+            var jobDetails = new JobDetailsVM();
+            var job = await _jobRepo.GetByIdAsync(id);
             if (job == null)
             {
                 return NotFound("No Job for this ID");
             }
-            return Ok(job);
+            jobDetails.Job = job;
+
+            var jobApplications = await _jobAppRepo.GetJobApplicationsByJob(id);
+            if (jobApplications == null)
+            {
+                jobDetails.JobApplications = new List<ApplyJobs>();
+            }
+            else
+            {
+                jobDetails.JobApplications = jobApplications;
+            }
+            return Ok(jobDetails);
         }
 
         [HttpGet]
@@ -94,6 +107,23 @@ namespace QccHub.Controllers.Api
             return Ok(result);
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllB2bJobs()
+        {
+            var result = await _jobRepo.GetAllB2bJobs();
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllNonB2bJobs()
+        {
+            var result = await _jobRepo.GetAllNonB2bJobs();
+            return Ok(result);
+        }
+
+
         [HttpGet("{JobName}")]
         public async Task<IActionResult> SearchJobs(string JobName)
         {
@@ -101,24 +131,33 @@ namespace QccHub.Controllers.Api
             return Ok(jobs);
         }
         // --------------------------- apply to job ------------------------------
+        //[HttpPost]
+        //public async Task<IActionResult> ApplyToJob([FromForm]JobApplication JobApplication)
+        //{
+        //    if (JobApplication.cvFile == null && JobApplication.cvFile.Length == 0)
+        //        return BadRequest();
+
+        //    string cvFileName = Guid.NewGuid().ToString() + JobApplication.cvFile.FileName;
+        //    string cvFilePath = Path.Combine(_webHostEnvironment.WebRootPath + "\\JobsAppliedCV", cvFileName);
+        //    using (var stream = new FileStream(cvFilePath, FileMode.Create))
+        //    {
+        //        JobApplication.cvFile.CopyTo(stream);
+        //    }
+
+        //    var newJobApp = JobApplication.ToModel(cvFileName);
+        //    _jobAppRepo.Add(newJobApp);
+        //    await _unitOfWork.SaveChangesAsync();
+        //    return Created($"user {JobApplication.UserID} applied to job {JobApplication.JobID}",newJobApp);
+
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> ApplyToJob([FromForm]JobApplication JobApplication)
+        public async Task<IActionResult> ApplyToNonB2bJob(JobApplication model) 
         {
-            if (JobApplication.cvFile == null && JobApplication.cvFile.Length == 0)
-                return BadRequest();
-
-            string cvFileName = Guid.NewGuid().ToString() + JobApplication.cvFile.FileName;
-            string cvFilePath = Path.Combine(_webHostEnvironment.WebRootPath + "\\JobsAppliedCV", cvFileName);
-            using (var stream = new FileStream(cvFilePath, FileMode.Create))
-            {
-                JobApplication.cvFile.CopyTo(stream);
-            }
-
-            var newJobApp = JobApplication.ToModel(cvFileName);
+            var newJobApp = model.ToModel();
             _jobAppRepo.Add(newJobApp);
             await _unitOfWork.SaveChangesAsync();
-            return Created($"user {JobApplication.UserID} applied to job {JobApplication.JobID}",newJobApp);
-            
+            return Ok(newJobApp.ID);
         }
 
         [HttpGet("{jobID}")]
@@ -128,7 +167,7 @@ namespace QccHub.Controllers.Api
             return Ok(jobApplications);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> ApproveJobApplication(JobApprove jobApprove)
         {
             var jobApplication = await _jobAppRepo.GetJobApplicationsByUserAndJob(jobApprove.UserID, jobApprove.JobID);

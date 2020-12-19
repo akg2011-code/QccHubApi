@@ -32,6 +32,19 @@ namespace QccHub.Controllers.Website
             return View();
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            //var token = HttpContext.Session.GetString("AccessToken");
+            //var httpClient = HttpClientHelper.GetHttpClient(APIURL, token);
+
+            var httpClient = _clientFactory.CreateClient("API");
+            HttpResponseMessage response = await httpClient.GetAsync("Account/Logout");
+            HttpContext.Session.Clear();
+            return RedirectToAction("index","home");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
@@ -83,7 +96,7 @@ namespace QccHub.Controllers.Website
             }
 
             var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
-            return RedirectToAction("Profile", "Account", new { id = user.Id} );
+            return RedirectToAction("account", "login");
         }
 
         [HttpGet]

@@ -12,12 +12,10 @@ namespace QccHub.DTOS
     {
         public int UserID { get; set; }
         public int JobID { get; set; }
-        public string Message { get; set; }
-        public int CurrentSalary { get; set; }
-        public int ExpectedSalary { get; set; }
-        public IFormFile cvFile { get; set; }
-
-        public ApplyJobs ToModel(string fileName)
+        public string CoverLetter { get; set; }
+        public decimal CurrentSalary { get; set; }
+        public decimal ExpectedSalary { get; set; }
+        public ApplyJobs ToModel()
         {
             return new ApplyJobs()
             {
@@ -25,8 +23,7 @@ namespace QccHub.DTOS
                 CurrentSalary = this.CurrentSalary,
                 UserID = this.UserID,
                 JobID = this.JobID,
-                Message = this.Message,
-                CVFilePath = fileName
+                CoverLetter = this.CoverLetter
             };
         }
     }

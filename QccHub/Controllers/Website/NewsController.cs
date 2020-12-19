@@ -22,9 +22,12 @@ namespace QccHub.Controllers.Website
 
             var response = await httpClient.GetAsync("News/GetAllNews/");
             var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("index","home");
+            }
 
             IEnumerable<News> news = JsonConvert.DeserializeObject<IEnumerable<News>>(body);
-
             return View(news);
         }
 
@@ -33,9 +36,12 @@ namespace QccHub.Controllers.Website
             var httpClient = _clientFactory.CreateClient("API");
             var response = await httpClient.GetAsync("News/GetNewsByID/" + id);
             var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("index", "home");
+            }
 
             News news = JsonConvert.DeserializeObject<News>(body);
-
             return View(news);
         }
 
@@ -43,6 +49,7 @@ namespace QccHub.Controllers.Website
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddNews(News news)
         {
