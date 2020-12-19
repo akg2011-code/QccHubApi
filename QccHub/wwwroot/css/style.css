@@ -997,7 +997,7 @@ section {
 --------------------------------------------------------------*/
 
 .cta {
-  background-image: url("../../assets/img/Rectangle 29.png");
+  background-image: url("/img/Rectangle 29.png");
   background-size: cover;
   color: #fff;
   padding: 60px 0;
@@ -1025,7 +1025,7 @@ section {
 }
 
 .cta .cta-btn {
-  /*background-image: url("../../assets/img/Combined Shape.png");
+  /*background-image: url("/img/Combined Shape.png");
   background-size: auto;
   background-repeat: no-repeat;
   */
@@ -1513,7 +1513,7 @@ section {
 }
 
 .members {
-  background-image: url("../../assets/img/Rectangle 30.png");
+  background-image: url("/img/Rectangle 30.png");
 }
 
 .members-img {
@@ -2566,4 +2566,9 @@ html , body{
 .project-tab label{
   color: #333;
   font-size: 12px;
+}
+
+.newsDetailsPreview{
+    overflow:hidden;
+    text-overflow: ellipsis;
 }

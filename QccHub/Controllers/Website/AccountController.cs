@@ -52,6 +52,7 @@ namespace QccHub.Controllers.Website
             HttpContext.Session.SetString("UserName", loginResult.UserName);
             HttpContext.Session.SetString("AccessToken", loginResult.AccessToken);
             HttpContext.Session.SetString("RoleName", loginResult.RoleName);
+            HttpContext.Session.SetString("UserId", loginResult.UserId.ToString());
 
             var decodedUrl = WebUtility.HtmlDecode(returnUrl);
             if (Url.IsLocalUrl(decodedUrl))

@@ -6,27 +6,33 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using QccHub.Data.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace QccHub.Controllers.Website
 {
-    public class NewsController : Controller
+    public class NewsController : BaseController
     {
-        HttpClient client = new HttpClient();
-
-        public IActionResult GetAllNews()
+        public NewsController(IConfiguration iConfig, IHttpClientFactory clientFactory) : base(iConfig, clientFactory)
         {
-            var response = client.GetAsync("https://localhost:44324/api/News/GetAllNews/").Result;
-            var body = response.Content.ReadAsStringAsync().Result;
+        }
+
+        public async Task<IActionResult> GetAllNews()
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+
+            var response = await httpClient.GetAsync("News/GetAllNews/");
+            var body = await response.Content.ReadAsStringAsync();
 
             IEnumerable<News> news = JsonConvert.DeserializeObject<IEnumerable<News>>(body);
 
             return View(news);
         }
 
-        public IActionResult GetNewsDetails(int id)
+        public async Task<IActionResult> GetNewsDetails(int id)
         {
-            var response = client.GetAsync("https://localhost:44324/api/News/GetNewsByID/" + id).Result;
-            var body = response.Content.ReadAsStringAsync().Result;
+            var httpClient = _clientFactory.CreateClient("API");
+            var response = await httpClient.GetAsync("News/GetNewsByID/" + id);
+            var body = await response.Content.ReadAsStringAsync();
 
             News news = JsonConvert.DeserializeObject<News>(body);
 
