@@ -1,4 +1,51 @@
-﻿<!DOCTYPE html>
+﻿@*<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>QCCHub | Log in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+@{ Layout = null;}
+@model QccHub.DTOS.LoginVM
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo"> QccHub </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <form action="@Url.Content("~/Account/login")" method="post" role="form">
+                    @Html.AntiForgeryToken();
+                    <input hidden name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="email" asp-for="Email" required class="form-control" placeholder="Email">
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class=" mb-3">
+                        <div class="input-group">
+                            <input asp-for="Password" type="password" required class="form-control" placeholder="Password">
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <span class="text-danger">
+                        @Html.ValidationMessage("Error")
+                    </span>
+                    <div class="col-12">
+                        <h5><a href="@Url.Content("~/Account/ForgotPassword")">Forgot Password?</a></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>*@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
