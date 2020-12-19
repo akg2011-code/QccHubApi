@@ -340,9 +340,62 @@
                                                             <h4>Projects</h4>
                                                         </div>
                                                         <div class="col-md text-right">
-                                                            <button type="button" class="btn btn-danger">Add new project</button>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                                    data-target="#AddProject">Add new project</button>
                                                         </div>
                                                     </div>
+                                                    <!--modal-->
+                                                    <div class="modal fade" id="AddProject" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                         aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Add new project</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form>
+
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control" placeholder="Title project">
+                                                                        </div>
+
+                                                                        <div class="input-group">
+                                                                            <textarea class="form-control" rows="2" placeholder="Description....."
+                                                                                      aria-label="With textarea"></textarea>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md">
+                                                                                <div class="form-group">
+                                                                                    <select id="inputState" class="form-control">
+                                                                                        <option>Full Time</option>
+                                                                                        <option>Part Time</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md">
+                                                                                <input type="number" class="form-control mb-4" placeholder="Salary">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                    data-dismiss="modal">
+                                                                                Close
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-primary">add project</button>
+                                                                        </div>
+                                                                    </form>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--modal-->
+
                                                     <hr>
                                                     <div class="univeristy">
                                                         <!-- services one -->
@@ -437,9 +490,63 @@
                                                             <h4>Careers</h4>
                                                         </div>
                                                         <div class="col-md text-right">
-                                                            <button type="button" class="btn btn-danger">Add new Job</button>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                                    data-target="#AddJob">
+                                                                Add new Job
+                                                            </button>
                                                         </div>
                                                     </div>
+                                                    <!--modal-->
+                                                    <div class="modal fade" id="AddJob" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                         aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Add new job</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form>
+
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control" placeholder="Title Job">
+                                                                        </div>
+
+                                                                        <div class="input-group">
+                                                                            <textarea class="form-control" rows="2" placeholder="Description....."
+                                                                                      aria-label="With textarea"></textarea>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md">
+                                                                                <div class="form-group">
+                                                                                    <select id="inputState" class="form-control">
+                                                                                        <option>Full Time</option>
+                                                                                        <option>Part Time</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md">
+                                                                                <input type="number" class="form-control mb-4" placeholder="Salary">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                    data-dismiss="modal">
+                                                                                Close
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-primary">add Job</button>
+                                                                        </div>
+                                                                    </form>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--modal-->
                                                     <hr>
                                                     <div class="univeristy">
                                                         <!-- services one -->
