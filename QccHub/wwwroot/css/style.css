@@ -2321,7 +2321,8 @@ section {
 .editUserProfileContent .nameUser{
   padding: 10px;
 }
-.editUserProfileContent .nameUser button{
+.editUserProfileContent .nameUser button,
+.editUserProfileContent .nameUser label {
   margin-top: 50px;
   border: none;
 }
@@ -2456,6 +2457,9 @@ section {
 .JobContent .yourJobs .uniDeails{
   margin-bottom: 20px;
 }
+#profile-picture-uploader{
+    visibility:hidden;
+}					  
 #mini-text{
   display: -webkit-box;
   -webkit-line-clamp: 4;
