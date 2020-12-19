@@ -31,14 +31,17 @@
                             <span>Tell about yourself in two sentences</span>
                             <hr>
                             <small>Bio</small>
-                            <div class="input-group">
-                                <textarea class="form-control" rows="4" placeholder="Write your thoughts......"
-                                          aria-label="With textarea"></textarea>
-                            </div>
-                            <hr>
-                            <div class="text-center">
-                                <button class="btn btn-info col-md-6">Save</button>
-                            </div>
+                            <form id="bioForm">
+                                <input hidden name="Id" value="@Model.Id">
+                                <div class="input-group">
+                                    <textarea class="form-control" rows="4" name="Bio" placeholder="Write your thoughts......"
+                                              aria-label="With textarea">@Model.Bio</textarea>
+                                </div>
+                                <hr>
+                                <div class="text-center">
+                                    <button class="btn btn-info col-md-6">Save</button>
+                                </div>
+                            </form>
                         </div>
                         <div class="postJob">
                             <div class="socialProfiles">
@@ -114,7 +117,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label asp-for="NationalityID">Nationality *</label>
-                                    <select asp-for="NationalityID" asp-items='new SelectList(ViewData["Countries"] as List<Country>, "ID", "Name")' class="form-control"></select>
+                                    <select asp-for="NationalityID" asp-items='ViewData["Countries"] as SelectList' class="form-control"></select>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label asp-for="Position">Position *</label>
@@ -127,7 +130,7 @@
                         </form>
                     </div>
                     <!-- Qualification-section -->
-                    <div class="aboutMe">
+                    @*<div class="aboutMe">
                         <h4>Qualification</h4>
                         <small>Edit all your important information</small>
                         <hr>
@@ -156,10 +159,10 @@
                                 <button class="btn btn-primary border-0">Add New</button>
                             </div>
                         </form>
-                    </div>
+                    </div>*@
 
                     <!-- Expireenc-section -->
-                    <div class="aboutMe">
+                    @*<div class="aboutMe">
                         <h4>Expireenc</h4>
                         <small>Edit all your important information</small>
                         <hr>
@@ -175,7 +178,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <!-- <label for="inputName">Full Name *</label> -->
                                 <input type="text" class="form-control" id="inputName" placeholder="Ahmed Korany">
                             </div>
 
@@ -194,10 +196,10 @@
                                 <button class="btn btn-primary border-0">Add New</button>
                             </div>
                         </form>
-                    </div>
+                    </div>*@
 
                     <!-- Certificates-section -->
-                    <div class="aboutMe">
+                    @*<div class="aboutMe">
                         <h4>Certificates</h4>
                         <small>Edit all your important information</small>
                         <hr>
@@ -237,10 +239,10 @@
                                 <button class="btn btn-primary border-0">Add New</button>
                             </div>
                         </form>
-                    </div>
+                    </div>*@
 
                     <!-- Cover Letter-section -->
-                    <div class="aboutMe">
+                    @*<div class="aboutMe">
                         <h4>Cover Letter</h4>
                         <small>Edit all your important information</small>
                         <hr>
@@ -248,8 +250,7 @@
                             <textarea class="form-control" rows="4" placeholder="Write your thoughts......"
                                       aria-label="With textarea"></textarea>
                         </div>
-                    </div>
-
+                    </div>*@
 
                     <!-- Gallary
     <div class="aboutMe">
@@ -297,22 +298,23 @@
                         <small>Edit all your important information</small>
                         <hr>
                         <form id="passwordForm">
+                            <input hidden name="Id" value="@Model.Id"/>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <input type="password" class="form-control" id="inputpassword" placeholder="password">
+                                    <input type="password" class="form-control" name="password" placeholder="password">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <input type="password" class="form-control" id="inputConfirmPass"
+                                    <input type="password" class="form-control" name="confirmPassword"
                                            placeholder="Confirm password">
                                 </div>
                             </div>
                             <hr>
+                            <section class="text-right" style="margin-bottom: 30px;">
+                                <button class="btn btn-primary border-0 col-md-2" style="background: #00c9a7;">Update now</button>
+                            </section>
                         </form>
                     </div>
-                    <section class="text-right" style="margin-bottom: 30px;">
-                        <button class="btn btn-info border-0 col-md-2 mr-3">Cancel</button>
-                        <button class="btn btn-primary border-0 col-md-2" style="background: #00c9a7;">Update now</button>
-                    </section>
+                    
                 </div>
             </div>
         </section>
@@ -361,7 +363,6 @@
 
         $('#basicInfoForm').on('submit', function (e) {
             e.preventDefault();
-            debugger;
             var data = $('#basicInfoForm').serializeArray();
             var formData = new FormData();
             data.forEach(function (item, index) {
@@ -376,6 +377,29 @@
                 contentType: false,
                 success: function () {
                 window.location.reload()
+                },
+                error: function (xhr, ajaxSettings, statusCode) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        $('#bioForm').on('submit', function (e) {
+            e.preventDefault();
+            var data = $('#bioForm').serializeArray();
+            var formData = new FormData();
+            data.forEach(function (item, index) {
+                formData.append(item.name, item.value)
+            })
+            debugger;
+            $.ajax({
+                method: "POST",
+                data: formData,
+                url: '@Url.Content($"~/account/updateBio")',
+                processData: false,
+                contentType: false,
+                success: function () {
+                    window.location.reload();
                 },
                 error: function (xhr, ajaxSettings, statusCode) {
                     console.log(xhr.responseText);

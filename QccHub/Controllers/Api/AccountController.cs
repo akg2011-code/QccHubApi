@@ -183,6 +183,7 @@ namespace QccHub.Controllers.Api
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 GenderID = user.GenderID,
+                NationalityID = user.NationalityID ?? 0,
                 ProfileImagePath = user.ProfileImagePath
             };
 
@@ -367,6 +368,22 @@ namespace QccHub.Controllers.Api
             }
             //currentJobPosition.ToDate = DateTime.UtcNow;
             await _unitOfWork.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("api/Account/UpdateBio")]
+        public async Task<IActionResult> UpdateBio(UpdateBioVM model)
+        {
+            var user = await _userRepo.GetUserByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.Bio = model.Bio;
+            await _unitOfWork.SaveChangesAsync();
+
             return Ok();
         }
 

@@ -150,7 +150,9 @@ namespace QccHub.Controllers.Website
                 AddModelError(countriesResult);
                 return RedirectToAction("Index", "Home");
             }
-            ViewData["Countries"] = JsonConvert.DeserializeObject<List<Country>>(countriesResult);
+            var countryList = JsonConvert.DeserializeObject<List<Country>>(countriesResult);
+            var selectedCountry = countryList.First(c => c.ID == userUpdateVM.NationalityID);
+            ViewData["Countries"] = new SelectList(countryList, "ID", "Name",selectedCountry);
             return View(userUpdateVM);
         }
 
@@ -258,5 +260,18 @@ namespace QccHub.Controllers.Website
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateBio(UpdateBioVM model)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await httpClient.PatchAsync($"Account/UpdateBio", jsonContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
     }
 }
