@@ -1,6 +1,373 @@
 ﻿@model Job
 
-<h2>Title: @Model.Title</h2>
-<h2>Salary: @Model.Salary</h2>
-<h2>Type: @(((JobTypesEnum)Model.Type).ToString())</h2>
-<h2>Category: @Model.JobCategory.Name</h2>
+<main id="main">
+    <div class="JobContent">
+        <section class="container">
+            <div class="row">
+                <!-- left side -->
+                <div class="col-md-3">
+                    <div class="left all">
+                        <div class="postJob">
+                            <div class="imgCompany">
+                                <img src="~/img/Rectangle 60.png" style="height:158px;">
+                            </div>
+                            <div class="CompanyName">
+                                <h4>
+                                    Swan Global WLL
+                                </h4>
+                                <p>Looking for talent?</p>
+                                <hr>
+                                <button class="btn btn-outline-info">Post A Job</button>
+                            </div>
+                        </div>
+
+                        <div class="yourJobs">
+                            <div class="uniDeails">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h4>Resident Engineer</h4>
+                                        <h6>Sinopack</h6>
+                                        <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img src="~/img/Rectangle 86.png" style="height: 46px;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="col-md-6" style="font-size: 89%;">
+                                            <small style="color: #ea222a;">3.74</small><small>(567 reviews)</small>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="detailsJob">
+                                        <div class="row text-center">
+                                            <div class="col-md-6">
+                                                <small>Salaries</small>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="label-danger">Open Job</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="yourJobs">
+                            <div class="uniDeails">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h4>Resident Engineer</h4>
+                                        <h6>Sinopack</h6>
+                                        <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img src="~/img/Rectangle 86.png" style="height: 46px;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="col-md-6" style="font-size: 89%;">
+                                            <small style="color: #ea222a;">3.74</small><small>(567 reviews)</small>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="detailsJob">
+                                        <div class="row text-center">
+                                            <div class="col-md-6">
+                                                <small>Salaries</small>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="label-danger">Open Job</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <!-- center side -->
+                <div class="col-md-6">
+                    <div class="center all">
+                        <!-- education-sction -->
+                        <div class="Education details-Edu-Expe-Certi">
+
+                            <div class="univeristy">
+                                <!-- job one -->
+                                <div class="uniDeails">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>@Model.Title</h4>
+                                            <h6>@Model.JobCategory.Name</h6>
+                                            <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
+                                        </div>
+                                        <div class="col-md-2" style="font-size: 64%;">
+                                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                        </div>
+                                        <div class="col-md-4 text-right">
+                                            <small style="color: #ea222a;">3.74 </small><small> (567 reviews)</small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <hr>
+                                        <p>
+                                            @Model.Description
+                                        </p>
+                                        <hr>
+                                        <div class="detailsJob">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <i class="fas fa-money-check-alt"></i> <small class="label-danger">
+                                                        Salary:
+                                                    </small>
+                                                    <small>@Model.Salary</small>
+                                                </div>
+                                                <hr>
+                                                <div class="col-md-4">
+                                                    <i class="far fa-clock"></i> <small class="label-danger">Type: </small>
+                                                    <small>
+                                                        @(((JobTypesEnum)Model.Type).ToString())
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <i class="far fa-folder-open"></i> 
+                                                    <small class="label-danger">
+                                                        Category:
+                                                    </small>
+                                                    <small>@Model.JobCategory</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h4 class="label-danger">Apply for Job</h4>
+                                    <!-- form for applay job -->
+                                    <div class="applayForm" style="padding: 20px;">
+                                        <div class="row">
+                                            <form style="width: 100%;">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="inputName" placeholder="Current Salary">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="inputName" placeholder="Expected Salary">
+                                                </div>
+
+                                                <div class="input-group">
+                                                    <textarea class="form-control" rows="8" placeholder="Cover Letter......"
+                                                              aria-label="With textarea"></textarea>
+                                                </div>
+
+                                                <div class="btnEdit" style="margin-top: 10px;">
+                                                    <button class="btn btn-primary col-md-3 border-0">Apply</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- right side -->
+                <div class="col-md-3">
+                    <div class="right all">
+                        <div class="people">
+                            <h5>Jobs you viewed</h5>
+                            <hr>
+                            <!-- peopleViewed  -->
+                            <div class="peopleViewed">
+
+                                <div class="uniDeails">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4>Resident Engineer</h4>
+                                            <h6>Sinopack</h6>
+                                            <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <img src="~/img/Rectangle 86.png" style="height: 46px;">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                            </div>
+                                            <div class="col-md-6" style="font-size: 89%;">
+                                                <small style="color: #ea222a;">3.74</small><small>(567 reviews)</small>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="detailsJob">
+                                            <div class="row text-center">
+                                                <div class="col-md-6">
+                                                    <small>Salaries</small>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <small class="label-danger">View Job</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="uniDeails">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4>Resident Engineer</h4>
+                                            <h6>Sinopack</h6>
+                                            <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <img src="~/img/Rectangle 86.png" style="height: 46px;">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                            </div>
+                                            <div class="col-md-6" style="font-size: 89%;">
+                                                <small style="color: #ea222a;">3.74</small><small>(567 reviews)</small>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="detailsJob">
+                                            <div class="row text-center">
+                                                <div class="col-md-6">
+                                                    <small>Salaries</small>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <small class="label-danger">View Job</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="uniDeails">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4>Resident Engineer</h4>
+                                            <h6>Sinopack</h6>
+                                            <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <img src="~/img/Rectangle 86.png" style="height: 46px;">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                            </div>
+                                            <div class="col-md-6" style="font-size: 89%;">
+                                                <small style="color: #ea222a;">3.74</small><small>(567 reviews)</small>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="detailsJob">
+                                            <div class="row text-center">
+                                                <div class="col-md-6">
+                                                    <small>Salaries</small>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <small class="label-danger">View Job</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="people">
+                            <h5>People you might know</h5>
+                            <hr>
+                            <!-- peopleViewed  -->
+                            <div class="peopleViewed">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="~/img/Ellipse 18.png" style="height:40px ;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Ahmed Lotfi</p>
+                                        <span>Nas Group</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-warning">
+                                            <i class="fas fa-user-plus "
+                                               style="color: #fff;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- peopleViewed  -->
+                            <div class="peopleViewed">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="~/img/Ellipse 18.png" style="height:40px ;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Ahmed Lotfi</p>
+                                        <span>Nas Group</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-warning">
+                                            <i class="fas fa-user-plus "
+                                               style="color: #fff;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- peopleViewed  -->
+                            <div class="peopleViewed">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="~/img/Ellipse 18.png" style="height:40px ;">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Ahmed Lotfi</p>
+                                        <span>Nas Group</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-warning">
+                                            <i class="fas fa-user-plus "
+                                               style="color: #fff;"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</main>
