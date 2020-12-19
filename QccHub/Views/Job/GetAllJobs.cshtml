@@ -1,0 +1,9 @@
+﻿@model List<Job>
+
+@foreach (var job in  Model)
+{
+    <h2>Title: @job.Title</h2>
+    <h2>Salary: @job.Salary</h2>
+    <h2>Type: @(((JobTypesEnum)job.Type).ToString())</h2>
+    <h2>Category: @job.JobCategory.Name</h2>
+}

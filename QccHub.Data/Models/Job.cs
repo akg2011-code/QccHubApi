@@ -17,6 +17,7 @@ namespace QccHub.Data.Models
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsB2B { get; set; }
         public decimal Salary { get; set; }
         public int Type { get; set; }
 

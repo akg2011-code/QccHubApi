@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace QccHub.Logic.Enums
 {
     public enum JobTypesEnum
     {
-        B2B = 1,
-        B2C
+        [Display(Name = "Full Time")]
+        FullTime = 1,
+        [Display(Name = "Part Time")]
+        PartTime
     }
 }

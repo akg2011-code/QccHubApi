@@ -1,0 +1,6 @@
+﻿@model Job
+
+<h2>Title: @Model.Title</h2>
+<h2>Salary: @Model.Salary</h2>
+<h2>Type: @(((JobTypesEnum)Model.Type).ToString())</h2>
+<h2>Category: @Model.JobCategory.Name</h2>

@@ -157,51 +157,6 @@ namespace QccHub.Controllers.Website
             return View(userUpdateVM);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateInfo(int Id, UpdateInfoVM model)
-        {
-            //var httpClient = _clientFactory.CreateClient("API");
-            //byte[] CVBytes;
-            //byte[] PPBytes;
-            //var multipartContent = new MultipartFormDataContent();
-
-            //if (model.CV != null && model.CV.Length > 0)
-            //{
-            //    using (var ms = new MemoryStream())
-            //    {
-            //        model.CV.CopyTo(ms);
-            //        CVBytes = ms.ToArray();
-            //        var byteArrayContent = new ByteArrayContent(CVBytes);
-            //        multipartContent.Add(byteArrayContent, "CV", model.CV.FileName);
-            //    }
-
-            //}
-            //if (model.ProfileImage != null && model.ProfileImage.Length > 0)
-            //{
-            //    using (var ms = new MemoryStream())
-            //    {
-            //        model.ProfileImage.CopyTo(ms);
-            //        PPBytes = ms.ToArray();
-            //        var byteArrayContent = new ByteArrayContent(PPBytes);
-            //        multipartContent.Add(byteArrayContent, "ProfileImage", model.ProfileImage.FileName);
-            //    }
-            //}
-
-
-            //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
-            //var response = await httpClient.PostAsync($"Account/UpdateInfo", multipartContent);
-
-            //var result = await response.Content.ReadAsStringAsync();
-            //if (!response.IsSuccessStatusCode)
-            //{
-            //    AddModelError(result);
-            //    return RedirectToAction("Index", "Home");
-            //}
-
-            return RedirectToAction("Profile", "Account");
-        }
-
         [HttpPost("{id}")]
         public async Task<IActionResult> ChangeProfilePicture(int id, IFormFile file)
         {
