@@ -14,6 +14,6 @@ namespace QccHub.Data.Interfaces
         Task<List<ApplicationUser>> GetCompanyUsers();
         Task<List<ApplicationUser>> GetEmployeeUsers();
         Task<int> GetUserRole(int userId);
-
+        UserJobPosition GetCurrentJobPosition(int userId);
     }
 }

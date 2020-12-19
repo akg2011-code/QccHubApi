@@ -13,7 +13,6 @@ namespace QccHub.Data.Models
         public bool IsDeleted { get; set; }
         public string Name { get; set; }
         public int? YearsOfExperience { get; set; }
-        public bool IsCurrentPosition { get; set; }
         public virtual ICollection<UserJobPosition> EmployeeJobs { get; } = new List<UserJobPosition>();
     }
 }

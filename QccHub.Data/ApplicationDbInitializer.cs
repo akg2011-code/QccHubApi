@@ -101,7 +101,10 @@ namespace QccHub.Data
             SeedingData data = new SeedingData(context);
             data.SeedGender();
             data.SeedPaymentStatus();
-            data.SeedAllCountry();
+            if (!context.Country.Any())
+            {
+                data.SeedAllCountry();
+            }
         }
 
         public static void SeedRoles(RoleManager<ApplicationRole> roleManager)

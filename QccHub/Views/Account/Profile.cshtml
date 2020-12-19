@@ -19,10 +19,10 @@
                                 }
                             </div>
                             <div>
-                                <h3>@(!string.IsNullOrWhiteSpace($"{Model.FirstName} + {Model.LastName}") ? $"{Model.FirstName} + {Model.LastName}" : Model.UserName)</h3>
+                                <h3>@(!string.IsNullOrWhiteSpace(Model.FullName) ? Model.FullName : Model.UserName)</h3>
                             </div>
                             <div>
-                                <p>@Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition)?.JobPosition?.Name</p>
+                                <p>@Model.EmployeeJobs.FirstOrDefault(p => p.IsCurrentPosition)?.JobPosition?.Name</p>
                             </div>
                             <hr>
                             <div class="row">
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-md">
                                     <ul class="list-unstyled">
-                                        <li> @(Model.EmployeeJobs.FirstOrDefault(p => p.JobPosition.IsCurrentPosition)?.JobPosition?.Name ?? "Not Specified")</li>
+                                        <li> @(Model.EmployeeJobs.FirstOrDefault(p => p.IsCurrentPosition)?.JobPosition?.Name ?? "Not Specified")</li>
                                         <li> @(Model.Gender?.Name ?? "Not Specified")</li>
                                         <li> @Model.Email</li>
                                         <li> @Model.PhoneNumber</li>

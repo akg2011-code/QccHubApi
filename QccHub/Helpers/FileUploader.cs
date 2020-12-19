@@ -32,5 +32,12 @@ namespace QccHub.Helpers
                 return null;
             }
         }
+        public static void Delete(string filePath) 
+        {
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
     }
 }

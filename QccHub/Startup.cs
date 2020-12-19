@@ -96,10 +96,12 @@ namespace QccHub
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IJobRepository,JobRepository>();
+            services.AddScoped<IJobPositionRepository,JobPositionRepository>();
             services.AddScoped<IJobApplicationRepository,JobApplicationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IQuestionRepository,QuestionRepository>();
             services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<CurrentSession>();
             services.AddControllersWithViews()

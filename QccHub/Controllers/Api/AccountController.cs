@@ -28,6 +28,7 @@ namespace QccHub.Controllers.Api
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserRepository _userRepo;
+        private readonly IJobPositionRepository _jobPosRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
         private readonly IWebHostEnvironment _hostingEnvironment;
@@ -35,6 +36,7 @@ namespace QccHub.Controllers.Api
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
                                   IUserRepository userRepo,
+                                  IJobPositionRepository jobPosRepository,
                                   IUnitOfWork unitOfWork,
                                   IEmailSender emailSender,
                                   IWebHostEnvironment hostingEnvironment)
@@ -42,6 +44,7 @@ namespace QccHub.Controllers.Api
             _userManager = userManager;
             _signInManager = signInManager;
             _userRepo = userRepo;
+            _jobPosRepo = jobPosRepository;
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
             _hostingEnvironment = hostingEnvironment;
@@ -128,8 +131,7 @@ namespace QccHub.Controllers.Api
                 UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                FullName = model.FullName,
                 CompanyName = model.CompanyName
             };
 
@@ -177,14 +179,19 @@ namespace QccHub.Controllers.Api
                 Id = user.Id,
                 Bio = user.Bio,
                 DateOfBirth = user.DateOfBirth,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                FullName = user.FullName,
+                Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                GenderID = user.GenderID
+                GenderID = user.GenderID,
+                ProfileImagePath = user.ProfileImagePath
             };
+
+            if (user.UserRoles.FirstOrDefault()?.RoleId == (int)RolesEnum.User)
+            {
+                model.Position = _userRepo.GetCurrentJobPosition(id)?.JobPosition?.Name;
+            }
             return Ok(model);
         }
-
 
         [HttpGet]
         [Route("api/Account/ConfirmEmail")]
@@ -275,22 +282,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Route("api/Account/UpdateInfo")]
-        public async Task<IActionResult> UpdateInfo([FromForm] UpdateInfoVM model)
-        {
-            var user = await _userRepo.GetUserByIdAsync(model.Id);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
-            // update profile picture and CV
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("api/Account/ChangeProfilePicture/{id}")]
         public async Task<IActionResult> ChangeProfilePicture([FromRoute] int id,[FromForm] IFormFile file)
         {
@@ -320,6 +311,63 @@ namespace QccHub.Controllers.Api
             }
 
             return Ok(user.ProfileImagePath);
+        }
+
+        [HttpDelete]
+        [Route("api/Account/DeleteProfilePicture/{id}")]
+        public async Task<IActionResult> DeleteProfilePicture([FromRoute] int id)
+        {
+            var user = await _userRepo.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var directoryPath = Path.Combine(_hostingEnvironment.WebRootPath, "Profile Pictures" , user.ProfileImagePath);
+            FileUploader.Delete(directoryPath);
+            user.ProfileImagePath = null;
+            await _unitOfWork.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPatch]
+        [Route("api/Account/UpdateBasicInfo")]
+        public async Task<IActionResult> UpdateBasicInfo([FromBody] BasicInfoVM model)
+        {
+            var user = await _userRepo.GetUserByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.FullName = model.FullName;
+            user.Email = model.Email;
+            user.DateOfBirth = model.DateOfBirth;
+            user.PhoneNumber = model.PhoneNumber;
+            user.GenderID = model.GenderID;
+            user.NationalityID = model.NationalityID;
+
+            var currentJobPosition = _userRepo.GetCurrentJobPosition(model.Id);
+            user.ResetJobPositions();
+            var duplicatedJob = await _jobPosRepo.GetJobPositionByName(model.Position);
+            if (duplicatedJob == null)
+            {
+                user.AddNewJobByName(model.Position, currentJobPosition.CompanyId);
+            }
+            else
+            {
+                user.EmployeeJobs.Add(new UserJobPosition 
+                { 
+                    CompanyId = currentJobPosition.CompanyId,
+                    JobPositionId = duplicatedJob.ID,
+                    FromDate = DateTime.UtcNow,
+                    IsCurrentPosition = true
+                }
+                );
+            }
+            //currentJobPosition.ToDate = DateTime.UtcNow;
+            await _unitOfWork.SaveChangesAsync();
+            return Ok();
         }
 
     }

@@ -20,19 +20,27 @@ namespace QccHub.Data.Repository
             _context = context;
         }
 
-        public async Task<List<ApplicationUser>> GetAllUsers()
+        public Task<List<ApplicationUser>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return _context.Users.ToListAsync();
         }
 
-        public async Task<List<ApplicationUser>> GetCompanyUsers()
+        public Task<List<ApplicationUser>> GetCompanyUsers()
         {
-            return await _context.Users.IncludeFilter(u => u.UserRoles.Where(ur => ur.RoleId == (int)RolesEnum.Company)).ToListAsync();
+            return _context.Users.IncludeFilter(u => u.UserRoles.Where(ur => ur.RoleId == (int)RolesEnum.Company)).ToListAsync();
         }
 
-        public async Task<List<ApplicationUser>> GetEmployeeUsers()
+        public UserJobPosition GetCurrentJobPosition(int userId)
         {
-            return await _context.Users.IncludeFilter(u => u.UserRoles.Where(ur => ur.RoleId == (int)RolesEnum.User)).ToListAsync();
+            return _context.UserJobPositions
+                            .Include(ujp => ujp.JobPosition)
+                            .IncludeFilter(ujp => ujp.Employee.UserRoles.FirstOrDefault(r => r.RoleId == (int)RolesEnum.User))
+                            .FirstOrDefault(ujp => ujp.IsCurrentPosition && ujp.EmployeeId == userId);
+        }
+
+        public Task<List<ApplicationUser>> GetEmployeeUsers()
+        {
+            return _context.Users.IncludeFilter(u => u.UserRoles.Where(ur => ur.RoleId == (int)RolesEnum.User)).ToListAsync();
         }
 
         public Task<ApplicationUser> GetUserByIdAsync(int userId)

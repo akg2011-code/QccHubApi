@@ -12,6 +12,8 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Linq;
 using QccHub.Logic.Enums;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace QccHub.Controllers.Website
 {
@@ -133,7 +135,7 @@ namespace QccHub.Controllers.Website
         public async Task<IActionResult> UpdateInfo(int id)
         {
             var httpClient = _clientFactory.CreateClient("API");
-            var response = await httpClient.GetAsync($"Account/{id}?update=true");
+            var response = await httpClient.GetAsync($"Account/GetUserUpdateViewModel/{id}");
             var result = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -141,7 +143,14 @@ namespace QccHub.Controllers.Website
                 return RedirectToAction("Index", "Home");
             }
             var userUpdateVM = JsonConvert.DeserializeObject<UpdateInfoVM>(result);
-
+            var countriesResponse = await httpClient.GetAsync("Country/Get");
+            var countriesResult = await countriesResponse.Content.ReadAsStringAsync();
+            if (!countriesResponse.IsSuccessStatusCode)
+            {
+                AddModelError(countriesResult);
+                return RedirectToAction("Index", "Home");
+            }
+            ViewData["Countries"] = JsonConvert.DeserializeObject<List<Country>>(countriesResult);
             return View(userUpdateVM);
         }
 
@@ -149,43 +158,43 @@ namespace QccHub.Controllers.Website
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateInfo(int Id, UpdateInfoVM model)
         {
-            var httpClient = _clientFactory.CreateClient("API");
-            byte[] CVBytes;
-            byte[] PPBytes;
-            var multipartContent = new MultipartFormDataContent();
+            //var httpClient = _clientFactory.CreateClient("API");
+            //byte[] CVBytes;
+            //byte[] PPBytes;
+            //var multipartContent = new MultipartFormDataContent();
 
-            if (model.CV != null && model.CV.Length > 0)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    model.CV.CopyTo(ms);
-                    CVBytes = ms.ToArray();
-                    var byteArrayContent = new ByteArrayContent(CVBytes);
-                    multipartContent.Add(byteArrayContent, "CV", model.CV.FileName);
-                }
+            //if (model.CV != null && model.CV.Length > 0)
+            //{
+            //    using (var ms = new MemoryStream())
+            //    {
+            //        model.CV.CopyTo(ms);
+            //        CVBytes = ms.ToArray();
+            //        var byteArrayContent = new ByteArrayContent(CVBytes);
+            //        multipartContent.Add(byteArrayContent, "CV", model.CV.FileName);
+            //    }
 
-            }
-            if (model.ProfileImage != null && model.ProfileImage.Length > 0)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    model.ProfileImage.CopyTo(ms);
-                    PPBytes = ms.ToArray();
-                    var byteArrayContent = new ByteArrayContent(PPBytes);
-                    multipartContent.Add(byteArrayContent, "ProfileImage", model.ProfileImage.FileName);
-                }
-            }
+            //}
+            //if (model.ProfileImage != null && model.ProfileImage.Length > 0)
+            //{
+            //    using (var ms = new MemoryStream())
+            //    {
+            //        model.ProfileImage.CopyTo(ms);
+            //        PPBytes = ms.ToArray();
+            //        var byteArrayContent = new ByteArrayContent(PPBytes);
+            //        multipartContent.Add(byteArrayContent, "ProfileImage", model.ProfileImage.FileName);
+            //    }
+            //}
 
 
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
-            var response = await httpClient.PostAsync($"Account/UpdateInfo", multipartContent);
+            //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
+            //var response = await httpClient.PostAsync($"Account/UpdateInfo", multipartContent);
 
-            var result = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                AddModelError(result);
-                return RedirectToAction("Index", "Home");
-            }
+            //var result = await response.Content.ReadAsStringAsync();
+            //if (!response.IsSuccessStatusCode)
+            //{
+            //    AddModelError(result);
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             return RedirectToAction("Profile", "Account");
         }
@@ -201,7 +210,7 @@ namespace QccHub.Controllers.Website
             {
                 return BadRequest("file seems to be empty");
             }
-            
+
             using (var ms = new MemoryStream())
             {
                 await file.CopyToAsync(ms);
@@ -213,12 +222,39 @@ namespace QccHub.Controllers.Website
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
             var response = await httpClient.PostAsync($"Account/ChangeProfilePicture/{id}", multipartContent);
             var result = await response.Content.ReadAsStringAsync();
-            
+
             if (!response.IsSuccessStatusCode)
             {
                 return BadRequest(result);
             }
-            
+
+            return Ok(result);
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> DeleteProfilePicture(int id)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var response = await httpClient.DeleteAsync($"Account/DeleteProfilePicture/{id}");
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateBasicInfo(BasicInfoVM model)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await httpClient.PatchAsync($"Account/UpdateBasicInfo", jsonContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
             return Ok(result);
         }
 

@@ -18,13 +18,34 @@ namespace QccHub.Data.Models
         public string Address { get; set; }
         public string CVFilePath { get; set; }
         public string ProfileImagePath { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public string CompanyName { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual Country Country { get; set; }
         public virtual ICollection<UserJobPosition> EmployeeJobs { get; } = new List<UserJobPosition>();
         public virtual ICollection<UserJobPosition> CompanyJobs { get; } = new List<UserJobPosition>();
         public virtual ICollection<ApplicationUserRole> UserRoles { get; } = new List<ApplicationUserRole>();
+
+        public void ResetJobPositions() 
+        {
+            foreach (var job in EmployeeJobs)
+            {
+                job.IsCurrentPosition = false;
+            }
+        }
+
+        public void AddNewJobByName(string name, int companyId)
+        {
+            var newJobPosition = new UserJobPosition
+            {
+                CompanyId = companyId,
+                EmployeeId = Id,
+                FromDate = DateTime.UtcNow,
+                IsCurrentPosition = true,
+                JobPosition = new JobPosition
+                { Name = name }
+            };
+            EmployeeJobs.Add(newJobPosition);
+        }
     }
 }

@@ -23,14 +23,11 @@ namespace QccHub.DTOS
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "First name")]
-        public string FirstName { get; set; }
-        
-        [Display(Name = "Last name")]
-        public string LastName { get; set; }
-
         [Display(Name = "Company name")]
         public string CompanyName { get; set; }
+
+        [Display(Name = "Full name")]
+        public string FullName { get; set; }
         public int RoleId { get; set; }
 
     }

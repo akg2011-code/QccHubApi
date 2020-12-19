@@ -12,6 +12,7 @@ namespace QccHub.Data.Models
         public DateTime CreatedDate { get ; set ; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public bool IsCurrentPosition { get; set; }
         public bool IsDeleted { get ; set ; }
         public int CompanyId { get; set; }
         public int EmployeeId { get; set; }
