@@ -2366,14 +2366,20 @@ section {
   background-color: #f4f5f7;
   padding-top: 20px;
 }
-.comProfileContent .all> div{
-  margin-bottom: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+.imgCom {
+    height: 148px;
+    position: absolute;
+    z-index: 1;
+    right: -103px;
+}
+.comProfileContent .all > div {
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
 .comProfileContent .left .nameUser{
   text-align: center;
@@ -2387,14 +2393,14 @@ section {
     color: #000;
 }
 
-#tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    color: #faae40 !important;
-    background-color: transparent;
-    border-color: transparent transparent linear-gradient(to right, #e72629, #faae40);
-    border-bottom: 4px solid !important;
-    font-size: 20px;
-    font-weight: bold;
-}
+    #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        color: linear-gradient(to right, #e72629, #faae40) !important;
+        background-color: transparent;
+        border-color: linear-gradient(to right, #e72629, #faae40);
+        border-bottom: 4px solid !important;
+        font-size: 20px;
+        font-weight: bold;
+    }
     #tabs .nav-tabs .nav-link {
         border: 1px solid transparent;
         border-top-left-radius: .25rem;

@@ -180,12 +180,14 @@
                                                         <div class="row">
                                                             <div class="col-md">
                                                                 <div class="form-group">
-                                                                    <input type="text" asp-for="CompanyName" class="form-control" placeholder="Company Name"> <span class="text-danger">*</span>
+                                                                    <input type="text" asp-for="CompanyName" class="form-control" placeholder="Company Name *"> 
+                                                                    @*<span class="text-danger">*</span>*@
                                                                     <span asp-validation-for="CompanyName" class="text-danger"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md">
-                                                                <input type="text" asp-for="Position" class="form-control mb-4" placeholder="Position"> <span class="text-danger">*</span>
+                                                                <input type="text" asp-for="Position" class="form-control mb-4" placeholder="Position *"> 
+                                                                @*<span class="text-danger">*</span>*@
                                                             </div>
                                                         </div>
 
