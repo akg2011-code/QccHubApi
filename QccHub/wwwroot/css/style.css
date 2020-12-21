@@ -2417,10 +2417,10 @@ section {
   padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-#tabs .imgServic{
-  height: 232px;
-    border-radius: 5px;
-    width: 100%;
+#tabs .imgServic {
+  height: 173px;
+  border-radius: 5px;
+  width: 100%;
 }
 #tabs .uniDeails{
   margin-bottom: 10px;
@@ -2577,6 +2577,12 @@ html , body{
 .newsDetailsPreview {
     display: -webkit-box;
     -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.newsSourcPreview {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

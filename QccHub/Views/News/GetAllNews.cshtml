@@ -3,6 +3,37 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 }
 <main id="main">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add new</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form id="newsEditorForm">
+                        <div class="form-group">
+                            <input type="text" name="Title" placeholder="Title" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="Source" placeholder="Source" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <textarea id="newsEditor" name="Details"></textarea>
+                        </div>
+                        <input type="submit" class="btn btn-danger" value="Post" />
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="JobContent">
         <section class="container">
             <div class="row">
@@ -117,13 +148,12 @@
                             </div>
                         </div>
 
+                        @*add new news*@
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Add New
+                        </button>
 
-                        <form id="newsEditorForm">
-                            <input type="text" name="Title" placeholder="Title" />
-                            <input type="text" name="Source" placeholder="Source" />
-                            <textarea id="newsEditor" name="Details"></textarea>
-                            <input type="submit" class="btn btn-danger" value="Post" />
-                        </form>
 
                         @foreach (var item in Model)
                         {
@@ -133,12 +163,12 @@
                                     <div class="uniDeails">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <img src="~/img/Rectangle 127.png" style="height: 250px;width: 100%;">
+                                                <img src="~/img/news-1.jpg" style="height: 160px;width: 100%;">
                                             </div>
                                             <div class="col-md-8">
                                                 <h4>@item.Title</h4>
                                                 <div class="alert alert-danger" role="alert">
-                                                    <a href="@item.Source" class="alert-link">@item.Source</a>.
+                                                    <a href="@item.Source" class="alert-link newsSourcPreview">@item.Source</a>.
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md text-right">

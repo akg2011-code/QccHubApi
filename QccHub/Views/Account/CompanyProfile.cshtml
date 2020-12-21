@@ -81,7 +81,7 @@
                                             </div>
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent">
-                                            <!-- tab 0 -->
+                                            <!-- tab 0 ---- about us -->
                                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                                                  aria-labelledby="nav-home-tab">
                                                 <div class="aboutMe">
@@ -148,7 +148,7 @@
 
                                             </div>
 
-                                            <!-- tab 1 -->
+                                            <!-- tab 1 ---- prouduct -->
                                             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                                 <div class="Education details-Edu-Expe-Certi">
                                                     <div class="row">
@@ -245,7 +245,7 @@
 
                                             </div>
 
-                                            <!-- tab 2 -->
+                                            <!-- tab 2 ---- services -->
                                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <div class="Education details-Edu-Expe-Certi">
                                                     <div class="row">
@@ -341,7 +341,7 @@
                                                 </div>
                                             </div>
 
-                                            <!-- tab 3 -->
+                                            <!-- tab 3 ----- projects -->
                                             <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                                                 <div class="Education details-Edu-Expe-Certi">
                                                     <div class="row">
@@ -378,9 +378,11 @@
                                                                             <input type="text" name="Location" class="form-control" placeholder="Job Location">
                                                                         </div>
 
-                                                                        <div class="input-group">
-                                                                            <textarea class="form-control" name="Description" rows="2" placeholder="Description....."
-                                                                                      aria-label="With textarea"></textarea>
+                                                                        <div class="form-group">
+                                                                            <div class="input-group">
+                                                                                <textarea class="form-control" name="Description" rows="2" placeholder="Description....."
+                                                                                          aria-label="With textarea"></textarea>
+                                                                            </div>
                                                                         </div>
 
                                                                         <div class="row">
@@ -409,7 +411,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <!--modal-->
 
                                                     <hr>
@@ -449,7 +450,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
-                                                                        <img src="~/img/Rectangle 82-1.png" class="imgServic">
+                                                                        <img src="~/img/project.png" class="imgServic">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -459,7 +460,7 @@
 
                                             </div>
 
-                                            <!-- tab 4 -->
+                                            <!-- tab 4 ------ career -->
                                             <div class="tab-pane fade" id="nav-career" role="tabpanel" aria-labelledby="nav-career-tab">
                                                 <div class="Education details-Edu-Expe-Certi">
                                                     <div class="row">
@@ -496,9 +497,11 @@
                                                                             <input type="text" name="Location" class="form-control" placeholder="Job Location">
                                                                         </div>
 
-                                                                        <div class="input-group">
-                                                                            <textarea class="form-control" rows="2" name="Description" placeholder="Description....."
-                                                                                      aria-label="With textarea"></textarea>
+                                                                        <div class="form-group">
+                                                                            <div class="input-group">
+                                                                                <textarea class="form-control" rows="2" name="Description" placeholder="Description....."
+                                                                                          aria-label="With textarea"></textarea>
+                                                                            </div>
                                                                         </div>
 
                                                                         <div class="row">
@@ -529,8 +532,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <!--modal-->
+
                                                     <hr>
                                                     <div class="univeristy">
                                                         @foreach (var job in Model.JobOffers.Where(j => !j.IsB2B))
