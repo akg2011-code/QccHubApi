@@ -39,13 +39,14 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,company")]
-        public async Task<IActionResult> AddJob(Job job)    // note: should not recieve or return domain model , use DTO instead
+        //[Authorize(Roles = "Admin,company")]
+        public async Task<IActionResult> Add(Job job)    // note: should not recieve or return domain model , use DTO instead
         {
             if (!ModelState.IsValid)                        // make a condition for the non-happy scenarios first to avoid code branching, this is called a guard
             {
                 return BadRequest("can't add , some info is wrong");
             }
+
             _jobRepo.Add(job);                              // you should use repository pattern to decouple the database connection and logic from api
             await _unitOfWork.SaveChangesAsync();           // you should use async when dealing with file system, databases or third-party services
             return Created("job added", job);               // return a DTO of the created object

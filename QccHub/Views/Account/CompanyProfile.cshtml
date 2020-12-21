@@ -1,7 +1,12 @@
 ﻿@model ApplicationUser
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string userId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+}
 <div class="head">
     <div class="container-fluid">
-        <img src="~/img/Rectangle 98.png" class="img-fluid " >
+        <img src="~/img/Rectangle 98.png" class="img-fluid ">
     </div>
     <div class="head-button">
         <div class="container">
@@ -345,7 +350,9 @@
                                                         </div>
                                                         <div class="col-md text-right">
                                                             <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                                    data-target="#AddProject">Add new project</button>
+                                                                    data-target="#AddProject">
+                                                                Add new project
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <!--modal-->
@@ -360,28 +367,33 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form>
+                                                                    <form class="AddJobOrProjectForm">
+                                                                        <input hidden name="CompanyId" value="@userId">
+                                                                        <input hidden name="IsB2b" value="true" />
+                                                                        <div class="form-group">
+                                                                            <input type="text" name="Title" class="form-control" placeholder="Project Title">
+                                                                        </div>
 
                                                                         <div class="form-group">
-                                                                            <input type="text" class="form-control" placeholder="Title project">
+                                                                            <input type="text" name="Location" class="form-control" placeholder="Job Location">
                                                                         </div>
 
                                                                         <div class="input-group">
-                                                                            <textarea class="form-control" rows="2" placeholder="Description....."
+                                                                            <textarea class="form-control" name="Description" rows="2" placeholder="Description....."
                                                                                       aria-label="With textarea"></textarea>
                                                                         </div>
 
                                                                         <div class="row">
                                                                             <div class="col-md">
                                                                                 <div class="form-group">
-                                                                                    <select id="inputState" class="form-control">
-                                                                                        <option>Full Time</option>
-                                                                                        <option>Part Time</option>
+                                                                                    <select name="Type" class="form-control">
+                                                                                        <option value="@((int)JobTypesEnum.FullTime)">Full Time</option>
+                                                                                        <option value="@((int)JobTypesEnum.PartTime)">Part Time</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md">
-                                                                                <input type="number" class="form-control mb-4" placeholder="Salary">
+                                                                                <input type="number" name="Salary" class="form-control mb-4" placeholder="Salary">
                                                                             </div>
                                                                         </div>
                                                                         <div class="modal-footer">
@@ -389,7 +401,7 @@
                                                                                     data-dismiss="modal">
                                                                                 Close
                                                                             </button>
-                                                                            <button type="button" class="btn btn-primary">add project</button>
+                                                                            <input type="submit" class="btn btn-primary" value="Add Project" />
                                                                         </div>
                                                                     </form>
 
@@ -403,84 +415,45 @@
                                                     <hr>
                                                     <div class="univeristy">
                                                         <!-- services one -->
-                                                        <div class="uniDeails">
-                                                            <div class="row">
-                                                                <div class="col-md-8">
-                                                                    <div class="row">
-                                                                        <div class="col-md-7">
-                                                                            <h5>Civil Building</h5>
-                                                                            <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
-                                                                        </div>
-                                                                        <div class="col-md-5 text-right">
-                                                                            <button type="button" class="btn btn-outline-warning"
-                                                                                    style="font-size: 13px;">
-                                                                                view project
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <hr>
-                                                                        <p>
-                                                                            Find the most qualified people in the most unexpected places. Information for
-                                                                            applicants to
-                                                                            consider when applying for local positions.
-                                                                        </p>
-                                                                        <hr>
+                                                        @foreach (var project in Model.JobOffers.Where(j => j.IsB2B))
+                                                        {
+                                                            <div class="uniDeails">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
                                                                         <div class="row">
-                                                                            <div class="col-md">
-                                                                                <small><i class="fas fa-map-marker-alt"></i> Posted 3 days ago</small>
+                                                                            <div class="col-md-7">
+                                                                                <h5>@project.Title</h5>
+                                                                                <small><i class="fas fa-map-marker-alt"></i> @project.Location</small>
                                                                             </div>
-                                                                            <div class="col-md text-right">
-                                                                                18 view
+                                                                            <div class="col-md-5 text-right">
+                                                                                <a href="@Url.Content($"~/jobs/jobdetails/{project.ID}")" class="btn btn-outline-warning"
+                                                                                   style="font-size: 13px;">
+                                                                                    View Project
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <hr>
+                                                                            <p>
+                                                                                @project.Description
+                                                                            </p>
+                                                                            <hr>
+                                                                            <div class="row">
+                                                                                <div class="col-md">
+                                                                                    <small><i class="fas fa-clock-o"></i> Posted @((int)DateTime.UtcNow.Subtract(project.CreatedDate).TotalDays) days ago</small>
+                                                                                </div>
+                                                                                <div class="col-md text-right">
+                                                                                    18 view
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <img src="~/img/Rectangle 82-1.png" class="imgServic">
+                                                                    <div class="col-md-4">
+                                                                        <img src="~/img/Rectangle 82-1.png" class="imgServic">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <!-- services two -->
-                                                        <div class="uniDeails">
-                                                            <div class="row">
-                                                                <div class="col-md-8">
-                                                                    <div class="row">
-                                                                        <div class="col-md-7">
-                                                                            <h5>Civil Building</h5>
-                                                                            <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
-                                                                        </div>
-                                                                        <div class="col-md-5 text-right">
-                                                                            <button type="button" class="btn btn-outline-warning"
-                                                                                    style="font-size: 13px;">
-                                                                                view project
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <hr>
-                                                                        <p>
-                                                                            Find the most qualified people in the most unexpected places. Information for
-                                                                            applicants to
-                                                                            consider when applying for local positions.
-                                                                        </p>
-                                                                        <hr>
-                                                                        <div class="row">
-                                                                            <div class="col-md">
-                                                                                <small><i class="fas fa-map-marker-alt"></i> Posted 3 days ago</small>
-                                                                            </div>
-                                                                            <div class="col-md text-right">
-                                                                                18 view
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <img src="~/img/Rectangle 82-1.png" class="imgServic">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
+                                                        }
                                                     </div>
                                                 </div>
 
@@ -512,36 +485,43 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form>
+                                                                    <form class="AddJobOrProjectForm">
+                                                                        <input hidden name="IsB2b" value="false">
+                                                                        <input hidden name="CompanyId" value="@userId">
+                                                                        <div class="form-group">
+                                                                            <input type="text" name="Title" class="form-control" placeholder="Job Title">
+                                                                        </div>
 
                                                                         <div class="form-group">
-                                                                            <input type="text" class="form-control" placeholder="Title Job">
+                                                                            <input type="text" name="Location" class="form-control" placeholder="Job Location">
                                                                         </div>
 
                                                                         <div class="input-group">
-                                                                            <textarea class="form-control" rows="2" placeholder="Description....."
+                                                                            <textarea class="form-control" rows="2" name="Description" placeholder="Description....."
                                                                                       aria-label="With textarea"></textarea>
                                                                         </div>
 
                                                                         <div class="row">
                                                                             <div class="col-md">
                                                                                 <div class="form-group">
-                                                                                    <select id="inputState" class="form-control">
-                                                                                        <option>Full Time</option>
-                                                                                        <option>Part Time</option>
+                                                                                    <select name="Type" class="form-control">
+                                                                                        <option value="@((int)JobTypesEnum.FullTime)">Full Time</option>
+                                                                                        <option value="@((int)JobTypesEnum.PartTime)">Part Time</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="col-md">
-                                                                                <input type="number" class="form-control mb-4" placeholder="Salary">
+                                                                                <input type="number" name="Salary" class="form-control mb-4" placeholder="Salary">
                                                                             </div>
+
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary"
                                                                                     data-dismiss="modal">
                                                                                 Close
                                                                             </button>
-                                                                            <button type="button" class="btn btn-primary">add Job</button>
+                                                                            <input type="submit" class="btn btn-primary" value="Add Job" />
                                                                         </div>
                                                                     </form>
 
@@ -553,71 +533,39 @@
                                                     <!--modal-->
                                                     <hr>
                                                     <div class="univeristy">
-                                                        <!-- services one -->
-                                                        <div class="uniDeails">
-                                                            <div class="row">
-                                                                <div class="col-md-7">
-                                                                    <h5>Head of contracts</h5>
-                                                                    <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
-                                                                </div>
-                                                                <div class="col-md-5 text-right">
-                                                                    <button type="button" class="btn btn-outline-danger" style="font-size: 13px;">
-                                                                        view
-                                                                        Job
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <hr>
-                                                                <p>
-                                                                    Find the most qualified people in the most unexpected places. Information for
-                                                                    applicants to
-                                                                    consider when applying for local positions.
-                                                                </p>
-                                                                <hr>
+                                                        @foreach (var job in Model.JobOffers.Where(j => !j.IsB2B))
+                                                        {
+                                                            <!-- services one -->
+                                                            <div class="uniDeails">
                                                                 <div class="row">
-                                                                    <div class="col-md">
-                                                                        <small><i class="fas fa-map-marker-alt"></i> Posted 3 days ago</small>
+                                                                    <div class="col-md-7">
+                                                                        <h5>@job.Title</h5>
+                                                                        <small><i class="fas fa-map-marker-alt"></i> @job.Location</small>
                                                                     </div>
-                                                                    <div class="col-md text-right">
-                                                                        18 view
+                                                                    <div class="col-md-5 text-right">
+                                                                        <a href="@Url.Content($"~/jobs/jobdetails/{job.ID}")" class="btn btn-outline-danger" style="font-size: 13px;">
+                                                                            View Job
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- services two -->
-                                                        <div class="uniDeails">
-                                                            <div class="row">
-                                                                <div class="col-md-7">
-                                                                    <h5>Head of contracts</h5>
-                                                                    <small><i class="fas fa-map-marker-alt"></i> Qatar</small>
-                                                                </div>
-                                                                <div class="col-md-5 text-right">
-                                                                    <button type="button" class="btn btn-outline-danger" style="font-size: 13px;">
-                                                                        view
-                                                                        Job
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <hr>
-                                                                <p>
-                                                                    Find the most qualified people in the most unexpected places. Information for
-                                                                    applicants to
-                                                                    consider when applying for local positions.
-                                                                </p>
-                                                                <hr>
-                                                                <div class="row">
-                                                                    <div class="col-md">
-                                                                        <small><i class="fas fa-map-marker-alt"></i> Posted 3 days ago</small>
-                                                                    </div>
-                                                                    <div class="col-md text-right">
-                                                                        18 view
+                                                                <div>
+                                                                    <hr>
+                                                                    <p>
+                                                                        @job.Description
+                                                                    </p>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-md">
+                                                                            <small><i class="fas fa-clock-o"></i> Posted @((int)DateTime.UtcNow.Subtract(job.CreatedDate).TotalDays) days ago</small>
+                                                                        </div>
+                                                                        <div class="col-md text-right">
+                                                                            18 view
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
+                                                        }
                                                     </div>
                                                 </div>
 
@@ -801,7 +749,6 @@
                                 </div>
                             </div>
 
-
                         </div>
 
                     </div>
@@ -812,3 +759,32 @@
 
 </main>
 <!-- End #main -->
+
+@section Scripts{
+    <script>
+        $('.AddJobOrProjectForm').on('submit', function (e) {
+            e.preventDefault();
+            var data = $(this).serializeArray();
+            var formData = new FormData();
+            data.forEach(function (item, index) {
+                formData.append(item.name, item.value)
+            })
+
+            debugger;
+            $.ajax({
+                method: "POST",
+                data: formData,
+                url: '@Url.Content($"~/jobs/add")',
+                processData: false,
+                contentType: false,
+                success: function () {
+                    alert('Job Added Successfully');
+                },
+                error: function (xhr, ajaxSettings, statusCode) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+    </script>
+}

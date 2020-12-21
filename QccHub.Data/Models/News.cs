@@ -11,7 +11,7 @@ namespace QccHub.Data.Models
     {
         public string Title { get; set; }
         public string Details { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Time { get; set; } // remove this later
         public string Source { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

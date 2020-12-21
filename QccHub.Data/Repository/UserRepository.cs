@@ -57,7 +57,10 @@ namespace QccHub.Data.Repository
         {
             return _context.Users.Include(u => u.UserRoles)
                                     .Include(u => u.Country)
-                                    .Include(u => u.EmployeeJobs).ThenInclude(ej => ej.JobPosition)
+                                    .Include(u => u.JobOffers)
+                                    //.ThenInclude(jo => jo.JobCategory)
+                                    .Include(u => u.EmployeeJobs)
+                                    .ThenInclude(ej => ej.JobPosition)
                                     .FirstOrDefaultAsync(u => u.Id == userId);
         }
 

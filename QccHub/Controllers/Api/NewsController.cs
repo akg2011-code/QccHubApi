@@ -31,34 +31,32 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNews(News news)
+        public async Task<IActionResult> Add(News news)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            //news.CreatedBy = news.CompanyID;
-            //news.IsDeleted = false;
-            //news.CreatedDate = DateTime.Now;
+
             _newsRepository.Add(news);
             await _unitOfWork.SaveChangesAsync();
             return Created("news added", news);
         }
 
-        [HttpPut("{newsID}")]
-        public async Task<IActionResult> EditNews(int newsID, News editedNews)
-        {
-            News news = await _newsRepository.GetByIdAsync(newsID);
-            if (news == null && news.IsDeleted == false)
-            {
-                return NotFound("No news for this ID");
-            }
-            news.Time = editedNews.Time;
-            news.Title = editedNews.Title;
-            news.Details = editedNews.Details;
-            await _unitOfWork.SaveChangesAsync();
-            return Ok("news edited");
-        }
+        //[HttpPut("{newsID}")]
+        //public async Task<IActionResult> EditNews(int newsID, News editedNews)
+        //{
+        //    News news = await _newsRepository.GetByIdAsync(newsID);
+        //    if (news == null && news.IsDeleted == false)
+        //    {
+        //        return NotFound("No news for this ID");
+        //    }
+        //    news.Time = editedNews.Time;
+        //    news.Title = editedNews.Title;
+        //    news.Details = editedNews.Details;
+        //    await _unitOfWork.SaveChangesAsync();
+        //    return Ok("news edited");
+        //}
 
         [HttpDelete("{newsID}")]
         public async Task<IActionResult> DeleteNews(int newsID)
@@ -74,10 +72,9 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpGet]
-        public IActionResult GetAllNews()
+        public async Task<IActionResult> GetAllNews()
         {
-            var news = _newsRepository.GetAllAsync().Result
-                .OrderByDescending(n => n.Time);
+            var news = await _newsRepository.GetAllAsync();
             return Ok(news);
         }
 

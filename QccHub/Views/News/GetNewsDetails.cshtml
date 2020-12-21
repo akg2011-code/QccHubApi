@@ -117,15 +117,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <img src="/img/Rectangle 127.png" style="height: 240px;width: 100%;">
-                                            </div>
-                                            <div class="col-md">
-                                                <p>
-                                                    @Model.Details
-                                                </p>
-                                            </div>
+                                        <div> @*NOTE: raw class damages content*@
+                                            @Html.Raw(Model.Details)
                                         </div>
                                         
                                     </div>

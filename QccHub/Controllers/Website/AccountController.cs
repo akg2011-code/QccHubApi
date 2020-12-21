@@ -26,6 +26,7 @@ namespace QccHub.Controllers.Website
         }
 
         [HttpGet]
+        [Route("",Name = "Website Login")]
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -95,8 +96,7 @@ namespace QccHub.Controllers.Website
                 return View(model);
             }
 
-            var user = JsonConvert.DeserializeObject<ApplicationUser>(result);
-            return RedirectToAction("account", "login");
+            return RedirectToRoute("Website Login");
         }
 
         [HttpGet]

@@ -69,6 +69,22 @@ namespace QccHub.Controllers.Website
 
 
         [HttpPost]
+        [Route("Jobs/add")]
+        public async Task<IActionResult> Add(Job model)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("Jobs/add", jsonContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("Jobs/ApplyToNonB2bJob")]
         public async Task<IActionResult> ApplyToNonB2bJob(JobApplication model)
         {

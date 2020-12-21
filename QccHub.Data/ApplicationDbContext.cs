@@ -66,6 +66,7 @@ namespace QccHub.Data
             #region ApplicationUserConfiguration
 
             builder.Entity<ApplicationUser>().HasMany(x => x.UserRoles).WithOne().HasForeignKey(x => x.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<ApplicationUser>().HasMany(x => x.JobOffers).WithOne().HasForeignKey(x => x.CompanyID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             
             #endregion
             

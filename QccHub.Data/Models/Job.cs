@@ -14,6 +14,7 @@ namespace QccHub.Data.Models
         [ForeignKey("Company")]
         public int CompanyID { get; set; }
         public virtual ApplicationUser Company { get; set; }
+        public string Location { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
@@ -21,9 +22,9 @@ namespace QccHub.Data.Models
         public decimal Salary { get; set; }
         public int Type { get; set; }
 
-        [ForeignKey("JobCategory")]
-        public int JobCategoryID { get; set; }
+        //[ForeignKey("JobCategory")]
+        //public int JobCategoryID { get; set; }
 
-        public virtual JobCategory JobCategory { get; set; }
+        //public virtual JobCategory JobCategory { get; set; }
     }
 }

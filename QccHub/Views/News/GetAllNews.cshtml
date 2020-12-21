@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<News>
-
+@section Styles{
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+}
 <main id="main">
     <div class="JobContent">
         <section class="container">
@@ -115,6 +117,14 @@
                             </div>
                         </div>
 
+
+                        <form id="newsEditorForm">
+                            <input type="text" name="Title" placeholder="Title" />
+                            <input type="text" name="Source" placeholder="Source" />
+                            <textarea id="newsEditor" name="Details"></textarea>
+                            <input type="submit" class="btn btn-danger" value="Post" />
+                        </form>
+
                         @foreach (var item in Model)
                         {
                             <div class="Education details-Edu-Expe-Certi" style="padding: 20px 20px 1px 20px;">
@@ -130,9 +140,6 @@
                                                 <div class="alert alert-danger" role="alert">
                                                     <a href="@item.Source" class="alert-link">@item.Source</a>.
                                                 </div>
-                                                <p class="newsDetailsPreview">
-                                                    @item.Details
-                                                </p>
                                                 <div class="row">
                                                     <div class="col-md text-right">
                                                         <a asp-action="GetNewsDetails" asp-route-id="@item.ID" type="button" class="btn btn-warning">Read more</a>
@@ -152,3 +159,41 @@
     </div>
 </main>
 <!-- End #main -->
+
+@section Scripts{
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#newsEditor').summernote();
+
+            $('#newsEditorForm').on('submit', function (e) {
+                e.preventDefault();
+                debugger;
+                var data = $('#newsEditorForm').serializeArray();
+                var formData = new FormData();
+                data.forEach(function (item, index) {
+                    formData.append(item.name, item.value)
+                });
+
+
+            $.ajax({
+                method: "POST",
+                data: formData,
+                url: '@Url.Content($"~/news/add")',
+                processData: false,
+                contentType: false,
+                success: function () {
+                    window.location.reload()
+                },
+                error: function (xhr, ajaxSettings, statusCode) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        });
+
+    </script>
+
+}

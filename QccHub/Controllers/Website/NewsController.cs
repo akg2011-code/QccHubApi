@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using QccHub.Data.Models;
 using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace QccHub.Controllers.Website
 {
@@ -45,9 +46,20 @@ namespace QccHub.Controllers.Website
             return View(news);
         }
 
-        public IActionResult AddNews()
+        [HttpPost]
+        [Route("News/add")]
+        public async Task<IActionResult> Add(News model)
         {
-            return View();
+            var httpClient = _clientFactory.CreateClient("API");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("News/add", jsonContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok();
         }
 
         [HttpPost]
