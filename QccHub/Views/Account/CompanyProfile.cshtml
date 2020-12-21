@@ -781,7 +781,8 @@
                 processData: false,
                 contentType: false,
                 success: function () {
-                    alert('Job Added Successfully');
+                    //alert('Job Added Successfully');
+                    window.location.reload()
                 },
                 error: function (xhr, ajaxSettings, statusCode) {
                     console.log(xhr.responseText);
