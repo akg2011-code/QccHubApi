@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Hosting;
 namespace QccHub.Controllers.Api
 {
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -51,7 +52,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Route("api/Account/Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginVM model)
@@ -105,7 +105,7 @@ namespace QccHub.Controllers.Api
 
         [Authorize]
         [HttpPost]
-        [Route("api/Account/Logout")]
+        //[Route("api/Account/Logout")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Logout()
         {
@@ -115,10 +115,10 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Route("api/Account/Register")]
-        [ProducesResponseType(typeof(UserRegisteration),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(UserRegisteration),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        //[Route("api/Account/Register")]
+        [ProducesResponseType(typeof(UserRegisteration), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserRegisteration), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] UserRegisteration model)
         {
             if (!ModelState.IsValid)
@@ -202,11 +202,10 @@ namespace QccHub.Controllers.Api
             return Ok(user);
         }
 
-        [HttpGet]
-        [Route("api/Account/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApplicationUser), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
             if (user == null)
@@ -216,8 +215,7 @@ namespace QccHub.Controllers.Api
             return Ok(user);
         }
 
-        [HttpGet]
-        [Route("api/Account/GetUserUpdateViewModel/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(UpdateInfoVM), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserUpdateViewModel(int id)
@@ -248,7 +246,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpGet]
-        [Route("api/Account/ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -267,12 +264,11 @@ namespace QccHub.Controllers.Api
             return Ok();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
-        [Route("api/Account/ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordVM model)
         {
-            var canGetUserId = int.TryParse(User.GetUserId(),out int userId);
+            var canGetUserId = int.TryParse(User.GetUserId(), out int userId);
             if (!canGetUserId)
             {
                 return BadRequest("User doesn't exist");
@@ -294,7 +290,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Route("api/Account/ForgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -315,7 +310,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPost]
-        [Route("api/Account/ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordVM model)
         {
             if (!ModelState.IsValid)
@@ -335,8 +329,7 @@ namespace QccHub.Controllers.Api
             return Ok();
         }
 
-        [HttpPost]
-        [Route("api/Account/ChangeProfilePicture/{id}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> ChangeProfilePicture([FromRoute] int id,[FromForm] IFormFile file)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
@@ -367,8 +360,7 @@ namespace QccHub.Controllers.Api
             return Ok(user.ProfileImagePath);
         }
 
-        [HttpDelete]
-        [Route("api/Account/DeleteProfilePicture/{id}")]
+        [HttpDelete("id")]
         public async Task<IActionResult> DeleteProfilePicture([FromRoute] int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
@@ -385,7 +377,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPatch]
-        [Route("api/Account/UpdateBasicInfo")]
         public async Task<IActionResult> UpdateBasicInfo([FromBody] BasicInfoVM model)
         {
             var user = await _userRepo.GetUserByIdAsync(model.Id);
@@ -425,7 +416,6 @@ namespace QccHub.Controllers.Api
         }
 
         [HttpPatch]
-        [Route("api/Account/UpdateBio")]
         public async Task<IActionResult> UpdateBio(UpdateBioVM model)
         {
             var user = await _userRepo.GetUserByIdAsync(model.Id);

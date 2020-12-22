@@ -95,7 +95,7 @@ namespace QccHub.Controllers.Website
                 return View(model);
             }
 
-            return RedirectToRoute("Website Login");
+            return LocalRedirect("/Account/Login");
         }
 
         [HttpGet]
@@ -125,7 +125,7 @@ namespace QccHub.Controllers.Website
         public async Task<IActionResult> Profile(int id)
         {
             var httpClient = _clientFactory.CreateClient("API");
-            var response = await httpClient.GetAsync($"Account/{id}");
+            var response = await httpClient.GetAsync($"Account/Get/{id}");
             var result = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
