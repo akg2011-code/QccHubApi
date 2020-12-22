@@ -6,6 +6,7 @@ using System.Net.Http;
 namespace QccHub.Controllers.Website
 {
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("[controller]/[action]")]
     public class BaseController : Controller
     {
         protected readonly IConfiguration _iConfig;

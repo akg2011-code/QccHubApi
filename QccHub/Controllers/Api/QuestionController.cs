@@ -13,8 +13,6 @@ using QccHub.Logic.Helpers;
 
 namespace QccHub.Controllers.Api
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
     public class QuestionController : BaseApiController
     {
         private readonly IQuestionRepository _questionRepository;

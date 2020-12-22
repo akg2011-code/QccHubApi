@@ -11,8 +11,6 @@ using QccHub.Logic.Helpers;
 
 namespace QccHub.Controllers.Api
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
     public class NewsController : BaseApiController
     {
         private readonly INewsRepository _newsRepository;

@@ -51,8 +51,7 @@ namespace QccHub.Controllers.Website
             return View("GetAllJobs", jobs);
         }
 
-        [HttpGet]
-        [Route("Jobs/JobDetails/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> JobDetails(int id)
         {
             var httpClient = _clientFactory.CreateClient("API");
@@ -69,7 +68,6 @@ namespace QccHub.Controllers.Website
 
 
         [HttpPost]
-        [Route("Jobs/add")]
         public async Task<IActionResult> Add(Job model)
         {
             var httpClient = _clientFactory.CreateClient("API");
@@ -85,7 +83,6 @@ namespace QccHub.Controllers.Website
         }
 
         [HttpPost]
-        [Route("Jobs/ApplyToNonB2bJob")]
         public async Task<IActionResult> ApplyToNonB2bJob(JobApplication model)
         {
             var httpClient = _clientFactory.CreateClient("API");

@@ -207,8 +207,8 @@ namespace QccHub
             ApplicationDbInitializer.SeedingData(userManager, roleManager, context);
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
             });
         }
 

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace QccHub.Controllers.Website
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [Route("[controller]/[action]/{id?}")]
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        public HomeController(IConfiguration iConfig, IHttpClientFactory clientFactory) : base(iConfig, clientFactory)
-        {
-        }
         public IActionResult Index() 
+        {
+            return View();
+        }
+
+        public IActionResult Routes()
         {
             return View();
         }

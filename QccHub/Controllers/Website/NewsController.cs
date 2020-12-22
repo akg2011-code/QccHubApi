@@ -47,7 +47,6 @@ namespace QccHub.Controllers.Website
         }
 
         [HttpPost]
-        [Route("News/add")]
         public async Task<IActionResult> Add(News model)
         {
             var httpClient = _clientFactory.CreateClient("API");
@@ -60,17 +59,6 @@ namespace QccHub.Controllers.Website
             }
 
             return Ok();
-        }
-
-        [HttpPost]
-        public IActionResult AddNews(News news)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(news);
-            }
-
-            return RedirectToAction("GetAllNews");
         }
     }
 }
