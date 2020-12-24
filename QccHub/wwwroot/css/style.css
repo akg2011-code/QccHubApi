@@ -24,7 +24,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
 }
 
 .paddingTop {
@@ -204,6 +204,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #f8c5c1;
   color: #111;
   width: 241px !important;
+  border:0;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -259,7 +260,9 @@ h1, h2, h3, h4, h5, h6 {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
 }
-
+.form-home {
+    width: 550px;
+}
 @media (max-width: 992px) {
   #header {
     padding: 15px 0;
@@ -346,7 +349,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #555555;
   transition: 0.3s;
   font-size: 13px;
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -712,7 +715,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #hero .btn-get-started {
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 1px;
@@ -966,7 +969,7 @@ section {
 
 .featured-services .title1 a {
   color: #000;
-  padding: 70px
+  /*padding: 67px*/
 }
 
 .featured-services .description {
@@ -1030,7 +1033,7 @@ section {
   background-repeat: no-repeat;
   */
   background-color: #fff;
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 1px;
@@ -1114,7 +1117,7 @@ section {
 .counts .count-box p {
   padding: 30px 0 0 0;
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
   font-size: 14px;
 }
 
@@ -1737,7 +1740,7 @@ section {
   transition: none;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
   font-weight: 600;
   transition: 0.3s;
 }
@@ -1992,7 +1995,7 @@ section {
   font-size: 14px;
   line-height: 24px;
   margin-bottom: 0;
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
 }
 
 #footer .footer-top .social-links a {
@@ -2173,7 +2176,7 @@ section {
   color: #fff;
   transition: 0.3s;
   font-size: 10px;
-  font-family: "Roboto", sans-serif;
+  font-family:  'Montserrat', sans-serif;
   text-transform: uppercase;
   font-weight: 500;
   padding-top: 6px;
