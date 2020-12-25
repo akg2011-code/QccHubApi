@@ -50,6 +50,8 @@ h1, h2, h3, h4, h5, h6 {
 #hero .nav-tabs .nav-link {
   border: none;
   color: #fff;
+  font-size:13px
+
 }
 #hero .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
   color: #faae40 !important;
@@ -261,7 +263,7 @@ h1, h2, h3, h4, h5, h6 {
   -o-border-radius: 4px;
 }
 .form-home {
-    width: 550px;
+    width: 480px;
 }
 @media (max-width: 992px) {
   #header {
@@ -732,33 +734,6 @@ h1, h2, h3, h4, h5, h6 {
 
 #hero .btn-get-started:hover {
   background: #65c9cd;
-}
-
-@media (max-width: 992px) {
-  #hero {
-    height: 100vh;
-  }
-  #hero .container {
-    margin-top: 100px;
-  }
-}
-
-@media (max-width: 768px) {
-  #hero h2 {
-    font-size: 28px;
-  }
-}
-
-@media (min-width: 1024px) {
-  #hero .carousel-control-prev, #hero .carousel-control-next {
-    width: 5%;
-  }
-}
-
-@media (max-height: 500px) {
-  #hero {
-    height: 160vh;
-  }
 }
 
 /*--------------------------------------------------------------
@@ -2549,7 +2524,7 @@ html , body{
   background-color: #ec36362e;
   border-color: transparent transparent #f3f3f3;
   border-bottom: 3px solid !important;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 }
 .project-tab .nav-link {
