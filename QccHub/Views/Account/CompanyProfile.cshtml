@@ -15,7 +15,7 @@
                     <img src="~/img/Rectangle 60.png" class="imgCom" style="height: 150px;">
                 </div>
                 <div class="col-md text-right">
-                    <button class="btn btn-danger ">visit website</button>
+                    <a href="@Model.CompanyInfo?.Website" class="btn btn-danger ">visit website</a>
                     <button class="btn btn-warning ">follow</button>
                     <button class="btn btn-info ">share</button>
                 </div>
@@ -37,7 +37,7 @@
                                 <li class="list-group-item border-0"> All Employess : 191,11</li>
                             </ul>
                             <div style="padding-bottom: 20px;">
-                                <a href="" class="btn btn-info " style="border:none;background-color: #00c9a7;">Admin panel</a>
+                                <a href="@Url.Content($"~/account/updateinfo/{userId}")" class="btn btn-info " style="border:none;background-color: #00c9a7;">Admin panel</a>
                             </div>
                             <hr>
                             <div class="text-left">
@@ -46,10 +46,10 @@
                             <hr />
                             <div>
                                 <ul class="list-unstyled list-group ">
-                                    <li class="list-group-item border-0"> Website : <small></small> www.QCCH.com</li>
-                                    <li class="list-group-item border-0"> Company Size : +10</li>
-                                    <li class="list-group-item border-0"> Mail : <small>akg201194@gmail.com</small> </li>
-                                    <li class="list-group-item border-0"> Contact no : <small>01149442988</small> </li>
+                                    <li class="list-group-item border-0"> Website : <small></small> @Model.CompanyInfo?.Website</li>
+                                    <li class="list-group-item border-0"> Company Size : @Model.CompanyInfo?.Size</li>
+                                    <li class="list-group-item border-0"> Mail : <small>@Model.Email</small> </li>
+                                    <li class="list-group-item border-0"> Contact no : <small>@Model.PhoneNumber</small> </li>
                                 </ul>
 
                             </div>
@@ -88,18 +88,7 @@
                                                     <h4>Our Mission</h4>
                                                     <hr>
                                                     <p>
-                                                        It is a long established fact that a reader will be distracted by the readable content of
-                                                        a page when
-                                                        looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                                                        distribution of letters, as opposed to using 'Content here, content here', making it look
-                                                        like
-                                                        readable English. Many desktop publishing packages and web page editors now use Lorem
-                                                        Ipsum as their
-                                                        default model text, and a search for 'lorem ipsum' will uncover many web sites still in
-                                                        their infancy.
-                                                        Various versions have evolved over the years, sometimes by accident, sometimes on purpose
-                                                        (injected
-                                                        humour and the like).
+                                                        @Model.CompanyInfo?.Mission
                                                     </p>
                                                 </div>
 
@@ -107,18 +96,7 @@
                                                     <h4>Our Vision</h4>
                                                     <hr>
                                                     <p>
-                                                        It is a long established fact that a reader will be distracted by the readable content of
-                                                        a page when
-                                                        looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                                                        distribution of letters, as opposed to using 'Content here, content here', making it look
-                                                        like
-                                                        readable English. Many desktop publishing packages and web page editors now use Lorem
-                                                        Ipsum as their
-                                                        default model text, and a search for 'lorem ipsum' will uncover many web sites still in
-                                                        their infancy.
-                                                        Various versions have evolved over the years, sometimes by accident, sometimes on purpose
-                                                        (injected
-                                                        humour and the like).
+                                                        @Model.CompanyInfo?.Vision
                                                     </p>
                                                 </div>
 
@@ -127,20 +105,16 @@
                                                     <table class="table">
                                                         <tbody>
                                                             <tr>
-                                                                <td>Mark</td>
-                                                                <td>Otto</td>
+                                                                <td>Type</td>
+                                                                <td>@Model.CompanyInfo?.Type</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Jacob</td>
-                                                                <td>Thornton</td>
+                                                                <td>Industry</td>
+                                                                <td>@Model.CompanyInfo?.Industry</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Jacob</td>
-                                                                <td>Thornton</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Jacob</td>
-                                                                <td>Thornton</td>
+                                                                <td>Founded At</td>
+                                                                <td>@Model.CompanyInfo?.FoundedYear</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -154,9 +128,6 @@
                                                     <div class="row">
                                                         <div class="col-md">
                                                             <h4>Products</h4>
-                                                        </div>
-                                                        <div class="col-md text-right">
-                                                            <button type="button" class="btn btn-danger">Add new Product</button>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -252,9 +223,6 @@
                                                         <div class="col-md">
                                                             <h4>Services</h4>
                                                         </div>
-                                                        <div class="col-md text-right">
-                                                            <button type="button" class="btn btn-danger">Add new services</button>
-                                                        </div>
                                                     </div>
                                                     <hr>
                                                     <div class="univeristy">
@@ -348,71 +316,7 @@
                                                         <div class="col-md">
                                                             <h4>Projects</h4>
                                                         </div>
-                                                        <div class="col-md text-right">
-                                                            <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                                    data-target="#AddProject">
-                                                                Add new project
-                                                            </button>
-                                                        </div>
                                                     </div>
-                                                    <!--modal-->
-                                                    <div class="modal fade" id="AddProject" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                         aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Add new project</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form class="AddJobOrProjectForm">
-                                                                        <input hidden name="CompanyId" value="@userId">
-                                                                        <input hidden name="IsB2b" value="true" />
-                                                                        <div class="form-group">
-                                                                            <input type="text" name="Title" class="form-control" placeholder="Project Title">
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <input type="text" name="Location" class="form-control" placeholder="Job Location">
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <div class="input-group">
-                                                                                <textarea class="form-control" name="Description" rows="2" placeholder="Description....."
-                                                                                          aria-label="With textarea"></textarea>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md">
-                                                                                <div class="form-group">
-                                                                                    <select name="Type" class="form-control">
-                                                                                        <option value="@((int)JobTypesEnum.FullTime)">Full Time</option>
-                                                                                        <option value="@((int)JobTypesEnum.PartTime)">Part Time</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md">
-                                                                                <input type="number" name="Salary" class="form-control mb-4" placeholder="Salary">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                    data-dismiss="modal">
-                                                                                Close
-                                                                            </button>
-                                                                            <input type="submit" class="btn btn-primary" value="Add Project" />
-                                                                        </div>
-                                                                    </form>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--modal-->
-
                                                     <hr>
                                                     <div class="univeristy">
                                                         <!-- services one -->
@@ -467,73 +371,8 @@
                                                         <div class="col-md">
                                                             <h4>Careers</h4>
                                                         </div>
-                                                        <div class="col-md text-right">
-                                                            <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                                    data-target="#AddJob">
-                                                                Add new Job
-                                                            </button>
-                                                        </div>
                                                     </div>
-                                                    <!--modal-->
-                                                    <div class="modal fade" id="AddJob" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                         aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Add new job</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form class="AddJobOrProjectForm">
-                                                                        <input hidden name="IsB2b" value="false">
-                                                                        <input hidden name="CompanyId" value="@userId">
-                                                                        <div class="form-group">
-                                                                            <input type="text" name="Title" class="form-control" placeholder="Job Title">
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <input type="text" name="Location" class="form-control" placeholder="Job Location">
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <div class="input-group">
-                                                                                <textarea class="form-control" rows="2" name="Description" placeholder="Description....."
-                                                                                          aria-label="With textarea"></textarea>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-                                                                            <div class="col-md">
-                                                                                <div class="form-group">
-                                                                                    <select name="Type" class="form-control">
-                                                                                        <option value="@((int)JobTypesEnum.FullTime)">Full Time</option>
-                                                                                        <option value="@((int)JobTypesEnum.PartTime)">Part Time</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="col-md">
-                                                                                <input type="number" name="Salary" class="form-control mb-4" placeholder="Salary">
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                    data-dismiss="modal">
-                                                                                Close
-                                                                            </button>
-                                                                            <input type="submit" class="btn btn-primary" value="Add Job" />
-                                                                        </div>
-                                                                    </form>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--modal-->
-
+                                                    
                                                     <hr>
                                                     <div class="univeristy">
                                                         @foreach (var job in Model.JobOffers.Where(j => !j.IsB2B))
@@ -762,33 +601,3 @@
 
 </main>
 <!-- End #main -->
-
-@section Scripts{
-    <script>
-        $('.AddJobOrProjectForm').on('submit', function (e) {
-            e.preventDefault();
-            var data = $(this).serializeArray();
-            var formData = new FormData();
-            data.forEach(function (item, index) {
-                formData.append(item.name, item.value)
-            })
-
-            debugger;
-            $.ajax({
-                method: "POST",
-                data: formData,
-                url: '@Url.Content($"~/jobs/add")',
-                processData: false,
-                contentType: false,
-                success: function () {
-                    //alert('Job Added Successfully');
-                    window.location.reload()
-                },
-                error: function (xhr, ajaxSettings, statusCode) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-
-    </script>
-}

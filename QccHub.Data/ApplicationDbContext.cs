@@ -65,13 +65,22 @@ namespace QccHub.Data
 
             #region ApplicationUserConfiguration
 
-            builder.Entity<ApplicationUser>().HasMany(x => x.UserRoles).WithOne().HasForeignKey(x => x.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
-            //builder.Entity<ApplicationUser>().HasMany(x => x.JobOffers).WithOne().HasForeignKey(x => x.CompanyID).IsRequired().OnDelete(DeleteBehavior.Cascade);
-            
+            builder.Entity<ApplicationUser>()
+                .HasMany(x => x.UserRoles)
+                .WithOne()
+                .HasForeignKey(x => x.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(a => a.CompanyInfo)
+                .WithOne(b => b.Company)
+                .HasForeignKey<CompanyInfo>(b => b.CompanyId).OnDelete(DeleteBehavior.Cascade);
+
             #endregion
-            
+
             #region ApplicationUserRoleConfiguration
-            
+
             builder.Entity<ApplicationUserRole>().HasKey(x => new { x.UserId, x.RoleId });
             builder.Entity<ApplicationUserRole>().HasOne(x => x.Role).WithMany(x => x.UserRoles).HasForeignKey(x => x.RoleId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<ApplicationUserRole>().HasOne(x => x.ApplicationUser).WithMany(x => x.UserRoles).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);

@@ -22,6 +22,7 @@ namespace QccHub.Data.Models
         public string CompanyName { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual Country Country { get; set; }
+        public virtual CompanyInfo CompanyInfo { get; set; }
         public virtual ICollection<UserJobPosition> EmployeeJobs { get; } = new List<UserJobPosition>();
         public virtual ICollection<UserJobPosition> CompanyJobs { get; } = new List<UserJobPosition>();
         public virtual ICollection<ApplicationUserRole> UserRoles { get; } = new List<ApplicationUserRole>();
@@ -54,6 +55,32 @@ namespace QccHub.Data.Models
                 { Name = name }
             };
             EmployeeJobs.Add(newJobPosition);
+        }
+
+
+        public void UpdateBasicCompanyInfo(string mission, string vision) 
+        {
+            if (CompanyInfo == null)
+            {
+                CompanyInfo = new CompanyInfo { CompanyId = Id };
+            }
+
+            CompanyInfo.Mission = mission;
+            CompanyInfo.Vision = vision;
+        }
+
+        public void UpdateCompanyOverview(string website, string type, string industry, string size, string foundedYear) 
+        {
+            if (CompanyInfo == null)
+            {
+                CompanyInfo = new CompanyInfo { CompanyId = Id} ;
+            }
+
+            CompanyInfo.Website = website;
+            CompanyInfo.Type = type;
+            CompanyInfo.Industry = industry;
+            CompanyInfo.Size = size;
+            CompanyInfo.FoundedYear = foundedYear;
         }
 
         public void AddToRole(int roleId) 

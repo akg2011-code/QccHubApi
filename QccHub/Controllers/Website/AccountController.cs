@@ -40,7 +40,7 @@ namespace QccHub.Controllers.Website
             //var httpClient = HttpClientHelper.GetHttpClient(APIURL, token);
 
             var httpClient = _clientFactory.CreateClient("API");
-            HttpResponseMessage response = await httpClient.GetAsync("Account/Logout");
+            HttpResponseMessage response = await httpClient.PostAsync("Account/Logout", new StringContent(""));
             HttpContext.Session.Clear();
             return RedirectToAction("index","home");
         }
@@ -165,9 +165,17 @@ namespace QccHub.Controllers.Website
                 return RedirectToAction("Index", "Home");
             }
             var countryList = JsonConvert.DeserializeObject<List<Country>>(countriesResult);
-            var selectedCountry = countryList.First(c => c.ID == userUpdateVM.NationalityID);
+            var selectedCountry = countryList.FirstOrDefault(c => c.ID == userUpdateVM.NationalityID);
             ViewData["Countries"] = new SelectList(countryList, "ID", "Name",selectedCountry);
-            return View(userUpdateVM);
+            
+            if (userUpdateVM.RoleId == (int)RolesEnum.User)
+                return View(userUpdateVM);
+
+            else if (userUpdateVM.RoleId == (int)RolesEnum.Company)
+                return View("UpdateCompanyInfo", userUpdateVM);
+            
+            else
+                return Content("error");
         }
 
         [HttpPost("{id}")]
@@ -242,5 +250,36 @@ namespace QccHub.Controllers.Website
             }
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateBasicCompanyInfo(BasicCompanyInfo model)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await httpClient.PatchAsync($"Account/UpdateBasicCompanyInfo", jsonContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCompanyOverview(CompanyOverviewInfo model)
+        {
+            var httpClient = _clientFactory.CreateClient("API");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await httpClient.PatchAsync($"Account/UpdateCompanyOverview", jsonContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+
     }
 }

@@ -18,6 +18,16 @@ namespace QccHub.DTOS
         public string Bio  { get; set; }
         public string Position  { get; set; }
         public string ProfileImagePath { get; set; }
-        public IFormFile CV { get; set; }
+        public int RoleId { get; set; }
+
+        public string Mission { get; set; }
+        public string Vision { get; set; }
+        public string Address { get; set; }
+        public string Website { get; set; }
+        public string Industry { get; set; }
+        public string Size { get; set; }
+        public string Type { get; set; }
+        public string FoundedYear { get; set; }
+
     }
 }

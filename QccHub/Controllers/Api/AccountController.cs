@@ -225,6 +225,7 @@ namespace QccHub.Controllers.Api
             {
                 return NotFound("User Not Found");
             }
+
             var model = new UpdateInfoVM
             {
                 Id = user.Id,
@@ -235,12 +236,24 @@ namespace QccHub.Controllers.Api
                 PhoneNumber = user.PhoneNumber,
                 GenderID = user.GenderID,
                 NationalityID = user.NationalityID ?? 0,
-                ProfileImagePath = user.ProfileImagePath
+                ProfileImagePath = user.ProfileImagePath,
+                RoleId = user.UserRoles.FirstOrDefault().RoleId,
+                Address = user.Address
             };
 
             if (user.UserRoles.FirstOrDefault()?.RoleId == (int)RolesEnum.User)
             {
                 model.Position = _userRepo.GetCurrentJobPosition(id)?.JobPosition?.Name;
+            }
+            else if (user.UserRoles.FirstOrDefault()?.RoleId == (int)RolesEnum.Company)
+            {
+                model.Mission = user.CompanyInfo?.Mission;
+                model.Vision = user.CompanyInfo?.Vision;
+                model.Industry = user.CompanyInfo?.Industry;
+                model.FoundedYear = user.CompanyInfo?.FoundedYear;
+                model.Size = user.CompanyInfo?.Size;
+                model.Website = user.CompanyInfo?.Website;
+                model.Type = user.CompanyInfo?.Type;
             }
             return Ok(model);
         }
@@ -360,7 +373,7 @@ namespace QccHub.Controllers.Api
             return Ok(user.ProfileImagePath);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfilePicture([FromRoute] int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
@@ -425,6 +438,37 @@ namespace QccHub.Controllers.Api
             }
 
             user.Bio = model.Bio;
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateBasicCompanyInfo(BasicCompanyInfo model)
+        {
+            var user = await _userRepo.GetUserByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.UpdateBasicCompanyInfo(model.Mission, model.Vision);
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateCompanyOverview(CompanyOverviewInfo model)
+        {
+            var user = await _userRepo.GetUserByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.UpdateCompanyOverview(model.Website, model.Type, model.Industry, model.Size, model.FoundedYear);
+
             await _unitOfWork.SaveChangesAsync();
 
             return Ok();
