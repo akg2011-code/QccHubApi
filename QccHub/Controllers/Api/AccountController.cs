@@ -56,11 +56,6 @@ namespace QccHub.Controllers.Api
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginVM model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Error Data");
-            }
-
             var user = await _userRepo.GetUserByUserNameAsync(model.Email);
             if (user == null)
                 return BadRequest("Incorrect ID or Password");
@@ -121,11 +116,6 @@ namespace QccHub.Controllers.Api
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] UserRegisteration model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(model);
-            }
-
             if ((model.RoleId == (int)RolesEnum.User) && (string.IsNullOrEmpty(model.CompanyName) || string.IsNullOrEmpty(model.Position)))
             {
                 return BadRequest("Company and position are required");

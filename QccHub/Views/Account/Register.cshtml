@@ -70,22 +70,22 @@
                                                         <input asp-for="RoleId" type="number" required class="form-control" hidden value="2" placeholder="RoleId">
 
                                                         <div class="form-group">
-                                                            <input type="text" asp-for="CompanyName" required class="form-control" placeholder="Company Name">
+                                                            <input type="text" asp-for="CompanyName" required class="form-control" placeholder="Company Name *">
                                                             <span asp-validation-for="CompanyName" class="text-danger"></span>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input type="email" asp-for="Email" required class="form-control" placeholder="Email">
+                                                            <input type="email" asp-for="Email" required class="form-control" placeholder="Email *">
                                                             <span asp-validation-for="Email" class="text-danger"></span>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="Password" type="password" id="pass" required class="form-control" placeholder="Password">
+                                                            <input asp-for="Password" type="password" required class="form-control pass-input" placeholder="Password">
                                                             <span asp-validation-for="Password" class="text-danger"></span>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="ConfirmPassword" type="password" id="Confirmpass" required class="form-control" placeholder="Confirm Password">
+                                                            <input asp-for="ConfirmPassword" type="password" required class="form-control pass-input" placeholder="Confirm Password">
                                                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                                         </div>
 
@@ -116,9 +116,9 @@
                                                             </label>
                                                         </div>
 
-                                                        <span class="text-danger">
-                                                            @Html.ValidationMessage("Error")
-                                                        </span>
+                                                        <div class="text-danger">
+                                                            @Html.ValidationSummary()
+                                                        </div>
 
                                                         <div class="text-center">
                                                             <button type="submit"
@@ -166,33 +166,32 @@
                                                         @Html.AntiForgeryToken()
                                                         <input asp-for="RoleId" type="number" required class="form-control" hidden value="3" placeholder="RoleId">
 
-
                                                         <div class="form-group">
                                                             <input type="text" asp-for="FullName" class="form-control mb-4" placeholder="Full Name">
-                                                            <span asp-validation-for="FullName" class="text-danger"></span>
+                                                            @*<span asp-validation-for="FullName" class="text-danger"></span>*@
                                                         </div>
 
                                                         <div class="form-group">
                                                             <input type="email" asp-for="Email" required class="form-control" placeholder="Email">
-                                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                                            @*<span asp-validation-for="Email" class="text-danger"></span>*@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="Password" type="password" id="pass2" required class="form-control" placeholder="Password">
-                                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                                            <input asp-for="Password" type="password" required class="form-control pass-input" placeholder="Password">
+                                                            @*<span asp-validation-for="Password" class="text-danger"></span>*@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="ConfirmPassword" type="password" id="Confirmpass2" required class="form-control" placeholder="Confirm Password">
-                                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                            <input asp-for="ConfirmPassword" type="password"  required class="form-control pass-input" placeholder="Confirm Password">
+                                                            @*<span asp-validation-for="ConfirmPassword" class="text-danger"></span>*@
                                                         </div>
 
                                                         <div class="custom-control custom-checkbox"
                                                              style="margin: 10px">
                                                             <input type="checkbox" class="custom-control-input"
-                                                                   onclick="myFunction2()" id="showPass2">
+                                                                   id="showPass">
                                                             <label class="custom-control-label"
-                                                                   for="showPass2" style="font-size:15px">
+                                                                   for="showPass" style="font-size:15px">
                                                                 Show Password
                                                             </label>
                                                         </div>
@@ -201,13 +200,13 @@
                                                             <div class="col-md">
                                                                 <div class="form-group">
                                                                     <input type="text" asp-for="CompanyName" class="form-control" placeholder="Company Name *">
-                                                                    @*<span class="text-danger">*</span>*@
+                                                                    
                                                                     <span asp-validation-for="CompanyName" class="text-danger"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md">
                                                                 <input type="text" asp-for="Position" class="form-control mb-4" placeholder="Position *">
-                                                                @*<span class="text-danger">*</span>*@
+                                                                
                                                             </div>
                                                         </div>
 
@@ -228,9 +227,9 @@
                                                             </label>
                                                         </div>
 
-                                                        <span class="text-danger">
-                                                            @Html.ValidationMessage("Error")
-                                                        </span>
+                                                        <div class="text-danger">
+                                                            @Html.ValidationSummary()
+                                                        </div>
 
                                                         <div class="form-group text-center">
                                                             <button type="submit"
@@ -292,29 +291,14 @@
     <script src="~/js/main.js"></script>
 
     <script>
-        function myFunction() {
-            var x = document.getElementById("pass");
-            var y = document.getElementById("Confirmpass")
-            if (x.type === "password" && y.type === "password") {
-                x.type = "text";
-                y.type = "text";
-            } else {
-                x.type = "password";
-                y.type = "password";
+        $('#showPass').change(function () {
+            if ($('#showPass').prop('checked')) {
+                $('.pass-input').attr('type', 'text');
             }
-        }
-        function myFunction2() {
-            var x = document.getElementById("pass2");
-            var y = document.getElementById("Confirmpass2")
-            if (x.type === "password" && y.type === "password") {
-                x.type = "text";
-                y.type = "text";
-            } else {
-                x.type = "password";
-                y.type = "password";
+            else {
+                $('.pass-input').attr('type', 'password');
             }
-        }
-
+        })
     </script>
 
 

@@ -49,6 +49,11 @@ namespace QccHub.Controllers.Website
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model, string returnUrl = null)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             ViewData["ReturnUrl"] = returnUrl;
             var httpClient = _clientFactory.CreateClient("API");
             var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
@@ -84,6 +89,11 @@ namespace QccHub.Controllers.Website
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserRegisteration model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var httpClient = _clientFactory.CreateClient("API");
             var jsonContent = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync("Account/Register", jsonContent);

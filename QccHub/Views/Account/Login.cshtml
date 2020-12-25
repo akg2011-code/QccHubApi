@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿
+@{ Layout = null;}
+@model QccHub.DTOS.LoginVM
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -28,9 +32,6 @@
     <link href="~/css/style.css" rel="stylesheet">
 
 </head>
-
-@{ Layout = null;}
-@model QccHub.DTOS.LoginVM
 
 <body>
     <div class="identity">
@@ -65,9 +66,9 @@
                                 <label class="form-check-label" for="exampleCheck1">Show Password</label>
                             </div>
 
-                            <span class="text-danger">
-                                @Html.ValidationMessage("Error")
-                            </span>
+                            <div class="text-danger">
+                                @Html.ValidationSummary()
+                            </div>
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-danger col-md-9">Login</button>
@@ -125,16 +126,16 @@
     <!-- Template Main JS File -->
     <script src="~/js/main.js"></script>
 
-      <script>
-          function myFunction() {
-              var x = document.getElementById("Password");
-              if (x.type === "password") {
-                  x.type = "text";
-              } else {
-                  x.type = "password";
-              }
-          }
-  </script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("Password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 
 
 </body>
