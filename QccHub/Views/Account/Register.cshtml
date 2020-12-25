@@ -80,13 +80,23 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="Password" type="password" required class="form-control" placeholder="Password">
+                                                            <input asp-for="Password" type="password" id="pass" required class="form-control" placeholder="Password">
                                                             <span asp-validation-for="Password" class="text-danger"></span>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="ConfirmPassword" type="password" required class="form-control" placeholder="Confirm Password">
+                                                            <input asp-for="ConfirmPassword" type="password" id="Confirmpass" required class="form-control" placeholder="Confirm Password">
                                                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="custom-control custom-checkbox"
+                                                             style="margin: 10px">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   onclick="myFunction()" id="showPass">
+                                                            <label class="custom-control-label"
+                                                                   for="showPass" style="font-size:15px">
+                                                                Show Password
+                                                            </label>
                                                         </div>
 
                                                         <div class="form-group">
@@ -156,11 +166,11 @@
                                                         @Html.AntiForgeryToken()
                                                         <input asp-for="RoleId" type="number" required class="form-control" hidden value="3" placeholder="RoleId">
 
-                                                        
-                                                            <div class="form-group">
-                                                                <input type="text" asp-for="FullName" class="form-control mb-4" placeholder="Full Name">
-                                                                <span asp-validation-for="FullName" class="text-danger"></span>
-                                                            </div>
+
+                                                        <div class="form-group">
+                                                            <input type="text" asp-for="FullName" class="form-control mb-4" placeholder="Full Name">
+                                                            <span asp-validation-for="FullName" class="text-danger"></span>
+                                                        </div>
 
                                                         <div class="form-group">
                                                             <input type="email" asp-for="Email" required class="form-control" placeholder="Email">
@@ -168,25 +178,35 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="Password" type="password" required class="form-control" placeholder="Password">
+                                                            <input asp-for="Password" type="password" id="pass2" required class="form-control" placeholder="Password">
                                                             <span asp-validation-for="Password" class="text-danger"></span>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <input asp-for="ConfirmPassword" type="password" required class="form-control" placeholder="Confirm Password">
+                                                            <input asp-for="ConfirmPassword" type="password" id="Confirmpass2" required class="form-control" placeholder="Confirm Password">
                                                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="custom-control custom-checkbox"
+                                                             style="margin: 10px">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                   onclick="myFunction2()" id="showPass2">
+                                                            <label class="custom-control-label"
+                                                                   for="showPass2" style="font-size:15px">
+                                                                Show Password
+                                                            </label>
                                                         </div>
 
                                                         <div class="row">
                                                             <div class="col-md">
                                                                 <div class="form-group">
-                                                                    <input type="text" asp-for="CompanyName" class="form-control" placeholder="Company Name *"> 
+                                                                    <input type="text" asp-for="CompanyName" class="form-control" placeholder="Company Name *">
                                                                     @*<span class="text-danger">*</span>*@
                                                                     <span asp-validation-for="CompanyName" class="text-danger"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md">
-                                                                <input type="text" asp-for="Position" class="form-control mb-4" placeholder="Position *"> 
+                                                                <input type="text" asp-for="Position" class="form-control mb-4" placeholder="Position *">
                                                                 @*<span class="text-danger">*</span>*@
                                                             </div>
                                                         </div>
@@ -270,6 +290,33 @@
 
     <!-- Template Main JS File -->
     <script src="~/js/main.js"></script>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("pass");
+            var y = document.getElementById("Confirmpass")
+            if (x.type === "password" && y.type === "password") {
+                x.type = "text";
+                y.type = "text";
+            } else {
+                x.type = "password";
+                y.type = "password";
+            }
+        }
+        function myFunction2() {
+            var x = document.getElementById("pass2");
+            var y = document.getElementById("Confirmpass2")
+            if (x.type === "password" && y.type === "password") {
+                x.type = "text";
+                y.type = "text";
+            } else {
+                x.type = "password";
+                y.type = "password";
+            }
+        }
+
+    </script>
+
 
 </body>
 
