@@ -622,6 +622,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #hero input {
   border-radius: 40px;
+  border:0px
 }
 
 @media (max-width: 1200px) {
@@ -2345,7 +2346,8 @@ section {
   padding-top: 20px;
 }
 .imgCom {
-    height: 148px;
+    height: 154px;
+    width: 180px;
     position: absolute;
     z-index: 1;
     right: -103px;

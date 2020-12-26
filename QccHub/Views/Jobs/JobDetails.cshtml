@@ -135,20 +135,21 @@
                                         <hr>
                                         <div class="detailsJob">
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                
+                                                <div class="col-md-4 type">
                                                     <i class="fas fa-money-check-alt"></i> <small class="label-danger">
                                                         Salary:
                                                     </small>
                                                     <small>@Model.Job.Salary</small>
                                                 </div>
                                                 <hr>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 type">
                                                     <i class="far fa-clock"></i> <small class="label-danger">Type: </small>
-                                                    <small>
+                                                    <small id="valueT">
                                                         @(((JobTypesEnum)Model.Job.Type).ToString())
                                                     </small>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md">
                                                     <i class="far fa-folder-open"></i>
                                                     <small class="label-danger">
                                                         Category:
@@ -164,7 +165,7 @@
                                     @if (roleName == RolesEnum.User.ToString())
                                     {
                                         <div class="applyforjobs">
-                                            <h4 class="label-danger">Apply for Job</h4>
+                                            <h4 class="label-danger">Apply for this</h4>
                                             <div class="applayForm" style="padding: 20px;">
                                                 <div class="row">
                                                     <form id="ApplyToJobForm" style="width: 100%;">
@@ -196,13 +197,15 @@
                                 @if (roleName == RolesEnum.Company.ToString() && userId == Model.Job.CompanyID.ToString())
                                 {
                                     <div class="applications">
-                                        <h4 class="label-danger">Applications for Job</h4>
+                                        <h4 class="label-danger">Applications for this</h4>
                                         <hr>
                                         @foreach (var app in Model.JobApplications)
                                         {
                                             <div class="row">
                                                 <div class="col-md-1">
-                                                    <img src="@Url.Content($"~/Profile Pictures/{ app.User.ProfileImagePath }")" alt="user profile picture" style="height:50px ;">
+                                                    @*<img src="@($"~/img/Profile Pictures/{ app.User.ProfileImagePath }")" alt="user profile picture" style="height:50px ;">*@
+                                                    <img src="@($"/Profile Pictures/{app.User.ProfileImagePath }" ?? "/img/Ellipse 9.png")" onError="this.onerror=null;this.src='/img/Ellipse 9.png';" style="height: 50px;">
+
                                                 </div>
                                                 <div class="col-md-11">
                                                     <h4>
@@ -422,6 +425,15 @@
 
 @section Scripts {
     <script>
+        //hide type and salary in B2B mode
+        //var x = document.getElementById("valueT").innerHTML;
+
+        var valueT = $('#valueT').html();
+        var type = $('.type')
+        if (valueT == 0) {
+            type.css("display", "none");
+        }
+
         $('#ApplyToJobForm').on('submit', function (e) {
             e.preventDefault();
             var data = $('#ApplyToJobForm').serializeArray();
@@ -445,5 +457,7 @@
                 }
             });
         });
+
+
     </script>
 }

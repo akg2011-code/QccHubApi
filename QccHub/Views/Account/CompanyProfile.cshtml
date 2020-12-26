@@ -12,7 +12,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md text-right">
-                    <img src="~/img/Rectangle 60.png" class="imgCom" style="height: 150px;">
+                    <img  class="imgCom" src="@($"/Profile Pictures/{Model.ProfileImagePath}" ?? "/img/Rectangle 60.png")" onError="this.onerror=null;this.src='/img/Rectangle 60.png';">
+                    @*<img src="~/img/Rectangle 60.png" class="imgCom">*@
                 </div>
                 <div class="col-md text-right">
                     <a href="@Model.CompanyInfo?.Website" class="btn btn-danger ">visit website</a>
@@ -33,23 +34,23 @@
                     <div class="left all">
                         <div class="nameUser">
                             <ul class="list-unstyled list-group p-2">
-                                <li class="list-group-item border-0"> Common Connections : <small></small> 200</li>
-                                <li class="list-group-item border-0"> All Employess : 191,11</li>
+                                <li class="list-group-item border-0"><span style="font-size:15px;color:red"> Common Connections : </span>200</li>
+                                <li class="list-group-item border-0"><span style="font-size:15px;color:red"> All Employess : </span>191,11</li>
                             </ul>
                             <div style="padding-bottom: 20px;">
                                 <a href="@Url.Content($"~/account/updateinfo/{userId}")" class="btn btn-info " style="border:none;background-color: #00c9a7;">Admin panel</a>
                             </div>
                             <hr>
-                            <div class="text-left">
+                            <div class="text-center">
                                 <h5>Overview</h5>
                             </div>
                             <hr />
                             <div>
-                                <ul class="list-unstyled list-group ">
-                                    <li class="list-group-item border-0"> Website : <small></small> @Model.CompanyInfo?.Website</li>
-                                    <li class="list-group-item border-0"> Company Size : @Model.CompanyInfo?.Size</li>
-                                    <li class="list-group-item border-0"> Mail : <small>@Model.Email</small> </li>
-                                    <li class="list-group-item border-0"> Contact no : <small>@Model.PhoneNumber</small> </li>
+                                <ul class="list-unstyled list-group text-left ">
+                                    <li class="list-group-item border-0"> <span style="font-size:15px;color:red">Website : </span><small></small> @Model.CompanyInfo?.Website</li>
+                                    <li class="list-group-item border-0"> <span style="font-size:15px;color:red">Company Size : </span> @Model.CompanyInfo?.Size</li>
+                                    <li class="list-group-item border-0"> <span style="font-size:15px;color:red">Mail : </span><small>@Model.Email</small> </li>
+                                    <li class="list-group-item border-0"> <span style="font-size:15px;color:red">Contact no : </span><small>@Model.PhoneNumber</small> </li>
                                 </ul>
 
                             </div>
@@ -73,7 +74,7 @@
                                                 <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
                                                    role="tab" aria-controls="nav-contact" aria-selected="false">Services</a>
                                                 <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab"
-                                                   aria-controls="nav-about" aria-selected="false">Projects</a>
+                                                   aria-controls="nav-about" aria-selected="false">B2B</a>
                                                 <a class="nav-item nav-link" id="nav-career-tab" data-toggle="tab" href="#nav-career"
                                                    role="tab" aria-controls="nav-career" aria-selected="false">Career</a>
                                                 <a class="nav-item nav-link" id="nav-Cont-tab" data-toggle="tab" href="#nav-Cont" role="tab"
@@ -314,7 +315,7 @@
                                                 <div class="Education details-Edu-Expe-Certi">
                                                     <div class="row">
                                                         <div class="col-md">
-                                                            <h4>Projects</h4>
+                                                            <h4>B2B</h4>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -333,7 +334,7 @@
                                                                             <div class="col-md-5 text-right">
                                                                                 <a href="@Url.Content($"~/jobs/jobdetails/{project.ID}")" class="btn btn-outline-warning"
                                                                                    style="font-size: 13px;">
-                                                                                    View Project
+                                                                                    View B2B
                                                                                 </a>
                                                                             </div>
                                                                         </div>
