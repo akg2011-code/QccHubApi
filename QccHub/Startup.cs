@@ -204,7 +204,6 @@ namespace QccHub
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            ApplicationDbInitializer.SeedingData(userManager, roleManager, context);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
