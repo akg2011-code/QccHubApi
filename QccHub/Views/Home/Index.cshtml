@@ -50,15 +50,18 @@
                                     <!-- Panel 1 -->
                                     <div class="tab-pane fade in show active" id="panel555" role="tabpanel">
 
-                                        <form class=" p-5">
+                                        <form action="@Url.Content("~/Account/Register")" method="post" role="form" class=" p-5">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="RoleId" value="2" />
+                                            <input type="text" name="CompanyName" class="form-control mb-4" placeholder="Company Name" required>
 
-                                            <input type="text" id="CompanyName" class="form-control mb-4" placeholder="Company Name">
+                                            <input type="email" name="Email" class="form-control mb-4" placeholder="E-mail Address" required>
 
-                                            <input type="email" id="Email" class="form-control mb-4" placeholder="E-mail Address">
+                                            <input type="password" name="Password" class="form-control mb-4" placeholder="Password (6 or more characters)" required>
 
-                                            <input type="password" id="Password" class="form-control mb-4" placeholder="Password (6 or more characters)">
+                                            <input type="password" name="ConfirmPassword" class="form-control mb-4" placeholder="Confirm Password" required>
 
-                                            <input type="password" id="ConfirmPassword" class="form-control mb-4" placeholder="Confirm Password">
+                                            <input type="text" name="PhoneNumber" class="form-control mb-4" placeholder="Phone Number" required>
 
                                             <div class="d-flex justify-content-between">
                                                 <div>
@@ -105,22 +108,23 @@
                                     <!-- Panel 2 -->
                                     <div class="tab-pane fade" id="panel666" role="tabpanel">
 
-                                        <form class=" p-5">
+                                        <form action="@Url.Content("~/Account/Register")" method="post" role="form" class=" p-5">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="RoleId" value="3" />
+                                            <input type="text" name="FullName" class="form-control mb-4" placeholder="FullName" required>
 
-                                            <input type="text" id="FullName" class="form-control mb-4" placeholder="FullName">
+                                            <input type="email" name="Email" class="form-control mb-4" placeholder="E-mail Address" required>
 
-                                            <input type="email" id="Email" class="form-control mb-4" placeholder="E-mail Address">
+                                            <input type="password" name="Password" class="form-control mb-4" placeholder="Password (6 or more characters)" required>
 
-                                            <input type="password" id="Password" class="form-control mb-4" placeholder="Password (6 or more characters)">
-
-                                            <input type="password" id="ConfirmPassword" class="form-control mb-4" placeholder="Confirm Password">
+                                            <input type="password" name="ConfirmPassword" class="form-control mb-4" placeholder="Confirm Password" required>
 
                                             <div class="row">
                                                 <div class="col-md">
-                                                    <input type="text" id="companyName" required class="form-control mb-4" placeholder="Company Name *">
+                                                    <input type="text" name="CompanyName" required class="form-control mb-4" placeholder="Company Name" >
                                                 </div>
                                                 <div class="col-md">
-                                                    <input type="text" id="position" class="form-control mb-4" placeholder="position">
+                                                    <input type="text" name="Position" class="form-control mb-4" placeholder="position" required>
                                                 </div>
                                             </div>
 
