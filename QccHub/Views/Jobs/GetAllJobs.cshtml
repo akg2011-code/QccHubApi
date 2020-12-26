@@ -149,16 +149,21 @@
                                             <hr>
                                             <div class="detailsJob">
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <i class="fas fa-money-check-alt"></i> <small class="label-danger">Salary: </small><small>@job.Salary</small>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="col-md-4">
-                                                        <i class="far fa-clock"></i> <small class="label-danger">Type: </small><small>@(((JobTypesEnum)job.Type).ToString())</small>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <i class="far fa-folder-open"></i> <small class="label-danger">Category: </small><small>Construction</small>
-                                                    </div>
+                                                    @if (!job.IsB2B)
+                                                    {
+                                                        <div class="col-md-4">
+                                                            <i class="fas fa-money-check-alt"></i> <small class="label-danger">Salary: </small><small>@job.Salary</small>
+                                                        </div>
+
+                                                        <hr>
+                                                        <div class="col-md-4">
+                                                            <i class="far fa-clock"></i> <small class="label-danger">Type: </small><small>@(((JobTypesEnum)job.Type).ToString())</small>
+                                                        </div>
+                                                    }
+
+                                                    @*<div class="col-md-4">
+            <i class="far fa-folder-open"></i> <small class="label-danger">Category: </small><small>Construction</small>
+        </div>*@
                                                 </div>
                                             </div>
                                         </div>
